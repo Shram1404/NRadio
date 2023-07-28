@@ -15,7 +15,7 @@ namespace NRadio.ViewModels
 
         public PlayerViewModel()
         {
-            System.Diagnostics.Debug.WriteLine("PlayerViewModel created");
+            System.Diagnostics.Debug.WriteLine("PlayerViewModel createsd");
         }
         public RelayCommand PlayPauseCommand { get; private set; }
         public RelayCommand StopCommand { get; private set; }
