@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{3DF28883-0388-4214-8544-3E67CD74C895}</ProjectGuid>
+    <ProjectGuid>{92B15B9E-7220-4F90-B917-47950F06ACAB}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NRadio</RootNamespace>
