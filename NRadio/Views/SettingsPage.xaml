@@ -53,6 +53,11 @@
                 </StackPanel>
             </StackPanel>
 
+            <TextBlock x:Uid="Settings_RadioListSettings" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <Button x:Uid="Settings_UpdateStations"
+                    Command="{x:Bind ViewModel.UpdateStationsCommand}"
+                    Margin="{StaticResource SmallTopBottomMargin}"/>
+
             <TextBlock
                 x:Uid="Settings_User"
                 Style="{ThemeResource SubtitleTextBlockStyle}" />

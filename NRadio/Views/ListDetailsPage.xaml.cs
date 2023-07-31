@@ -15,6 +15,7 @@ namespace NRadio.Views
         {
             InitializeComponent();
             Loaded += ListDetailsPage_Loaded;
+            System.Diagnostics.Debug.WriteLine("ListDetailedView created");
         }
 
         private async void ListDetailsPage_Loaded(object sender, RoutedEventArgs e)

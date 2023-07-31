@@ -72,6 +72,11 @@ namespace NRadio.ViewModels
             set { SetProperty(ref _user, value); }
         }
 
+        private ICommand _updateStationsCommand;
+
+        public ICommand UpdateStationsCommand => _updateStationsCommand ?? (_updateStationsCommand = new RelayCommand(UpdateStationsAsync));
+     
+
         public SettingsViewModel()
         {
         }
@@ -100,19 +105,10 @@ namespace NRadio.ViewModels
             UserDataService.UserDataUpdated -= OnUserDataUpdated;
         }
 
-        private void OnUserDataUpdated(object sender, UserViewModel userData)
-        {
-            User = userData;
-        }
+        private void OnUserDataUpdated(object sender, UserViewModel userData) => User = userData;
+        private async void OnLogout() => await IdentityService.LogoutAsync();
+        private void OnLoggedOut(object sender, EventArgs e) => UnregisterEvents();
 
-        private async void OnLogout()
-        {
-            await IdentityService.LogoutAsync();
-        }
-
-        private void OnLoggedOut(object sender, EventArgs e)
-        {
-            UnregisterEvents();
-        }
+        private async void UpdateStationsAsync() => await RadioStationsLoader.UpdateRadiostationsAsync();
     }
 }

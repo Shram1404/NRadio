@@ -154,6 +154,7 @@
     <Compile Include="Behaviors\NavigationViewHeaderBehavior.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderMode.cs" />
     <Compile Include="Behaviors\TreeViewCollapseBehavior.cs" />
+    <Compile Include="Core\API\RadioBrowserAPI.cs" />
     <Compile Include="Core\Helpers\Json.cs" />
     <Compile Include="Core\Helpers\LoginResultType.cs" />
     <Compile Include="Core\Helpers\RadioStationsContainer.cs" />

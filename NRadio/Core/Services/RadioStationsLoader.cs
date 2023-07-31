@@ -1,13 +1,12 @@
 ﻿using Newtonsoft.Json;
+using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Storage;
-using NRadio.Core.Helpers;
-using System.Threading.Tasks;
 
 namespace NRadio.Core.Services
 {
@@ -21,19 +20,19 @@ namespace NRadio.Core.Services
             string configJson = await FileIO.ReadTextAsync(configFile);
             Cfg = JsonConvert.DeserializeObject<ConfigService>(configJson);
 
-            RadioStationsContainer.AllStations = await LoadRadioStationsFromFile();
-            RadioStationsContainer.RecentsStations = await LoadRecentStationsFromFile();
+            RadioStationsContainer.AllStations = await LoadRadioStationsFromFileAsync();
+            RadioStationsContainer.RecentsStations = await LoadRecentStationsFromFileAsync();
         }
 
-        public static async Task UpdateRadiostations()
+        public static async Task UpdateRadiostationsAsync()
         {
-            await GetAndSaveRadioStationsFromServer();
-            RadioStationsContainer.AllStations = await LoadRadioStationsFromFile();
+            await GetAndSaveRadioStationsFromServerAsync();
+            RadioStationsContainer.AllStations = await LoadRadioStationsFromFileAsync();
         }
 
-        private static async Task GetAndSaveRadioStationsFromServer() => await SaveRadioStationsToFile(await GetStationsFromServer());
+        private static async Task GetAndSaveRadioStationsFromServerAsync() => await SaveRadioStationsToFileAsync(await GetStationsFromServerAsync());
 
-        private static async Task<List<RadioStation>> GetStationsFromServer()
+        private static async Task<ObservableCollection<RadioStation>> GetStationsFromServerAsync()
         {
             using (var client = new HttpClient())
             {
@@ -41,14 +40,14 @@ namespace NRadio.Core.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await response.Content.ReadAsStringAsync();
-                    var radioStations = JsonConvert.DeserializeObject<List<RadioStation>>(json);
+                    var radioStations = JsonConvert.DeserializeObject<ObservableCollection<RadioStation>>(json);
                     return radioStations;
                 }
             }
-            return new List<RadioStation>();
+            return new ObservableCollection<RadioStation>();
         }
 
-        private static async Task SaveRadioStationsToFile(List<RadioStation> radioStations)
+        private static async Task SaveRadioStationsToFileAsync(ObservableCollection<RadioStation> radioStations)
         {
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             StorageFile file = await localFolder.CreateFileAsync(Cfg.RadioStationsFileName, CreationCollisionOption.ReplaceExisting);
@@ -56,51 +55,51 @@ namespace NRadio.Core.Services
             await FileIO.WriteTextAsync(file, jsonData);
         }
 
-        private static async Task<List<RadioStation>> LoadRadioStationsFromFile()
+        private static async Task<ObservableCollection<RadioStation>> LoadRadioStationsFromFileAsync()
         {
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             try
             {
                 StorageFile file = await localFolder.GetFileAsync(Cfg.RadioStationsFileName);
                 string jsonData = await FileIO.ReadTextAsync(file);
-                var radioStations = JsonConvert.DeserializeObject<List<RadioStation>>(jsonData);
+                var radioStations = JsonConvert.DeserializeObject<ObservableCollection<RadioStation>>(jsonData);
                 return radioStations;
             }
             catch (FileNotFoundException)
             {
-                await GetAndSaveRadioStationsFromServer();
-                return await LoadRadioStationsFromFile();
+                await GetAndSaveRadioStationsFromServerAsync();
+                return await LoadRadioStationsFromFileAsync();
             }
         }
 
-        public static async Task AddToLast20Recents(RadioStation station)
+        public static async Task AddToLast20RecentsAsync(RadioStation station)
         {
             if (RadioStationsContainer.RecentsStations.Count >= 20)
                 RadioStationsContainer.RecentsStations.RemoveAt(0);
 
             RadioStationsContainer.RecentsStations.Add(station);
-            await SaveRecentStationsToFile(RadioStationsContainer.RecentsStations);
+            await SaveRecentStationsToFileAsync(RadioStationsContainer.RecentsStations);
         }
-        private static async Task SaveRecentStationsToFile(List<RadioStation> recentStations)
+        private static async Task SaveRecentStationsToFileAsync(ObservableCollection<RadioStation> recentStations)
         {
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             StorageFile file = await localFolder.CreateFileAsync(Cfg.RecentStationsFileName, CreationCollisionOption.ReplaceExisting);
             string jsonData = JsonConvert.SerializeObject(recentStations, Formatting.Indented);
             await FileIO.WriteTextAsync(file, jsonData);
         }
-        private static async Task<List<RadioStation>> LoadRecentStationsFromFile()
+        private static async Task<ObservableCollection<RadioStation>> LoadRecentStationsFromFileAsync()
         {
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             try
             {
                 StorageFile file = await localFolder.GetFileAsync(Cfg.RecentStationsFileName);
                 string jsonData = await FileIO.ReadTextAsync(file);
-                var recentStations = JsonConvert.DeserializeObject<List<RadioStation>>(jsonData);
+                var recentStations = JsonConvert.DeserializeObject<ObservableCollection<RadioStation>>(jsonData);
                 return recentStations;
             }
             catch (FileNotFoundException)
             {
-                return new List<RadioStation>();
+                return new ObservableCollection<RadioStation>();
             }
         }
 

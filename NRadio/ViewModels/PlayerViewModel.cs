@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Models;
@@ -12,7 +13,6 @@ namespace NRadio.ViewModels
 {
     public class PlayerViewModel : ObservableObject
     {
-
         public PlayerViewModel()
         {
             System.Diagnostics.Debug.WriteLine("PlayerViewModel created");
@@ -23,7 +23,7 @@ namespace NRadio.ViewModels
         public RelayCommand PlayPreviousCommand { get; private set; }
         public RelayCommand UpdateAudioListCommand { get; private set; }
 
-        private List<RadioStation> _radioStations;
+        private ObservableCollection<RadioStation> _radioStations;
         private int _currentSongIndex;
 
         private string _stationName;
@@ -81,7 +81,7 @@ namespace NRadio.ViewModels
 
         public Slider VolumeSlider { get; set; }
 
-        public PlayerViewModel(List<RadioStation> radioStations, int index)
+        public PlayerViewModel(ObservableCollection<RadioStation> radioStations, int index)
         {
             System.Diagnostics.Debug.WriteLine("PlayerViewModel created");
 
@@ -129,14 +129,14 @@ namespace NRadio.ViewModels
             if (IsPlaying)
                 PlayerService.SetStation(StationUrl);
         }
-        private void SetStationForPage()
+        private async void SetStationForPage()
         {
             var currentSong = _radioStations[_currentSongIndex];
             StationName = currentSong.Name;
             StationUrl = currentSong.Url;
             StationImageUrl = currentSong.Favicon;
 
-            RadioStationsLoader.AddToLast20Recents(currentSong);
+            await RadioStationsLoader.AddToLast20RecentsAsync(currentSong);
         }
 
         public void PlayPause()
@@ -171,7 +171,7 @@ namespace NRadio.ViewModels
             else IsPlayingString = "Play";
         }
 
-        public void ChangePlaylist(List<RadioStation> radioStations, int currentSongIndex)
+        public void ChangePlaylist(ObservableCollection<RadioStation> radioStations, int currentSongIndex)
         {
             _radioStations = radioStations;
             _currentSongIndex = currentSongIndex;
@@ -183,6 +183,7 @@ namespace NRadio.ViewModels
             }
 
         }
-        private async void UpdateAudioList() => await RadioStationsLoader.UpdateRadiostations();
+        private async void UpdateAudioList() => await RadioStationsLoader.UpdateRadiostationsAsync();
+
     }
 }
