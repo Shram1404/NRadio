@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NRadio.Services
 {
-    public static class NavigationService
+    public static class NavigationService 
     {
         public static event NavigatedEventHandler Navigated;
 

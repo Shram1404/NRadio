@@ -78,10 +78,15 @@ namespace NRadio.ViewModels
 
         public Slider VolumeSlider { get; set; }
 
-        public PlayerViewModel(ObservableCollection<RadioStation> radioStations, int index)
+        public PlayerViewModel()
         {
             System.Diagnostics.Debug.WriteLine("PlayerViewModel created");
+        }
 
+        public void Initialize(ObservableCollection<RadioStation> radioStations, int index)
+        {
+
+            System.Diagnostics.Debug.WriteLine("PlayerViewModel initialized");
             _radioStations = radioStations;
             _currentSongIndex = index;
 

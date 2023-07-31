@@ -1,10 +1,13 @@
 ﻿using System;
-
+using System.ComponentModel.Design;
+using Microsoft.Extensions.DependencyInjection;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Services;
-
+using NRadio.ViewModels;
+using NRadio.Views;
+using Unity;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -22,6 +25,8 @@ namespace NRadio
             get { return _activationService.Value; }
         }
 
+        private readonly ServiceProvider _serviceProvider;
+
         public App()
         {
             InitializeComponent();
@@ -33,6 +38,11 @@ namespace NRadio
             // Deferred execution until used. Check https://docs.microsoft.com/dotnet/api/system.lazy-1 for further info on Lazy<T> class.
             _activationService = new Lazy<ActivationService>(CreateActivationService);
             IdentityService.LoggedOut += OnLoggedOut;
+
+            IServiceCollection services = new ServiceCollection();
+
+            services.AddSingleton<ViewModelLocator>();
+            _serviceProvider = services.BuildServiceProvider();
         }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
@@ -41,6 +51,10 @@ namespace NRadio
             {
                 await ActivationService.ActivateAsync(args);
             }
+
+            var mainWindow = _serviceProvider.GetRequiredService<ViewModelLocator>().MainVM;
+            
+
             RadioStationsLoader.Initialize();
         }
 

@@ -84,6 +84,22 @@
                         </StackPanel>
                     </StackPanel>
 
+                    
+                    <Button
+                            x:Name="playButton"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignVerticalCenterWith="itemHero"
+                            Width="50"
+                            Height="50"
+                            Background="Transparent"
+                            BorderBrush="Transparent">
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                Glyph="" />
+                    </Button>
+
+
+
                 </RelativePanel>
 
                 <TextBlock

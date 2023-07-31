@@ -15,17 +15,7 @@ namespace NRadio.Views
         public SettingsPage()
         {
             InitializeComponent();
-        }
-
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            await ViewModel.InitializeAsync();
-        }
-
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-            ViewModel.UnregisterEvents();
+            ViewModel.InitializeAsync();
         }
     }
 }
