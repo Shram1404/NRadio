@@ -1,107 +1,132 @@
-﻿using Newtonsoft.Json;
+﻿using NRadio.Core.API;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
+using NRadio.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Net.Http;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI;
 
 namespace NRadio.Core.Services
 {
     public static class RadioStationsLoader
     {
+        private enum Countries
+        {
+            Ukraine,
+            Poland
+        }
+
+        private static StorageFolder _folder = ApplicationData.Current.LocalFolder;
+
         public static ConfigService Cfg { get; private set; }
 
         public static async Task Initialize()
         {
             StorageFile configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///config.json"));
             string configJson = await FileIO.ReadTextAsync(configFile);
-            Cfg = JsonConvert.DeserializeObject<ConfigService>(configJson);
+            Cfg = JsonSerializer.Deserialize<ConfigService>(configJson);
 
-            RadioStationsContainer.AllStations = await LoadRadioStationsFromFileAsync();
-            RadioStationsContainer.RecentsStations = await LoadRecentStationsFromFileAsync();
-        }
-
-        public static async Task UpdateRadiostationsAsync()
-        {
-            await GetAndSaveRadioStationsFromServerAsync();
-            RadioStationsContainer.AllStations = await LoadRadioStationsFromFileAsync();
-        }
-
-        private static async Task GetAndSaveRadioStationsFromServerAsync() => await SaveRadioStationsToFileAsync(await GetStationsFromServerAsync());
-
-        private static async Task<ObservableCollection<RadioStation>> GetStationsFromServerAsync()
-        {
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetAsync(Cfg.ServerUrl);
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-                    var radioStations = JsonConvert.DeserializeObject<ObservableCollection<RadioStation>>(json);
-                    return radioStations;
-                }
-            }
-            return new ObservableCollection<RadioStation>();
-        }
-
-        private static async Task SaveRadioStationsToFileAsync(ObservableCollection<RadioStation> radioStations)
-        {
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await localFolder.CreateFileAsync(Cfg.RadioStationsFileName, CreationCollisionOption.ReplaceExisting);
-            string jsonData = JsonConvert.SerializeObject(radioStations, Formatting.Indented);
-            await FileIO.WriteTextAsync(file, jsonData);
-        }
-
-        private static async Task<ObservableCollection<RadioStation>> LoadRadioStationsFromFileAsync()
-        {
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             try
             {
-                StorageFile file = await localFolder.GetFileAsync(Cfg.RadioStationsFileName);
-                string jsonData = await FileIO.ReadTextAsync(file);
-                var radioStations = JsonConvert.DeserializeObject<ObservableCollection<RadioStation>>(jsonData);
-                return radioStations;
+                await LoadAllStationsToContainerAsync();
             }
             catch (FileNotFoundException)
             {
-                await GetAndSaveRadioStationsFromServerAsync();
-                return await LoadRadioStationsFromFileAsync();
+                await UpdateRadioStations();
             }
+        }
+
+        public static async Task UpdateRadioStations()
+        {
+            Filter options = new Filter
+            {
+                HasName = true,
+                HasUrl = true,
+                HasTag = false,
+                HasFavicon = true,
+                HasCountry = true,
+                HasLanguage = true,
+                MinBitrate = 64
+            };
+            await SaveFilteredStationsFromApiToContainerAsync(options);
+            await SaveAllStationsToFile();
+            await LoadAllStationsToContainerAsync();
+        }
+
+        private static async Task SaveAllStationsToFile()
+        {
+            await SaveRadioStationsToFileAsync();
+            await SaveRecentStationsToFileAsync();
+        }
+
+        private static async Task SaveRadioStationsToFileAsync() =>
+            await _folder.SaveAsync(Cfg.RadioStationsFileName, RadioStationsContainer.AllStations);
+        private static async Task SaveRecentStationsToFileAsync() =>
+            await _folder.SaveAsync(Cfg.RecentStationsFileName, RadioStationsContainer.RecentsStations);
+
+        private static async Task LoadAllStationsToContainerAsync()
+        {
+            RadioStationsContainer.AllStations = await LoadStationsFromFileAsync();
+            ObservableCollection<RadioStation> RecentStations = await LoadRecentStationsFromFileAsync();
+
+            if(RecentStations != null)
+                RadioStationsContainer.RecentsStations = RecentStations;
+            else
+                RadioStationsContainer.RecentsStations = new ObservableCollection<RadioStation>();
+        }
+
+        private static async Task<ObservableCollection<RadioStation>> LoadStationsFromFileAsync() =>
+            await _folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.RadioStationsFileName);
+        private static async Task<ObservableCollection<RadioStation>> LoadRecentStationsFromFileAsync() =>
+            await _folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.RecentStationsFileName);
+
+        private static async Task SaveFilteredStationsFromApiToContainerAsync(Filter options) =>
+            RadioStationsContainer.AllStations = FilterStations(await LoadStationsFromApiByAllCountryAsync(), options);
+
+        private static async Task<ObservableCollection<RadioStation>> LoadStationsFromApiByAllCountryAsync()
+        {
+            List<RadioStation> allStations = new List<RadioStation>();
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            foreach (var country in Enum.GetValues(typeof(Countries)).Cast<Countries>())
+            {
+                string response = await RadioBrowserAPI.GetStationsByCountryAsync(country.ToString());
+                var data = JsonSerializer.Deserialize<RadioStation[]>(response, options);
+                allStations.AddRange(data);
+            }
+
+            return new ObservableCollection<RadioStation>(allStations);
+        }
+
+        private static ObservableCollection<RadioStation> FilterStations(ObservableCollection<RadioStation> stations, Filter filter)
+        {
+            var filteredStations = stations.Where(station =>
+                (!filter.HasName || !string.IsNullOrEmpty(station.Name)) &&
+                (!filter.HasUrl || !string.IsNullOrEmpty(station.Url)) &&
+                (!filter.HasTag || !string.IsNullOrEmpty(station.Tags)) &&
+                (!filter.HasFavicon || !string.IsNullOrEmpty(station.Favicon)) &&
+                (!filter.HasCountry || !string.IsNullOrEmpty(station.Country)) &&
+                (!filter.HasLanguage || !string.IsNullOrEmpty(station.Language)) &&
+                (station.Bitrate >= filter.MinBitrate)
+            );
+
+            return new ObservableCollection<RadioStation>(filteredStations);
         }
 
         public static async Task AddToLast20RecentsAsync(RadioStation station)
         {
-            if (RadioStationsContainer.RecentsStations.Count >= 20)
+            if (RadioStationsContainer.RecentsStations != null && RadioStationsContainer.RecentsStations.Count >= 20)
                 RadioStationsContainer.RecentsStations.RemoveAt(0);
 
             RadioStationsContainer.RecentsStations.Add(station);
-            await SaveRecentStationsToFileAsync(RadioStationsContainer.RecentsStations);
+            await SaveRecentStationsToFileAsync();
         }
-        private static async Task SaveRecentStationsToFileAsync(ObservableCollection<RadioStation> recentStations)
-        {
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await localFolder.CreateFileAsync(Cfg.RecentStationsFileName, CreationCollisionOption.ReplaceExisting);
-            string jsonData = JsonConvert.SerializeObject(recentStations, Formatting.Indented);
-            await FileIO.WriteTextAsync(file, jsonData);
-        }
-        private static async Task<ObservableCollection<RadioStation>> LoadRecentStationsFromFileAsync()
-        {
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            try
-            {
-                StorageFile file = await localFolder.GetFileAsync(Cfg.RecentStationsFileName);
-                string jsonData = await FileIO.ReadTextAsync(file);
-                var recentStations = JsonConvert.DeserializeObject<ObservableCollection<RadioStation>>(jsonData);
-                return recentStations;
-            }
-            catch (FileNotFoundException)
-            {
-                return new ObservableCollection<RadioStation>();
-            }
-        }
-
     }
 }

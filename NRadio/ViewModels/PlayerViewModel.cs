@@ -13,10 +13,7 @@ namespace NRadio.ViewModels
 {
     public class PlayerViewModel : ObservableObject
     {
-        public PlayerViewModel()
-        {
-            System.Diagnostics.Debug.WriteLine("PlayerViewModel created");
-        }
+
         public RelayCommand PlayPauseCommand { get; private set; }
         public RelayCommand StopCommand { get; private set; }
         public RelayCommand PlayNextCommand { get; private set; }
@@ -183,7 +180,7 @@ namespace NRadio.ViewModels
             }
 
         }
-        private async void UpdateAudioList() => await RadioStationsLoader.UpdateRadiostationsAsync();
+        private async void UpdateAudioList() => await RadioStationsLoader.UpdateRadioStations();
 
     }
 }

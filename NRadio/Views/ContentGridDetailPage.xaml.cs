@@ -23,9 +23,9 @@ namespace NRadio.Views
         {
             base.OnNavigatedTo(e);
             this.RegisterElementForConnectedAnimation("animationKeyContentGrid", itemHero);
-            if (e.Parameter is long orderID)
+            if (e.Parameter is string name)
             {
-                await ViewModel.InitializeAsync(orderID);
+                ViewModel.Initialize(name);
             }
         }
 

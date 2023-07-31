@@ -46,11 +46,10 @@
                         Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
                         RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True">
-                        <FontIcon
+                        <Image
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="70"
-                            Glyph="{x:Bind ViewModel.Item.Symbol}" />
+                            Source="{x:Bind ViewModel.Item.Favicon}" />
                     </Grid>
 
                     <TextBlock
@@ -59,29 +58,29 @@
                         RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.RightOf="itemHero"
                         Style="{ThemeResource TitleTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Item.Company, Mode=OneWay}" />
+                        Text="{x:Bind ViewModel.Item.Name, Mode=OneWay}" />
 
                     <StackPanel x:Name="propertiesGroup1" RelativePanel.Below="itemHero">
                         <StackPanel x:Name="statusGroup" Margin="{StaticResource SmallTopMargin}">
-                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Status" />
-                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.Status}" />
+                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Country" />
+                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.Country}" />
                         </StackPanel>
 
                         <StackPanel x:Name="orderDateGroup" Margin="{StaticResource SmallTopMargin}">
-                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Order date" />
-                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.OrderDate}" />
+                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Language" />
+                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.Language}" />
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel x:Name="propertiesGroup2" RelativePanel.Below="propertiesGroup1">
                         <StackPanel x:Name="shipToGroup" Margin="{StaticResource SmallTopMargin}">
-                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Ship to" />
-                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.ShipTo}" />
+                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Country code" />
+                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.CountryCode}" />
                         </StackPanel>
 
                         <StackPanel x:Name="orderTotalGroup" Margin="{StaticResource SmallTopMargin}">
-                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Order total" />
-                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.OrderTotal}" />
+                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Bitrate" />
+                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.Bitrate}" />
                         </StackPanel>
                     </StackPanel>
 

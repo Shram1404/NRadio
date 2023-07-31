@@ -161,6 +161,7 @@
     <Compile Include="Core\Helpers\Singleton.cs" />
     <Compile Include="Core\Helpers\StreamExtensions.cs" />
     <Compile Include="Core\Helpers\TaskExtensions.cs" />
+    <Compile Include="Core\Models\Filter.cs" />
     <Compile Include="Core\Models\RadioStation.cs" />
     <Compile Include="Core\Models\SampleCompany.cs" />
     <Compile Include="Core\Models\SampleOrder.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Core\Services\SampleDataService.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Helpers\ItemClickEventArgsConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Services\ActivationService.cs" />
@@ -346,6 +348,9 @@
     <None Include=".editorconfig" />
     <None Include="App.config" />
     <None Include="ClassDiagram1.cd" />
+    <Content Include="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="NRadio_TemporaryKey.pfx" />
     <None Include="README.md" />
     <None Include="Settings.XamlStyler" />

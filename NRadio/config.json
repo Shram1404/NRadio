@@ -1,0 +1,5 @@
+﻿{
+  "RadioStationsFileName": "radioStations.json",
+  "RecentStationsFileName": "recentStations.json",
+  "ServerUrl": "https://de1.api.radio-browser.info/json"
+}

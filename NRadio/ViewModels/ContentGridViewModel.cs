@@ -1,16 +1,13 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+using NRadio.Core.Helpers;
+using NRadio.Core.Models;
+using NRadio.Services;
+using NRadio.Views;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.UI.Animations;
-
-using NRadio.Core.Models;
-using NRadio.Core.Services;
-using NRadio.Services;
-using NRadio.Views;
 
 namespace NRadio.ViewModels
 {
@@ -18,32 +15,32 @@ namespace NRadio.ViewModels
     {
         private ICommand _itemClickCommand;
 
-        public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<SampleOrder>(OnItemClick));
+        public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<RadioStation>(OnItemClick));
 
-        public ObservableCollection<SampleOrder> Source { get; } = new ObservableCollection<SampleOrder>();
+        public ObservableCollection<RadioStation> Source { get; } = new ObservableCollection<RadioStation>();
 
         public ContentGridViewModel()
         {
+            System.Diagnostics.Debug.WriteLine("ContentGridViewModel created");
         }
 
         public async Task LoadDataAsync()
         {
             Source.Clear();
 
-            // Replace this with your actual data
-            var data = await SampleDataService.GetContentGridDataAsync();
+            var data = RadioStationsContainer.AllStations;
             foreach (var item in data)
             {
                 Source.Add(item);
             }
         }
 
-        private void OnItemClick(SampleOrder clickedItem)
+        private void OnItemClick(RadioStation clickedItem)
         {
             if (clickedItem != null)
             {
                 NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
-                NavigationService.Navigate<ContentGridDetailPage>(clickedItem.OrderID);
+                NavigationService.Navigate<ContentGridDetailPage>(clickedItem.Name);
             }
         }
     }

@@ -109,6 +109,6 @@ namespace NRadio.ViewModels
         private async void OnLogout() => await IdentityService.LogoutAsync();
         private void OnLoggedOut(object sender, EventArgs e) => UnregisterEvents();
 
-        private async void UpdateStationsAsync() => await RadioStationsLoader.UpdateRadiostationsAsync();
+        private async void UpdateStationsAsync() => await RadioStationsLoader.UpdateRadioStations();
     }
 }

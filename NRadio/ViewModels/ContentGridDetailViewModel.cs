@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-
+using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
 
@@ -11,9 +11,9 @@ namespace NRadio.ViewModels
 {
     public class ContentGridDetailViewModel : ObservableObject
     {
-        private SampleOrder _item;
+        private RadioStation _item;
 
-        public SampleOrder Item
+        public RadioStation Item
         {
             get { return _item; }
             set { SetProperty(ref _item, value); }
@@ -21,12 +21,13 @@ namespace NRadio.ViewModels
 
         public ContentGridDetailViewModel()
         {
+            System.Diagnostics.Debug.WriteLine("ContentGridDetailViewModel created");
         }
 
-        public async Task InitializeAsync(long orderID)
+        public void Initialize(string name)
         {
-            var data = await SampleDataService.GetContentGridDataAsync();
-            Item = data.First(i => i.OrderID == orderID);
+            var data = RadioStationsContainer.AllStations;
+            Item = data.FirstOrDefault(i => i.Name == name);
         }
     }
 }

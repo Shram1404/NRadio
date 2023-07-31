@@ -7,38 +7,50 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:NRadio.Core.Models"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:helper="using:NRadio.Helpers"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <helper:ItemClickEventArgsConverter x:Key="Converter"/>
+    </Page.Resources>
+
     <Grid x:Name="ContentArea">
-        <controls:AdaptiveGridView
+        <ListView
             Padding="{StaticResource MediumLeftRightMargin}"
-            animations:Connected.ListItemElementName="itemThumbnail"
-            animations:Connected.ListItemKey="animationKeyContentGrid"
-            DesiredWidth="180"
-            ItemHeight="160"
             IsItemClickEnabled="True"
-            ItemClickCommand="{x:Bind ViewModel.ItemClickCommand}"
             ItemsSource="{x:Bind ViewModel.Source,Mode=OneWay}"
-            SelectionMode="None"
-            StretchContentForSingleRow="False">
-            <controls:AdaptiveGridView.ItemTemplate>
-                <DataTemplate x:DataType="models:SampleOrder">
+            SelectionMode="None">
+            <interactivity:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="ItemClick">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemClickCommand}">
+                        <core:InvokeCommandAction.InputConverter>
+                            <StaticResource ResourceKey="Converter" />
+                        </core:InvokeCommandAction.InputConverter>
+                    </core:InvokeCommandAction>
+                </core:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:RadioStation">
                     <Grid
                         x:Name="itemThumbnail"
                         Padding="{StaticResource XSmallLeftTopRightBottomMargin}"
                         Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <FontIcon Glyph="{x:Bind Symbol}" />
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Height="260">
+                            <Image Source="{x:Bind Favicon}" Height="200" Width="200" Stretch="UniformToFill"/>
                             <TextBlock
                                 Margin="{StaticResource XXSmallTopMargin}"
                                 HorizontalAlignment="Center"
                                 Style="{ThemeResource BodyTextStyle}"
-                                Text="{x:Bind Company}" />
+                                Text="{x:Bind Name}"
+                                MaxWidth="200"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
-            </controls:AdaptiveGridView.ItemTemplate>
-        </controls:AdaptiveGridView>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>
