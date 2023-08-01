@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using NRadio.Services;
 using NRadio.ViewModels;
 
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -12,7 +13,7 @@ namespace NRadio.Views
 {
     public sealed partial class ContentGridDetailPage : Page
     {
-        public ContentGridDetailViewModel ViewModel { get; } = new ContentGridDetailViewModel();
+        public ContentGridDetailViewModel ViewModel { get; } = ((App)Application.Current).ViewModelLocator.ContentGridDetailVM;
 
         public ContentGridDetailPage()
         {

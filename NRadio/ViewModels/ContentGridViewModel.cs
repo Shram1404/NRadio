@@ -8,6 +8,7 @@ using NRadio.Views;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels
 {
@@ -41,6 +42,8 @@ namespace NRadio.ViewModels
             {
                 NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
                 NavigationService.Navigate<ContentGridDetailPage>(clickedItem.Name);
+                ((App)Application.Current).ViewModelLocator.ContentGridDetailVM.CurrentSongIndex = Source.IndexOf(clickedItem);
+                ((App)Application.Current).ViewModelLocator.ContentGridDetailVM.Source = Source;
             }
         }
     }

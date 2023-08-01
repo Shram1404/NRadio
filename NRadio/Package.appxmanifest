@@ -56,6 +56,7 @@
   <Capabilities>
     <Capability Name="internetClientServer" />
     <Capability Name="internetClient" />
+    <uap3:Capability Name="backgroundMediaPlayback"/>
   </Capabilities>
 
   <genTemplate:Metadata>

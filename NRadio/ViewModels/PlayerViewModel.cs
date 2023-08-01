@@ -58,11 +58,11 @@ namespace NRadio.ViewModels
             }
         }
 
-        private string _isPlayingString = "Play";
-        public string IsPlayingString
+        private string _glyphString = "\uE768"; // Play glyph
+        public string GlyphString
         {
-            get => _isPlayingString;
-            set => SetProperty(ref _isPlayingString, value);
+            get => _glyphString;
+            set => SetProperty(ref _glyphString, value);
         }
 
         private bool _isPlaying;
@@ -72,7 +72,7 @@ namespace NRadio.ViewModels
             set
             {
                 SetProperty(ref _isPlaying, value);
-                IsPlayString();
+                IsPlayGlyphString();
             }
         }
 
@@ -80,13 +80,12 @@ namespace NRadio.ViewModels
 
         public PlayerViewModel()
         {
-            System.Diagnostics.Debug.WriteLine("PlayerViewModel created");
+            System.Diagnostics.Debug.WriteLine("PlayerVM created");
         }
 
         public void Initialize(ObservableCollection<RadioStation> radioStations, int index)
         {
-
-            System.Diagnostics.Debug.WriteLine("PlayerViewModel initialized");
+            System.Diagnostics.Debug.WriteLine("PlayerVM initialized");
             _radioStations = radioStations;
             _currentSongIndex = index;
 
@@ -106,7 +105,8 @@ namespace NRadio.ViewModels
             PlayerService.NextButtonPressed += async () => await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayNext);
             PlayerService.PreviousButtonPressed += async () => await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayPrevious);
 
-            IsPlaying = false;
+            PlayPause();
+            IsPlaying = true;
         }
 
         private void PlayNext()
@@ -167,10 +167,10 @@ namespace NRadio.ViewModels
                 PlayerService.SetVolume(Volume / 100);
         }
 
-        private void IsPlayString()
+        private void IsPlayGlyphString()
         {
-            if (IsPlaying) IsPlayingString = "Pause";
-            else IsPlayingString = "Play";
+            if (IsPlaying) GlyphString = "\uE769"; // Pause glyph
+            else GlyphString = "\uE768"; // Play glyph
         }
 
         public void ChangePlaylist(ObservableCollection<RadioStation> radioStations, int currentSongIndex)

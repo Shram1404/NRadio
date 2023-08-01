@@ -7,19 +7,29 @@
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
-        <Grid
-            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="272*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="2">
+            <Grid.Background>
+                <ImageBrush ImageSource="{Binding StationImageUrl}" Stretch="UniformToFill" ></ImageBrush>
+            </Grid.Background>
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="8*"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Update List" Foreground="Black" Command="{Binding UpdateAudioListCommand}" VerticalAlignment="Top"></Button>
+
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="3">
+                <TextBlock Text="{Binding StationName}" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
+            </StackPanel>
             <Viewbox Grid.Row="1" Grid.Column="1">
                 <Border BorderBrush="Black" BorderThickness="2">
                     <Grid Width="300" Height="300">
@@ -28,17 +38,43 @@
                 </Border>
             </Viewbox>
 
-            <StackPanel Grid.Row="2" Grid.ColumnSpan="3">
-                <TextBlock Text="{Binding StationName}" Foreground="Black" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
-                <TextBlock Text="{Binding StationDescription}" Foreground="Black" FontSize="16" TextWrapping="Wrap" TextAlignment="Center"/>
-            </StackPanel>
+   
 
-            <StackPanel  Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
-                <Button Foreground="Black"  Content="Prev" Command="{Binding PlayPreviousCommand}"/>
-                <ToggleButton Foreground="Black"  Content="{Binding IsPlayingString}" Command="{Binding PlayPauseCommand}"/>
-                <Button Foreground="Black"  Content="Next" Command="{Binding PlayNextCommand}"/>
-                <Slider x:Name="VolumeSlider"  MinWidth="100" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <StackPanel  Grid.Row="3" Grid.Column="1"
+                         Orientation="Horizontal"
+                         HorizontalAlignment="Center" VerticalAlignment="Top"
+                         Margin="{StaticResource LargeTopMargin}">
+
+                <Button Style="{StaticResource CircleButtonStyle}"
+                        Height="48" Width="48"
+                        Command="{Binding PlayPreviousCommand}"
+                        Margin="{StaticResource SmallRightMargin}">
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
+                </Button>
+
+                <Button Style="{StaticResource CircleButtonStyle}"
+                        Height="64"
+                        Width="64"
+                        Command="{Binding PlayPauseCommand}">
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding GlyphString}"/>
+                </Button>
+
+                <Button Style="{StaticResource CircleButtonStyle}"
+                        Height="48"
+                        Width="48"
+                        Command="{Binding PlayNextCommand}"
+                        Margin="{StaticResource SmallLeftMargin}">
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
+                </Button>
             </StackPanel>
+            <Slider Orientation="Vertical"
+                    Grid.Row="3" Grid.Column="1"
+                    x:Name="VolumeSlider"
+                    MinHeight="64"
+                    Minimum="0" Maximum="100"
+                    Value="{Binding Volume, Mode=TwoWay}"
+                    VerticalAlignment="Top" HorizontalAlignment="Right"
+                    Margin="{StaticResource LargeTopMargin}"/>
         </Grid>
     </Grid>
 </Page>

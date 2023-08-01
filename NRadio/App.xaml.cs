@@ -1,13 +1,9 @@
-﻿using System;
-using System.ComponentModel.Design;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
-using NRadio.Helpers;
 using NRadio.Services;
 using NRadio.ViewModels;
-using NRadio.Views;
-using Unity;
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -25,7 +21,8 @@ namespace NRadio
             get { return _activationService.Value; }
         }
 
-        private readonly ServiceProvider _serviceProvider;
+        private ServiceProvider _serviceProvider;
+        public ViewModelLocator ViewModelLocator => _serviceProvider.GetService<ViewModelLocator>();
 
         public App()
         {
@@ -39,9 +36,20 @@ namespace NRadio
             _activationService = new Lazy<ActivationService>(CreateActivationService);
             IdentityService.LoggedOut += OnLoggedOut;
 
+            RegisterServices();
+        }
+
+        private void RegisterServices()
+        {
             IServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<ViewModelLocator>();
+
+            services.AddTransient<ShellViewModel>();
+            services.AddSingleton<PlayerViewModel>();
+            services.AddSingleton<ContentGridDetailViewModel>();
+            services.AddTransient<ContentGridViewModel>();
+
             _serviceProvider = services.BuildServiceProvider();
         }
 
@@ -51,9 +59,6 @@ namespace NRadio
             {
                 await ActivationService.ActivateAsync(args);
             }
-
-            var mainWindow = _serviceProvider.GetRequiredService<ViewModelLocator>().MainVM;
-            
 
             RadioStationsLoader.Initialize();
         }

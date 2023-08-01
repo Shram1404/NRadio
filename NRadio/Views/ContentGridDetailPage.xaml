@@ -92,7 +92,8 @@
                             Width="50"
                             Height="50"
                             Background="Transparent"
-                            BorderBrush="Transparent">
+                            BorderBrush="Transparent"
+                            Command="{x:Bind ViewModel.OpenPlayerCommand}">
                             <FontIcon
                                 FontFamily="Segoe MDL2 Assets"
                                 Glyph="" />

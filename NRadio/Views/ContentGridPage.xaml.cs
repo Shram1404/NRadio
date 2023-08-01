@@ -1,7 +1,7 @@
 ﻿using System;
 
 using NRadio.ViewModels;
-
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -9,7 +9,7 @@ namespace NRadio.Views
 {
     public sealed partial class ContentGridPage : Page
     {
-        public ContentGridViewModel ViewModel { get; } = new ContentGridViewModel();
+        public ContentGridViewModel ViewModel { get; } = ((App)Application.Current).ViewModelLocator.ContentGridVM;
 
         public ContentGridPage()
         {
