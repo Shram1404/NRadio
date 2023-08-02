@@ -18,7 +18,7 @@ namespace NRadio.ViewModels
 
         public ShellViewModel ShellVM => _serviceProvider.GetService<ShellViewModel>();
         public PlayerViewModel PlayerVM => _serviceProvider.GetService<PlayerViewModel>();
-        public ContentGridDetailViewModel ContentGridDetailVM => _serviceProvider.GetService<ContentGridDetailViewModel>();
-        public ContentGridViewModel ContentGridVM => _serviceProvider.GetService<ContentGridViewModel>();
+        public StationDetailViewModel StationDetailVM => _serviceProvider.GetService<StationDetailViewModel>();
+        public StationsListViewModel StationsListVM => _serviceProvider.GetService<StationsListViewModel>();
     }
 }

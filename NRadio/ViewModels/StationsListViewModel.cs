@@ -12,24 +12,29 @@ using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels
 {
-    public class ContentGridViewModel : ObservableObject
+    public class StationsListViewModel : ObservableObject
     {
         private ICommand _itemClickCommand;
 
         public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<RadioStation>(OnItemClick));
 
-        public ObservableCollection<RadioStation> Source { get; } = new ObservableCollection<RadioStation>();
-
-        public ContentGridViewModel()
+        private ObservableCollection<RadioStation> _source = new ObservableCollection<RadioStation>();
+        public ObservableCollection<RadioStation> Source
         {
-            System.Diagnostics.Debug.WriteLine("ContentGridViewModel created");
+            get => _source;
+            set => SetProperty(ref _source, value);
         }
 
-        public async Task LoadDataAsync()
+        public StationsListViewModel()
+        {
+            System.Diagnostics.Debug.WriteLine("StationsListViewModel created");
+        }
+
+        public async Task LoadDataAsync(ObservableCollection<RadioStation> stations)
         {
             Source.Clear();
 
-            var data = RadioStationsContainer.AllStations;
+            var data = stations;
             foreach (var item in data)
             {
                 Source.Add(item);
@@ -41,9 +46,9 @@ namespace NRadio.ViewModels
             if (clickedItem != null)
             {
                 NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
-                NavigationService.Navigate<ContentGridDetailPage>(clickedItem.Name);
-                ((App)Application.Current).ViewModelLocator.ContentGridDetailVM.CurrentSongIndex = Source.IndexOf(clickedItem);
-                ((App)Application.Current).ViewModelLocator.ContentGridDetailVM.Source = Source;
+                NavigationService.Navigate<StationDetailPage>(clickedItem.Name);
+                ((App)Application.Current).ViewModelLocator.StationDetailVM.CurrentSongIndex = Source.IndexOf(clickedItem);
+                ((App)Application.Current).ViewModelLocator.StationDetailVM.Source = Source;
             }
         }
     }

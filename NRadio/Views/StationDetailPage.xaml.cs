@@ -11,11 +11,11 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NRadio.Views
 {
-    public sealed partial class ContentGridDetailPage : Page
+    public sealed partial class StationDetailPage : Page
     {
-        public ContentGridDetailViewModel ViewModel { get; } = ((App)Application.Current).ViewModelLocator.ContentGridDetailVM;
+        public StationDetailViewModel ViewModel { get; } = ((App)Application.Current).ViewModelLocator.StationDetailVM;
 
-        public ContentGridDetailPage()
+        public StationDetailPage()
         {
             InitializeComponent();
         }

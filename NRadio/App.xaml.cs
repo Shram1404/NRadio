@@ -47,8 +47,8 @@ namespace NRadio
 
             services.AddTransient<ShellViewModel>();
             services.AddSingleton<PlayerViewModel>();
-            services.AddSingleton<ContentGridDetailViewModel>();
-            services.AddTransient<ContentGridViewModel>();
+            services.AddSingleton<StationDetailViewModel>();
+            services.AddSingleton<StationsListViewModel>();
 
             _serviceProvider = services.BuildServiceProvider();
         }

@@ -14,7 +14,7 @@ using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels
 {
-    public class ContentGridDetailViewModel : ObservableObject
+    public class StationDetailViewModel : ObservableObject
     {
         public ICommand OpenPlayerCommand => new RelayCommand(OnOpenPlayer);
 
@@ -39,7 +39,7 @@ namespace NRadio.ViewModels
             set { SetProperty(ref _currentSongIndex, value); }
         }
 
-        public ContentGridDetailViewModel()
+        public StationDetailViewModel()
         {
             System.Diagnostics.Debug.WriteLine("ContentGridDetailViewModel created");
         }

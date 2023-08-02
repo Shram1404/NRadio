@@ -9,6 +9,17 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <StackPanel Orientation="Vertical" >
+            <Button HorizontalAlignment="Stretch" Content="All Radio" Command="{Binding OpenPageCommand}" CommandParameter="All"></Button>
+            <Button HorizontalAlignment="Stretch" Content="Local Radio" Command="{Binding OpenPageCommand}" CommandParameter="Local"></Button>
+            <Button HorizontalAlignment="Stretch" Content="Recents" Command="{Binding OpenPageCommand}" CommandParameter="Recents"></Button>
+            <Button HorizontalAlignment="Stretch" Content="Trending" Command="{Binding OpenPageCommand}" CommandParameter="Trending"></Button>
+            <Button HorizontalAlignment="Stretch" Content="Music" Command="{Binding OpenPageCommand}" CommandParameter="Music"></Button>
+            <Button HorizontalAlignment="Stretch" Content="Sports" Command="{Binding OpenPageCommand}" CommandParameter="Sports"></Button>
+            <Button HorizontalAlignment="Stretch" Content="News &amp; Talk" Command="{Binding OpenPageCommand}" CommandParameter="News"></Button>
+            <Button HorizontalAlignment="Stretch" Content="Podcasts" Command="{Binding OpenPageCommand}" CommandParameter="Podcasts"></Button>
+            <Button HorizontalAlignment="Stretch" Content="By Location" Command="{Binding OpenPageCommand}" CommandParameter="By Location"></Button>
+            <Button HorizontalAlignment="Stretch" Content="By Language" Command="{Binding OpenPageCommand}" CommandParameter="By Language"></Button>
+        </StackPanel>
     </Grid>
 </Page>
