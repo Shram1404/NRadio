@@ -60,7 +60,7 @@ namespace NRadio
                 await ActivationService.ActivateAsync(args);
             }
 
-            RadioStationsLoader.Initialize();
+            await RadioStationsLoader.Initialize();
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

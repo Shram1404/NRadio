@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Models;
@@ -33,8 +34,13 @@ namespace NRadio.ViewModels
         public string StationUrl
         {
             get => _stationUrl;
-            set => SetProperty(ref _stationUrl, value);
+            set
+            {
+                SetProperty(ref _stationUrl, value);
+                AddToRecent();
+            }
         }
+
         private string _stationDescription;
         public string StationDescription
         {
@@ -131,14 +137,12 @@ namespace NRadio.ViewModels
             if (IsPlaying)
                 PlayerService.SetStation(StationUrl);
         }
-        private async void SetStationForPage()
+        private void SetStationForPage()
         {
             var currentSong = _radioStations[_currentSongIndex];
             StationName = currentSong.Name;
             StationUrl = currentSong.Url;
             StationImageUrl = currentSong.Favicon;
-
-            await RadioStationsLoader.AddToLast20RecentsAsync(currentSong);
         }
 
         public void PlayPause()
@@ -187,5 +191,10 @@ namespace NRadio.ViewModels
         }
         private async void UpdateAudioList() => await RadioStationsLoader.UpdateRadioStations();
 
+        private async Task AddToRecent()
+        {
+            var currentSong = _radioStations[_currentSongIndex];
+            await RadioStationsLoader.AddToLastRecentsAsync(currentSong);
+        }
     }
 }

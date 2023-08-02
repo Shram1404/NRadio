@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NRadio.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,11 +18,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NRadio.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class BrowsePage : Page
     {
+        BrowseViewModel ViewModel = new BrowseViewModel();
         public BrowsePage()
         {
             this.InitializeComponent();

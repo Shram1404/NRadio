@@ -17,6 +17,8 @@ namespace NRadio.Core.Services
 {
     public static class RadioStationsLoader
     {
+        private const int MaxRecentStations = 20;
+
         private enum Countries
         {
             Ukraine,
@@ -120,10 +122,12 @@ namespace NRadio.Core.Services
             return new ObservableCollection<RadioStation>(filteredStations);
         }
 
-        public static async Task AddToLast20RecentsAsync(RadioStation station)
+        public static async Task AddToLastRecentsAsync(RadioStation station)
         {
-            if (RadioStationsContainer.RecentsStations != null && RadioStationsContainer.RecentsStations.Count >= 20)
+            if (RadioStationsContainer.RecentsStations != null && RadioStationsContainer.RecentsStations.Count >= MaxRecentStations)
                 RadioStationsContainer.RecentsStations.RemoveAt(0);
+            if (RadioStationsContainer.RecentsStations.Contains(station))
+                RadioStationsContainer.RecentsStations.Remove(station);
 
             RadioStationsContainer.RecentsStations.Add(station);
             await SaveRecentStationsToFileAsync();

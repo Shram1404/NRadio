@@ -18,12 +18,6 @@ namespace NRadio.Views
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            await ViewModel.LoadDataAsync(RadioStationsContainer.AllStations); // TODO: change to search results
-        }
-
         ~StationsListPage()
         {
             Debug.WriteLine("StationsListPage destroyed");

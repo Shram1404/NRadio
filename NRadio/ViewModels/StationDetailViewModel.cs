@@ -16,7 +16,7 @@ namespace NRadio.ViewModels
 {
     public class StationDetailViewModel : ObservableObject
     {
-        public ICommand OpenPlayerCommand => new RelayCommand(OnOpenPlayer);
+        public ICommand OpenPlayerCommand => new RelayCommand(OnOpenPlayerAsync);
 
         private RadioStation _item;
         public RadioStation Item
@@ -50,11 +50,10 @@ namespace NRadio.ViewModels
             Item = data.FirstOrDefault(i => i.Name == name);
         }
 
-        public void OnOpenPlayer()
+        public async void OnOpenPlayerAsync()
         {
             ((App)Application.Current).ViewModelLocator.PlayerVM.Initialize(Source, CurrentSongIndex);
             NavigationService.Navigate<PlayerPage>();
         }
-
     }
 }

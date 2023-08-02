@@ -9,17 +9,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <StackPanel Orientation="Vertical" >
-            <Button HorizontalAlignment="Stretch" Content="All Radio" Command="{Binding OpenPageCommand}" CommandParameter="All"></Button>
-            <Button HorizontalAlignment="Stretch" Content="Local Radio" Command="{Binding OpenPageCommand}" CommandParameter="Local"></Button>
-            <Button HorizontalAlignment="Stretch" Content="Recents" Command="{Binding OpenPageCommand}" CommandParameter="Recents"></Button>
-            <Button HorizontalAlignment="Stretch" Content="Trending" Command="{Binding OpenPageCommand}" CommandParameter="Trending"></Button>
-            <Button HorizontalAlignment="Stretch" Content="Music" Command="{Binding OpenPageCommand}" CommandParameter="Music"></Button>
-            <Button HorizontalAlignment="Stretch" Content="Sports" Command="{Binding OpenPageCommand}" CommandParameter="Sports"></Button>
-            <Button HorizontalAlignment="Stretch" Content="News &amp; Talk" Command="{Binding OpenPageCommand}" CommandParameter="News"></Button>
-            <Button HorizontalAlignment="Stretch" Content="Podcasts" Command="{Binding OpenPageCommand}" CommandParameter="Podcasts"></Button>
-            <Button HorizontalAlignment="Stretch" Content="By Location" Command="{Binding OpenPageCommand}" CommandParameter="By Location"></Button>
-            <Button HorizontalAlignment="Stretch" Content="By Language" Command="{Binding OpenPageCommand}" CommandParameter="By Language"></Button>
-        </StackPanel>
+        <ScrollViewer>
+            <StackPanel Orientation="Vertical" >
+                <Button HorizontalAlignment="Stretch" Height="100" Content="All Radio" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="All"></Button>
+                <Button HorizontalAlignment="Stretch" Height="100" Content="Local Radio" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Local"></Button>
+                <Button HorizontalAlignment="Stretch" Height="100" Content="Recents" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Recents"></Button>
+                <Button HorizontalAlignment="Stretch" Height="100" Content="Trending" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Trending"></Button>
+                <Button HorizontalAlignment="Stretch" Height="100" Content="Music" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Music"></Button>
+                <Button HorizontalAlignment="Stretch" Height="100" Content="Sports" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Sports"></Button>
+                <Button HorizontalAlignment="Stretch" Height="100" Content="News &amp; Talk" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="News"></Button>
+                <Button HorizontalAlignment="Stretch" Height="100" Content="Podcasts" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Podcasts"></Button>
+                <Button HorizontalAlignment="Stretch" Height="100" Content="By Location" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="By Location"></Button>
+                <Button HorizontalAlignment="Stretch" Height="100" Content="By Language" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="By Language"></Button>
+            </StackPanel>
+        </ScrollViewer>
+        
     </Grid>
 </Page>
