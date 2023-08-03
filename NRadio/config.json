@@ -1,5 +1,7 @@
 ﻿{
   "RadioStationsFileName": "radioStations.json",
   "RecentStationsFileName": "recentStations.json",
+  "FavoriteStationsFileName": "favoriteStations.json",
+  "PremiumStationsFileName": "premiumStations.json",
   "ServerUrl": "https://de1.api.radio-browser.info/json"
 }

@@ -6,12 +6,15 @@ using NRadio.ViewModels;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Store;
 using Windows.UI.Xaml;
 
 namespace NRadio
 {
     public sealed partial class App : Application
     {
+        internal LicenseInformation licenseInformation;
+
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
 
         private Lazy<ActivationService> _activationService;
@@ -37,7 +40,10 @@ namespace NRadio
             IdentityService.LoggedOut += OnLoggedOut;
 
             RegisterServices();
+
+            licenseInformation = CurrentAppSimulator.LicenseInformation;
         }
+
 
         private void RegisterServices()
         {

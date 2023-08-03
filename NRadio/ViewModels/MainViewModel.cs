@@ -87,7 +87,7 @@ namespace NRadio.ViewModels
         {
             Debug.WriteLine("MainViewModel initialized");
 
-            Recent = RadioStationsContainer.RecentsStations;
+            Recent = RadioStationsContainer.RecentStations;
             Favorite = new ObservableCollection<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.IsFavorite));
             Local = new ObservableCollection<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA")); // TODO: Change to current locale
         }

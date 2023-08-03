@@ -11,6 +11,7 @@
     <Grid>
         <ScrollViewer>
             <StackPanel Orientation="Vertical" >
+                <Button HorizontalAlignment="Stretch" Height="100" Content="Premium" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Premium"></Button>
                 <Button HorizontalAlignment="Stretch" Height="100" Content="All Radio" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="All"></Button>
                 <Button HorizontalAlignment="Stretch" Height="100" Content="Local Radio" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Local"></Button>
                 <Button HorizontalAlignment="Stretch" Height="100" Content="Recents" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Recents"></Button>
