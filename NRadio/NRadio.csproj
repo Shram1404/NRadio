@@ -19,7 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>NRadio_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
-    <PropertyGroup>
+  <PropertyGroup>
     <MSBuildWarningsAsMessages>MSB3277</MSBuildWarningsAsMessages>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -177,6 +177,7 @@
     <Compile Include="Behaviors\NavigationViewHeaderMode.cs" />
     <Compile Include="Behaviors\TreeViewCollapseBehavior.cs" />
     <Compile Include="Core\API\RadioBrowserAPI.cs" />
+    <Compile Include="Core\BackgroundTasks\UpdateRadioStationsTask.cs" />
     <Compile Include="Core\Helpers\Json.cs" />
     <Compile Include="Core\Helpers\LoginResultType.cs" />
     <Compile Include="Core\Helpers\RadioStationsContainer.cs" />

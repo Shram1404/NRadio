@@ -194,7 +194,7 @@ namespace NRadio.ViewModels
         private async Task AddToRecent()
         {
             var currentSong = _radioStations[_currentSongIndex];
-            await RadioStationsLoader.AddToLastRecentsAsync(currentSong);
+            await RadioStationsLoader.AddToLastRecentAsync(currentSong);
         }
     }
 }

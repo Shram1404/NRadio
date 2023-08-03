@@ -16,6 +16,7 @@ namespace NRadio.Views
         public ShellPage()
         {
             Debug.WriteLine("ShellPage created");
+
             InitializeComponent();
             DataContext = ViewModel;
             ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);

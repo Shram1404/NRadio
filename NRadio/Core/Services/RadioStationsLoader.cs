@@ -5,6 +5,7 @@ using NRadio.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,15 @@ namespace NRadio.Core.Services
         private enum Countries
         {
             Ukraine,
-            Poland
+            Poland,
+            Italy,
+            Germany,
+            France,
+            Russia,
+            Belarus,
+            Spain,
+            CzechRepublic,
+            UnitedKingdom,
         }
 
         private static StorageFolder _folder = ApplicationData.Current.LocalFolder;
@@ -60,6 +69,8 @@ namespace NRadio.Core.Services
             await SaveFilteredStationsFromApiToContainerAsync(options);
             await SaveAllStationsToFile();
             await LoadAllStationsToContainerAsync();
+
+            Debug.WriteLine("RadioStations was updated");
         }
 
         private static async Task SaveAllStationsToFile()
@@ -102,10 +113,12 @@ namespace NRadio.Core.Services
                 string response = await RadioBrowserAPI.GetStationsByCountryAsync(country.ToString());
                 var data = JsonSerializer.Deserialize<RadioStation[]>(response, options);
                 allStations.AddRange(data);
+                await Task.Delay(200);
             }
 
             return new ObservableCollection<RadioStation>(allStations);
         }
+
 
         private static ObservableCollection<RadioStation> FilterStations(ObservableCollection<RadioStation> stations, Filter filter)
         {
@@ -122,7 +135,7 @@ namespace NRadio.Core.Services
             return new ObservableCollection<RadioStation>(filteredStations);
         }
 
-        public static async Task AddToLastRecentsAsync(RadioStation station)
+        public static async Task AddToLastRecentAsync(RadioStation station)
         {
             if (RadioStationsContainer.RecentsStations != null && RadioStationsContainer.RecentsStations.Count >= MaxRecentStations)
                 RadioStationsContainer.RecentsStations.RemoveAt(0);

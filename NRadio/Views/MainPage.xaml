@@ -113,9 +113,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-
             </Grid>
-
         </Grid>
     </Grid>
 </Page>

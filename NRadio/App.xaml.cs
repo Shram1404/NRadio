@@ -45,6 +45,7 @@ namespace NRadio
 
             services.AddSingleton<ViewModelLocator>();
 
+            services.AddTransient<MainViewModel>();
             services.AddTransient<ShellViewModel>();
             services.AddSingleton<PlayerViewModel>();
             services.AddSingleton<StationDetailViewModel>();
@@ -61,6 +62,9 @@ namespace NRadio
             }
 
             await RadioStationsLoader.Initialize();
+
+            var backgroundTaskService = new BackgroundTaskService();
+            await backgroundTaskService.RegisterBackgroundTasksAsync();
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

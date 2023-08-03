@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using NRadio.Activation;
 using NRadio.BackgroundTasks;
+using NRadio.Core.BackgroundTasks;
 using NRadio.Core.Helpers;
 
 using Windows.ApplicationModel.Activation;
@@ -74,7 +75,7 @@ namespace NRadio.Services
         {
             var backgroundTasks = new List<BackgroundTask>();
 
-            backgroundTasks.Add(new UpdateRadioList());
+            backgroundTasks.Add(new UpdateRadioStationsTask());
             return backgroundTasks;
         }
     }

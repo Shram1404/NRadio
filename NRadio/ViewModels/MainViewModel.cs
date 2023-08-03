@@ -80,6 +80,13 @@ namespace NRadio.ViewModels
             ScrollLeftLocalCommand = new RelayCommand(() => LocalHorizontalOffset -= 200);
             ScrollRightLocalCommand = new RelayCommand(() => LocalHorizontalOffset += 200);
 
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            Debug.WriteLine("MainViewModel initialized");
+
             Recent = RadioStationsContainer.RecentsStations;
             Favorite = new ObservableCollection<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.IsFavorite));
             Local = new ObservableCollection<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA")); // TODO: Change to current locale
