@@ -206,17 +206,7 @@
     <comment>Personalization text for Settings</comment>
   </data>
   <data name="FirstRun_Body.Text" xml:space="preserve">
-    <value>Replace the content of this dialog with whatever content is appropriate to your app.
-You might want to explain key features or functionality.
-Don't feel restricted to just text. You can also include images and animations if you wish too.
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-
-Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.
-
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
-
-Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</value>
+    <value>Thanks for downloading NRadio!</value>
     <comment>First use prompt message body</comment>
   </data>
   <data name="FirstRunDialog.Title" xml:space="preserve">
@@ -268,5 +258,79 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
   </data>
   <data name="Settings_RadioListSettings.Text" xml:space="preserve">
     <value>Radio list settings</value>
+  </data>
+  <data name="Browse_All_Radio_Button.Content" xml:space="preserve">
+    <value>All Radio</value>
+  </data>
+  <data name="Browse_ByLanguage_Radio_Button.Content" xml:space="preserve">
+    <value>By Language</value>
+  </data>
+  <data name="Browse_ByLocation_Radio_Button.Content" xml:space="preserve">
+    <value>By Location</value>
+  </data>
+  <data name="Browse_Local_Radio_Button.Content" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="Browse_Music_Button.Content" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="Browse_NewsAndTalk_Button.Content" xml:space="preserve">
+    <value>News &amp; Talk</value>
+  </data>
+  <data name="Browse_Podcasts_Radio_Button.Content" xml:space="preserve">
+    <value>Podcasts</value>
+  </data>
+  <data name="Browse_Premium_Button.Content" xml:space="preserve">
+    <value>Premium</value>
+    <comment>Premium button content in BrowsePage</comment>
+  </data>
+  <data name="Browse_Recent_Button.Content" xml:space="preserve">
+    <value>Recent</value>
+  </data>
+  <data name="Browse_Sports_Button.Content" xml:space="preserve">
+    <value>Sports</value>
+  </data>
+  <data name="Browse_Trending_Button.Content" xml:space="preserve">
+    <value>Trending</value>
+  </data>
+  <data name="Premium_ErrorBuy.CloseButtonText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Premium_ErrorBuy.Content" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Premium_ErrorBuy.Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Premium_NotActive.CloseButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Premium_NotActive.Content" xml:space="preserve">
+    <value>We're sorry, but you can't access premium stations because you don't have an active premium license. You can purchase a premium license in the "Settings"</value>
+  </data>
+  <data name="Premium_NotActive.Title" xml:space="preserve">
+    <value>Premium is not active</value>
+    <comment>Content dialog when user without premium try use premium feature</comment>
+  </data>
+  <data name="Premium_SucefullBuy.CloseButtonText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Premium_SucefullBuy.Content" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Premium_SucefullBuy.Title" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StationDetail_Bitrate.Text" xml:space="preserve">
+    <value>Bitrate</value>
+  </data>
+  <data name="StationDetail_Country.Text" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="StationDetail_CountryCode.Text" xml:space="preserve">
+    <value>Country code</value>
+  </data>
+  <data name="StationDetail_Language.Text" xml:space="preserve">
+    <value>Language</value>
   </data>
 </root>

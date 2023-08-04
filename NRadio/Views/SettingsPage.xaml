@@ -93,6 +93,8 @@
                     Style="{ThemeResource BodyTextBlockStyle}" />
 
                 <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
+
+                <Button x:Uid="Buy_Premium" Content="Buy Premium" Command="{x:Bind ViewModel.BuyPremiumCommand}" />
             </StackPanel>
         </StackPanel>
     </Grid>    

@@ -2,7 +2,6 @@
     x:Class="NRadio.Views.BrowsePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:NRadio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -11,19 +10,18 @@
     <Grid>
         <ScrollViewer>
             <StackPanel Orientation="Vertical" >
-                <Button HorizontalAlignment="Stretch" Height="100" Content="Premium" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Premium"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="All Radio" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="All"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="Local Radio" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Local"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="Recents" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Recents"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="Trending" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Trending"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="Music" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Music"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="Sports" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Sports"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="News &amp; Talk" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="News"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="Podcasts" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Podcasts"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="By Location" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="By Location"></Button>
-                <Button HorizontalAlignment="Stretch" Height="100" Content="By Language" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="By Language"></Button>
+                <Button x:Uid="Browse_Premium_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Premium"></Button>
+                <Button x:Uid="Browse_All_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="All"></Button>
+                <Button x:Uid="Browse_Local_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Local"></Button>
+                <Button x:Uid="Browse_Recent_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Recents"></Button>
+                <Button x:Uid="Browse_Trending_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Trending"></Button>
+                <Button x:Uid="Browse_Music_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Music"></Button>
+                <Button x:Uid="Browse_Sports_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Sports"></Button>
+                <Button x:Uid="Browse_NewsAndTalk_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="News"></Button>
+                <Button x:Uid="Browse_Podcasts_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Podcasts"></Button>
+                <Button x:Uid="Browse_ByLocation_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="By Location"></Button>
+                <Button x:Uid="Browse_ByLanguage_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="By Language"></Button>
             </StackPanel>
         </ScrollViewer>
-        
     </Grid>
 </Page>

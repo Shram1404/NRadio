@@ -18,9 +18,6 @@
     </Page.Resources>
 
     <Grid x:Name="ContentArea">
-        
-        <TextBlock Text="ListPage"></TextBlock>
-        
         <ListView
             Padding="{StaticResource MediumLeftRightMargin}"
             IsItemClickEnabled="True"

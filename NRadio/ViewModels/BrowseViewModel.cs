@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Windows.Input;
+using Windows.ApplicationModel.Resources;
 using Windows.ApplicationModel.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -56,12 +57,18 @@ namespace NRadio.ViewModels
                 }
                 else
                 {
+                    var loader = new ResourceLoader();
+                    var title = loader.GetString("Premium_NotActive/Title");
+                    var content = loader.GetString("Premium_NotActive/Content");
+                    var closeButtonText = loader.GetString("Premium_NotActive/CloseButtonText");
+
                     var dialog = new ContentDialog
                     {
-                        Title = "Преміум не активовано",
-                        Content = "Вибачте, але ви не можете отримати доступ до преміум-станцій, оскільки у вас немає активної преміум-ліцензії.",
-                        CloseButtonText = "ОК"
+                        Title = title,
+                        Content = content,
+                        CloseButtonText = closeButtonText
                     };
+
 
                     await dialog.ShowAsync();
                     return;

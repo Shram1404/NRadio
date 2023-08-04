@@ -11,7 +11,9 @@ using NRadio.Helpers;
 using NRadio.Services;
 
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Store;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace NRadio.ViewModels
 {
@@ -73,9 +75,11 @@ namespace NRadio.ViewModels
         }
 
         private ICommand _updateStationsCommand;
-
         public ICommand UpdateStationsCommand => _updateStationsCommand ?? (_updateStationsCommand = new RelayCommand(UpdateStationsAsync));
-     
+
+        private ICommand _buyPremiumCommand;
+        public ICommand BuyPremiumCommand => _buyPremiumCommand ?? (_buyPremiumCommand = new RelayCommand(async () => await BuyPremium()));
+
 
         public SettingsViewModel()
         {
@@ -97,6 +101,51 @@ namespace NRadio.ViewModels
             var version = packageId.Version;
 
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        }
+
+        private async Task BuyPremium()
+        {
+            if (!((App)Application.Current).licenseInformation.ProductLicenses["Premium"].IsActive)
+            {
+                try
+                {
+                    await CurrentAppSimulator.RequestProductPurchaseAsync("Premium");
+                    if (((App)Application.Current).licenseInformation.ProductLicenses["Premium"].IsActive)
+                    {
+                        var dialog = new ContentDialog
+                        {
+                            Title = "Преміум-ліцензія активована",
+                            Content = "Ви успішно активували преміум-ліцензію. Ви можете використовувати всі функції додатку.",
+                            CloseButtonText = "ОК"
+                        };
+                        await dialog.ShowAsync();
+                    }
+                    if (!((App)Application.Current).licenseInformation.ProductLicenses["Premium"].IsActive)
+                    {
+                        var dialog = new ContentDialog
+                        {
+                            Title = "Преміум-ліцензія не активована",
+                            Content = "Преміум-ліцензія не була активована. Спробуйте пізніше.",
+                            CloseButtonText = "ОК"
+                        };
+                        await dialog.ShowAsync();
+                    }
+                }
+                catch (Exception)
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Помилка під час активації",
+                        Content = "Відбулась помилки при спробі активації преміум-ліцензії. Спробуйте пізніше.",
+                        CloseButtonText = "ОК"
+                    };
+                    await dialog.ShowAsync();
+                }
+            }
+            else
+            {
+
+            }
         }
 
         public void UnregisterEvents()
