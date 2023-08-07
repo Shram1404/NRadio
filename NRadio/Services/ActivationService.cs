@@ -98,6 +98,7 @@ namespace NRadio.Services
                 NavigationService.Frame = frame;
             }
 
+            await LanguageSelectorService.SetRequestedLanguageAsync();
             await ThemeSelectorService.SetRequestedThemeAsync();
             await HandleActivationAsync(_lastActivationArgs);
         }
@@ -106,6 +107,7 @@ namespace NRadio.Services
         {
             await Singleton<LiveTileService>.Instance.EnableQueueAsync().ConfigureAwait(false);
             await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync().ConfigureAwait(false);
+            await LanguageSelectorService.InitializeAsync().ConfigureAwait(false);
             await ThemeSelectorService.InitializeAsync().ConfigureAwait(false);
         }
 
@@ -131,6 +133,7 @@ namespace NRadio.Services
 
         private async Task StartupAsync()
         {
+            await LanguageSelectorService.SetRequestedLanguageAsync();
             await ThemeSelectorService.SetRequestedThemeAsync();
             await FirstRunDisplayService.ShowIfAppropriateAsync();
             Singleton<LiveTileService>.Instance.SampleUpdate();
@@ -155,6 +158,7 @@ namespace NRadio.Services
             var frame = new Frame();
             NavigationService.Frame = frame;
             Window.Current.Content = frame;
+            await LanguageSelectorService.SetRequestedLanguageAsync();
             await ThemeSelectorService.SetRequestedThemeAsync();
             NavigationService.Navigate<Views.LogInPage>();
         }

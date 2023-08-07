@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.ColumnSpan="2">
             <Grid.Background>
-                <ImageBrush ImageSource="{Binding StationImageUrl}" Stretch="UniformToFill" ></ImageBrush>
+                <ImageBrush ImageSource="{Binding BlurredImage}" Stretch="UniformToFill" ></ImageBrush>
             </Grid.Background>
 
             <Grid.RowDefinitions>
@@ -27,6 +27,17 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+            <Button Grid.Row="0" Grid.Column="2"
+                    Height="48" Width="48"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{x:Bind ViewModel.ChangeFavoriteStateCommand}"
+                    Margin="0,15,15,0">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding FavoriteGlyph}"/>
+            </Button>
+
             <StackPanel Grid.Row="2" Grid.ColumnSpan="3">
                 <TextBlock Text="{Binding StationName}" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>
             </StackPanel>
@@ -37,8 +48,6 @@
                     </Grid>
                 </Border>
             </Viewbox>
-
-   
 
             <StackPanel  Grid.Row="3" Grid.Column="1"
                          Orientation="Horizontal"
@@ -56,7 +65,7 @@
                         Height="64"
                         Width="64"
                         Command="{Binding PlayPauseCommand}">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding GlyphString}"/>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding PlayGlyph}"/>
                 </Button>
 
                 <Button Style="{StaticResource CircleButtonStyle}"

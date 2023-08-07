@@ -45,13 +45,13 @@ namespace NRadio.ViewModels
 
             if (sortBy == "All") Stations = _allStations; // TODO: Remove in future
             else if (sortBy == "Local") Stations = new ObservableCollection<RadioStation>(_allStations.Where(s => s.CountryCode == "UA")); //TODO: Change to current locale
-            else if (sortBy == "Favorite") Stations = new ObservableCollection<RadioStation>(_allStations.Where(s => s.IsFavorite));
+            else if (sortBy == "Favorites") Stations = RadioStationsContainer.FavoriteStations;
             else if (sortBy == "Recents") Stations = RadioStationsContainer.RecentStations;
             else if (sortBy == "Sports") Stations = new ObservableCollection<RadioStation>(_allStations.Where(s => s.Tags.Contains("sport")));
             else if (sortBy == "News") Stations = new ObservableCollection<RadioStation>(_allStations.Where(s => s.Tags.Contains("news")));
             else if (sortBy == "Premium")
             {
-                if (((App)Application.Current).licenseInformation.ProductLicenses["Premium"].IsActive)
+                if (false) // TODO: Check if premium
                 {
                     Stations = new ObservableCollection<RadioStation>(RadioStationsContainer.PremiumStations);
                 }

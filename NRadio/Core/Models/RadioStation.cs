@@ -24,5 +24,13 @@ namespace NRadio.Core.Models
         public string HomePage { get; set; }
 
         public bool IsFavorite { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is RadioStation other)
+                return Name == other.Name && Url == other.Url;
+
+            return false;
+        }
     }
 }

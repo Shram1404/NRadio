@@ -28,9 +28,7 @@
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
         <winui:NavigationView.MenuItems>
             <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Document" helpers:NavHelper.NavigateTo="views:MainPage" />
-            <winui:NavigationViewItem x:Uid="Shell_MediaPlayer" Icon="Document" helpers:NavHelper.NavigateTo="views:MediaPlayerPage" />
             <winui:NavigationViewItem x:Uid="Shell_Browse" Icon="Document" helpers:NavHelper.NavigateTo="views:BrowsePage" />
-            <winui:NavigationViewItem x:Uid="Shell_StationsList" Icon="Document" helpers:NavHelper.NavigateTo="views:StationsListPage" />
             <winui:NavigationViewItem x:Uid="Shell_Search" Icon="Document" helpers:NavHelper.NavigateTo="views:SearchPage" />
             <winui:NavigationViewItem x:Uid="Shell_Player" Icon="Document" helpers:NavHelper.NavigateTo="views:PlayerPage" />
         </winui:NavigationView.MenuItems>

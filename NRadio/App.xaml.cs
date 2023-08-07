@@ -4,16 +4,18 @@ using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Store;
+using Windows.Services.Store;
 using Windows.UI.Xaml;
 
 namespace NRadio
 {
     public sealed partial class App : Application
     {
-        internal LicenseInformation licenseInformation;
+        internal StoreContext context = null;
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
 
@@ -39,11 +41,23 @@ namespace NRadio
             IdentityService.LoggedOut += OnLoggedOut;
 
             RegisterServices();
+            InitializeLicense();
 
-            licenseInformation = CurrentAppSimulator.LicenseInformation;
         }
 
-
+        private async Task InitializeLicense()
+        {
+            if(context == null)
+            {
+                context = StoreContext.GetDefault();
+            }
+            StoreProductResult result = await context.GetStoreProductForCurrentAppAsync();
+            if(result.ExtendedError == null)
+            {
+                StoreProduct product = result.Product;
+            }
+        }
+        
         private void RegisterServices()
         {
             IServiceCollection services = new ServiceCollection();

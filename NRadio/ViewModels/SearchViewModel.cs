@@ -39,16 +39,16 @@ namespace NRadio.ViewModels
 
         private async void OnSearch(string searchBy)
         {
-            ObservableCollection<RadioStation> stations = new ObservableCollection<RadioStation>(RadioStationsContainer.AllStations.
-                Where(s => s.Name.ToLower().Contains(searchBy.ToLower())
-                || s.Tags.ToLower().Contains(searchBy.ToLower())));
+            var task = Task.Run(() => RadioStationsContainer.AllStations
+            .Where(s => s.Name.IndexOf(searchBy, StringComparison.OrdinalIgnoreCase) >= 0
+            || s.Tags.IndexOf(searchBy, StringComparison.OrdinalIgnoreCase) >= 0)
+            .ToList());
+            var stations = await task;
 
+            if (StationsListUserControl == null)
+                StationsListUserControl = new StationsListPage();
 
-            if (_stationsListPage == null)
-                _stationsListPage = new StationsListPage();
-
-            await ((App)Application.Current).ViewModelLocator.StationsListVM.LoadDataAsync(stations);
-            StationsListUserControl = _stationsListPage;
+            await ((App)Application.Current).ViewModelLocator.StationsListVM.LoadDataAsync(new ObservableCollection<RadioStation>(stations));
         }
 
         public SearchViewModel()

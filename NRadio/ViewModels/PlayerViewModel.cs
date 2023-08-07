@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace NRadio.ViewModels
 {
     public class PlayerViewModel : ObservableObject
     {
 
-        public RelayCommand PlayPauseCommand { get; private set; }
-        public RelayCommand StopCommand { get; private set; }
-        public RelayCommand PlayNextCommand { get; private set; }
-        public RelayCommand PlayPreviousCommand { get; private set; }
-        public RelayCommand UpdateAudioListCommand { get; private set; }
+        public ICommand PlayPauseCommand { get; private set; }
+        public ICommand StopCommand { get; private set; }
+        public ICommand PlayNextCommand { get; private set; }
+        public ICommand PlayPreviousCommand { get; private set; }
+        public ICommand UpdateAudioListCommand { get; private set; }
+        public ICommand ChangeFavoriteStateCommand { get; private set; }
 
         private ObservableCollection<RadioStation> _radioStations;
         private int _currentSongIndex;
@@ -64,11 +68,17 @@ namespace NRadio.ViewModels
             }
         }
 
-        private string _glyphString = "\uE768"; // Play glyph
-        public string GlyphString
+        private string _playGlyph = "\uE768"; // Play glyph
+        public string PlayGlyph
         {
-            get => _glyphString;
-            set => SetProperty(ref _glyphString, value);
+            get => _playGlyph;
+            set => SetProperty(ref _playGlyph, value);
+        }
+        private string _favoriteGlyph;
+        public string FavoriteGlyph
+        {
+            get { return _favoriteGlyph; }
+            set { SetProperty(ref _favoriteGlyph, value); }
         }
 
         private bool _isPlaying;
@@ -80,6 +90,13 @@ namespace NRadio.ViewModels
                 SetProperty(ref _isPlaying, value);
                 IsPlayGlyphString();
             }
+        }
+
+        private BitmapImage _blurredImage;
+        public BitmapImage BlurredImage
+        {
+            get => _blurredImage;
+            set => SetProperty(ref _blurredImage, value);
         }
 
         public Slider VolumeSlider { get; set; }
@@ -100,6 +117,11 @@ namespace NRadio.ViewModels
             PlayNextCommand = new RelayCommand(PlayNext);
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
             UpdateAudioListCommand = new RelayCommand(UpdateAudioList);
+            ChangeFavoriteStateCommand = new RelayCommand(ChangeFavoriteState);
+
+            BlurredImage = ImageFilterService.BlurImageAsync(_radioStations[_currentSongIndex].Favicon).Result;
+            RadioStation Item = _radioStations[_currentSongIndex];
+            FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(Item) ? "\xE735" : "\xE734";
 
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey("Volume"))
             {
@@ -173,8 +195,8 @@ namespace NRadio.ViewModels
 
         private void IsPlayGlyphString()
         {
-            if (IsPlaying) GlyphString = "\uE769"; // Pause glyph
-            else GlyphString = "\uE768"; // Play glyph
+            if (IsPlaying) PlayGlyph = "\uE769"; // Pause glyph
+            else PlayGlyph = "\uE768"; // Play glyph
         }
 
         public void ChangePlaylist(ObservableCollection<RadioStation> radioStations, int currentSongIndex)
@@ -195,6 +217,19 @@ namespace NRadio.ViewModels
         {
             var currentSong = _radioStations[_currentSongIndex];
             await RadioStationsLoader.AddToLastRecentAsync(currentSong);
+        }
+
+        private async void ChangeFavoriteState()
+        {
+            if(_radioStations.Count == 0)
+            {
+                int LastStationIndex = RadioStationsContainer.RecentStations.Count - 1;
+                RadioStation LastStation = RadioStationsContainer.RecentStations[LastStationIndex];
+                RadioStationsLoader.ChangeIsFavoriteAsync(LastStation);
+            }
+            RadioStation Item = _radioStations[_currentSongIndex];
+            await RadioStationsLoader.ChangeIsFavoriteAsync(Item);
+            FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(Item) ? "\xE735" : "\xE734";
         }
     }
 }

@@ -84,7 +84,16 @@
                         </StackPanel>
                     </StackPanel>
 
-                    
+                    <Button RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignVerticalCenterWith="itemHero"
+                            Height="48" Width="48"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Command="{x:Bind ViewModel.ChangeFavoriteStateCommand}"
+                            Margin="0,0,70,0">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding FavoriteGlyph}"/>
+                    </Button>
+
                     <Button
                             x:Name="playButton"
                             RelativePanel.AlignRightWithPanel="True"
@@ -94,13 +103,10 @@
                             Background="Transparent"
                             BorderBrush="Transparent"
                             Command="{x:Bind ViewModel.OpenPlayerCommand}">
-                            <FontIcon
+                        <FontIcon
                                 FontFamily="Segoe MDL2 Assets"
                                 Glyph="" />
                     </Button>
-
-
-
                 </RelativePanel>
 
                 <TextBlock

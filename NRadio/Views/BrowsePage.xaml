@@ -14,6 +14,7 @@
                 <Button x:Uid="Browse_All_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="All"></Button>
                 <Button x:Uid="Browse_Local_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Local"></Button>
                 <Button x:Uid="Browse_Recent_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Recents"></Button>
+                <Button x:Uid="Browse_Favorites_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Favorites"></Button>
                 <Button x:Uid="Browse_Trending_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Trending"></Button>
                 <Button x:Uid="Browse_Music_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Music"></Button>
                 <Button x:Uid="Browse_Sports_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Sports"></Button>

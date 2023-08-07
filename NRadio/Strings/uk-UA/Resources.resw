@@ -117,131 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppDisplayName" xml:space="preserve">
-    <value>NRadio</value>
-    <comment>Application display name</comment>
-  </data>
   <data name="AppDescription" xml:space="preserve">
     <value>NRadio</value>
     <comment>Application description</comment>
   </data>
-  <data name="Shell_Main.Content" xml:space="preserve">
-    <value>Home</value>
-    <comment>Navigation view item name for Main</comment>
-  </data>
-  <data name="ListDetails_NoSelection.Text" xml:space="preserve">
-    <value>Select an item from the list.</value>
-    <comment>No selection text for ListDetails</comment>
-  </data>
-  <data name="ListDetails.ListHeader" xml:space="preserve">
-    <value>ListDetails</value>
-    <comment>Title for ListDetailsPage</comment>
-  </data>
-  <data name="TreeViewTitle.Text" xml:space="preserve">
-    <value>TreeView</value>
-    <comment>Title for TreeViewPage</comment>
-  </data>
-  <data name="TreeView_CollapseAllButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Collapse all</value>
-    <comment>Tooltip for Collapse all button in TreeViewPages</comment>
-  </data>
-  <data name="TreeView_CollapseAllButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Collapse all</value>
-    <comment>Automation Name for Collapse all button in TreeViewPages</comment>
-  </data>
-  <data name="Shell_Player.Content" xml:space="preserve">
-    <value>Player</value>
-    <comment>Navigation view item name for Player</comment>
-  </data>
-  <data name="Settings_Theme.Text" xml:space="preserve">
-    <value>Choose Theme</value>
-    <comment>Choose theme text for Settings</comment>
-  </data>
-  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
-    <value>Dark</value>
-    <comment>Dark theme text for Settings</comment>
-  </data>
-  <data name="Settings_Theme_Default.Content" xml:space="preserve">
-    <value>Windows default</value>
-    <comment>Windows default theme text for Settings</comment>
-  </data>
-  <data name="Settings_Theme_Light.Content" xml:space="preserve">
-    <value>Light</value>
-    <comment>Light theme text for Settings</comment>
-  </data>
-  <data name="Settings_About.Text" xml:space="preserve">
-    <value>About this application</value>
-    <comment>About this application title for Settings</comment>
-  </data>
-  <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>Settings page placeholder text.  Your app description goes here.</value>
-    <comment>About this application description for Settings</comment>
-  </data>
-  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
-    <value>Privacy Statement</value>
-    <comment>Privacy Statement link content for Settings</comment>
-  </data>
-  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">
-    <value>https://YourPrivacyUrlGoesHere/</value>
-    <comment>Here is your Privacy Statement url for Settings</comment>
-  </data>
-  <data name="Settings_Personalization.Text" xml:space="preserve">
-    <value>Personalization</value>
-    <comment>Personalization text for Settings</comment>
-  </data>
-  <data name="FirstRun_Body.Text" xml:space="preserve">
-    <value>Thanks for downloading NRadio!</value>
-    <comment>First use prompt message body</comment>
-  </data>
-  <data name="FirstRunDialog.Title" xml:space="preserve">
-    <value>Welcome</value>
-    <comment>First use prompt message title</comment>
-  </data>
-  <data name="FirstRunDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ok</value>
-    <comment>First use prompt message primary button text</comment>
-  </data>
-  <data name="Shell_UserInfoButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>User info</value>
-    <comment>Shell UserInfo button automation name property</comment>
-  </data>
-  <data name="Shell_UserInfoButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>User info</value>
-    <comment>Shell UserInfo button tooltip property</comment>
-  </data>
-  <data name="LogInPageTitle.Text" xml:space="preserve">
-    <value>LogIn</value>
-    <comment>Title for LogIn page</comment>
-  </data>
-  <data name="LogInButton.Content" xml:space="preserve">
-    <value>Click to log in</value>
-    <comment>LogIn Button content in LogIn page</comment>
-  </data>
-  <data name="StatusUnauthorized" xml:space="preserve">
-    <value>User is unauthorized</value>
-    <comment>Status message for unauthorized login result</comment>
-  </data>
-  <data name="StatusNoNetworkAvailable" xml:space="preserve">
-    <value>There is no internet connection, please connect to the internet and try again.</value>
-    <comment>Status message for no network login result</comment>
-  </data>
-  <data name="StatusLoginFails" xml:space="preserve">
-    <value>Something went wrong during the login, please try again.</value>
-    <comment>Status message for login fails result</comment>
-  </data>
-  <data name="Settings_User.Text" xml:space="preserve">
-    <value>User</value>
-    <comment>Settings section title for User</comment>
-  </data>
-  <data name="Settings_LogOut.Content" xml:space="preserve">
-    <value>Log out</value>
-    <comment>Settings LogOut user content</comment>
-  </data>
-  <data name="Settings_UpdateStations.Content" xml:space="preserve">
-    <value>Update stations</value>
-  </data>
-  <data name="Settings_RadioListSettings.Text" xml:space="preserve">
-    <value>Radio list settings</value>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>NRadio</value>
+    <comment>Application display name</comment>
   </data>
   <data name="Browse_All_Radio_Button.Content" xml:space="preserve">
     <value>All Radio</value>
@@ -277,6 +159,34 @@
   <data name="Browse_Trending_Button.Content" xml:space="preserve">
     <value>Trending</value>
   </data>
+  <data name="FirstRunDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Ok</value>
+    <comment>First use prompt message primary button text</comment>
+  </data>
+  <data name="FirstRunDialog.Title" xml:space="preserve">
+    <value>Welcome</value>
+    <comment>First use prompt message title</comment>
+  </data>
+  <data name="FirstRun_Body.Text" xml:space="preserve">
+    <value>Thanks for downloading NRadio!</value>
+    <comment>First use prompt message body</comment>
+  </data>
+  <data name="ListDetails.ListHeader" xml:space="preserve">
+    <value>ListDetails</value>
+    <comment>Title for ListDetailsPage</comment>
+  </data>
+  <data name="ListDetails_NoSelection.Text" xml:space="preserve">
+    <value>Select an item from the list.</value>
+    <comment>No selection text for ListDetails</comment>
+  </data>
+  <data name="LogInButton.Content" xml:space="preserve">
+    <value>Click to log in</value>
+    <comment>LogIn Button content in LogIn page</comment>
+  </data>
+  <data name="LogInPageTitle.Text" xml:space="preserve">
+    <value>LogIn</value>
+    <comment>Title for LogIn page</comment>
+  </data>
   <data name="Premium_ErrorBuy.CloseButtonText" xml:space="preserve">
     <value>Ok</value>
   </data>
@@ -305,6 +215,81 @@
   <data name="Premium_SucefullBuy.Title" xml:space="preserve">
     <value />
   </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>About this application</value>
+    <comment>About this application title for Settings</comment>
+  </data>
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
+    <value>Settings page placeholder text.  Your app description goes here.</value>
+    <comment>About this application description for Settings</comment>
+  </data>
+  <data name="Settings_LogOut.Content" xml:space="preserve">
+    <value>Log out</value>
+    <comment>Settings LogOut user content</comment>
+  </data>
+  <data name="Settings_Personalization.Text" xml:space="preserve">
+    <value>Personalization</value>
+    <comment>Personalization text for Settings</comment>
+  </data>
+  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>Privacy Statement</value>
+    <comment>Privacy Statement link content for Settings</comment>
+  </data>
+  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://YourPrivacyUrlGoesHere/</value>
+    <comment>Here is your Privacy Statement url for Settings</comment>
+  </data>
+  <data name="Settings_RadioListSettings.Text" xml:space="preserve">
+    <value>Radio list settings</value>
+  </data>
+  <data name="Settings_Theme.Text" xml:space="preserve">
+    <value>Choose Theme</value>
+    <comment>Choose theme text for Settings</comment>
+  </data>
+  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
+    <value>Dark</value>
+    <comment>Dark theme text for Settings</comment>
+  </data>
+  <data name="Settings_Theme_Default.Content" xml:space="preserve">
+    <value>Windows default</value>
+    <comment>Windows default theme text for Settings</comment>
+  </data>
+  <data name="Settings_Theme_Light.Content" xml:space="preserve">
+    <value>Light</value>
+    <comment>Light theme text for Settings</comment>
+  </data>
+  <data name="Settings_UpdateStations.Content" xml:space="preserve">
+    <value>Update stations</value>
+  </data>
+  <data name="Settings_User.Text" xml:space="preserve">
+    <value>User</value>
+    <comment>Settings section title for User</comment>
+  </data>
+  <data name="Setting_Language_Button.Content" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Shell_Browse.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Shell_Main.Content" xml:space="preserve">
+    <value>Головна</value>
+    <comment>Navigation view item name for Main</comment>
+  </data>
+  <data name="Shell_Player.Content" xml:space="preserve">
+    <value>Плеєр</value>
+    <comment>Navigation view item name for Player</comment>
+  </data>
+  <data name="Shell_Search.Content" xml:space="preserve">
+    <value>Пошук</value>
+  </data>
+  <data name="Shell_UserInfoButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>User info</value>
+    <comment>Shell UserInfo button automation name property</comment>
+  </data>
+  <data name="Shell_UserInfoButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>User info</value>
+    <comment>Shell UserInfo button tooltip property</comment>
+  </data>
   <data name="StationDetail_Bitrate.Text" xml:space="preserve">
     <value>Bitrate</value>
   </data>
@@ -317,16 +302,28 @@
   <data name="StationDetail_Language.Text" xml:space="preserve">
     <value>Language</value>
   </data>
-  <data name="Setting_Language_Button.Content" xml:space="preserve">
-    <value>Language</value>
+  <data name="StatusLoginFails" xml:space="preserve">
+    <value>Something went wrong during the login, please try again.</value>
+    <comment>Status message for login fails result</comment>
   </data>
-  <data name="Shell_Browse.Content" xml:space="preserve">
-    <value>Browse</value>
+  <data name="StatusNoNetworkAvailable" xml:space="preserve">
+    <value>There is no internet connection, please connect to the internet and try again.</value>
+    <comment>Status message for no network login result</comment>
   </data>
-  <data name="Shell_Search.Content" xml:space="preserve">
-    <value>Search</value>
+  <data name="StatusUnauthorized" xml:space="preserve">
+    <value>User is unauthorized</value>
+    <comment>Status message for unauthorized login result</comment>
   </data>
-  <data name="Browse_Favorites_Button.Content" xml:space="preserve">
-    <value>Favorites</value>
+  <data name="TreeViewTitle.Text" xml:space="preserve">
+    <value>TreeView</value>
+    <comment>Title for TreeViewPage</comment>
+  </data>
+  <data name="TreeView_CollapseAllButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Collapse all</value>
+    <comment>Automation Name for Collapse all button in TreeViewPages</comment>
+  </data>
+  <data name="TreeView_CollapseAllButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Collapse all</value>
+    <comment>Tooltip for Collapse all button in TreeViewPages</comment>
   </data>
 </root>

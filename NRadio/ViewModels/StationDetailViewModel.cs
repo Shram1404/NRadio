@@ -16,7 +16,8 @@ namespace NRadio.ViewModels
 {
     public class StationDetailViewModel : ObservableObject
     {
-        public ICommand OpenPlayerCommand => new RelayCommand(OnOpenPlayerAsync);
+        public ICommand OpenPlayerCommand => new RelayCommand(OnOpenPlayer);
+        public ICommand ChangeFavoriteStateCommand => new RelayCommand(OnChangeFavoriteState);
 
         private RadioStation _item;
         public RadioStation Item
@@ -39,21 +40,34 @@ namespace NRadio.ViewModels
             set { SetProperty(ref _currentSongIndex, value); }
         }
 
+        private string _favoriteGlyph;
+        public string FavoriteGlyph
+        {
+            get { return _favoriteGlyph; }
+            set { SetProperty(ref _favoriteGlyph, value); }
+        }
+
         public StationDetailViewModel()
         {
-            System.Diagnostics.Debug.WriteLine("ContentGridDetailViewModel created");
+            System.Diagnostics.Debug.WriteLine("StationDetailViewModel created");
         }
 
         public void Initialize(string name)
         {
-            var data = RadioStationsContainer.AllStations;
+            var data = RadioStationsContainer.AllStations; // TODO: change to current playlist
             Item = data.FirstOrDefault(i => i.Name == name);
+            FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(Item) ? "\xE735" : "\xE734";
         }
 
-        public async void OnOpenPlayerAsync()
+        private void OnOpenPlayer()
         {
             ((App)Application.Current).ViewModelLocator.PlayerVM.Initialize(Source, CurrentSongIndex);
             NavigationService.Navigate<PlayerPage>();
+        }
+        private async void OnChangeFavoriteState()
+        {
+            await RadioStationsLoader.ChangeIsFavoriteAsync(Item);
+            FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(Item) ? "\xE735" : "\xE734";
         }
     }
 }

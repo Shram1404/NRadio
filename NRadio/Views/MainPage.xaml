@@ -6,8 +6,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:b="using:NRadio.Behaviors"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:helper="using:NRadio.Helpers"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
+    
+    <Page.Resources>
+        <helper:ItemClickEventArgsConverter x:Key="Converter"/>
+    </Page.Resources>
+    
     <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
         <Grid
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
@@ -26,11 +33,21 @@
                     <Button Content="Right" Command="{x:Bind ViewModel.ScrollRightRecentCommand}"/>
                 </StackPanel>
 
-                <ListView Grid.Row="1" ItemsSource="{x:Bind ViewModel.Recent}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled">
+                <ListView Grid.Row="1"
+                          ItemsSource="{x:Bind ViewModel.Recent}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
+                          IsItemClickEnabled="True">
                     <Interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="ItemClick">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemClickCommand}">
+                                <core:InvokeCommandAction.InputConverter>
+                                    <StaticResource ResourceKey="Converter" />
+                                </core:InvokeCommandAction.InputConverter>
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
                         <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.RecentHorizontalOffset, Mode=TwoWay}"/>
                     </Interactivity:Interaction.Behaviors>
-
+                    
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -57,9 +74,19 @@
                     <Button Content="Right" Command="{x:Bind ViewModel.ScrollRightFavoriteCommand}"/>
                 </StackPanel>
 
-                <ListView Grid.Row="3" ItemsSource="{x:Bind ViewModel.Favorite}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled">
+                <ListView Grid.Row="3"
+                          ItemsSource="{x:Bind ViewModel.Favorite}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
+                          IsItemClickEnabled="True">
                     <Interactivity:Interaction.Behaviors>
-                        <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.FavoriteHorizontalOffset, Mode=TwoWay}"/>
+                        <core:EventTriggerBehavior EventName="ItemClick">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemClickCommand}">
+                                <core:InvokeCommandAction.InputConverter>
+                                    <StaticResource ResourceKey="Converter" />
+                                </core:InvokeCommandAction.InputConverter>
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                        <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.RecentHorizontalOffset, Mode=TwoWay}"/>
                     </Interactivity:Interaction.Behaviors>
 
                     <ListView.ItemsPanel>
@@ -88,9 +115,20 @@
                     <Button Content="Right" Command="{x:Bind ViewModel.ScrollRightLocalCommand}"/>
                 </StackPanel>
 
-                <ListView Grid.Row="5" ItemsSource="{x:Bind ViewModel.Local}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled">
+                <ListView Grid.Row="5"
+                          ItemsSource="{x:Bind ViewModel.Local}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollMode="Enabled"
+                          IsItemClickEnabled="True">
                     <Interactivity:Interaction.Behaviors>
-                        <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.LocalHorizontalOffset, Mode=TwoWay}"/>
+                        <core:EventTriggerBehavior EventName="ItemClick">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemClickCommand}">
+                                <core:InvokeCommandAction.InputConverter>
+                                    <StaticResource ResourceKey="Converter" />
+                                </core:InvokeCommandAction.InputConverter>
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                        <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.RecentHorizontalOffset, Mode=TwoWay}"/>
                     </Interactivity:Interaction.Behaviors>
 
                     <ListView.ItemsPanel>

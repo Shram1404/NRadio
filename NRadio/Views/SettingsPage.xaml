@@ -95,6 +95,16 @@
                 <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
 
                 <Button x:Uid="Buy_Premium" Content="Buy Premium" Command="{x:Bind ViewModel.BuyPremiumCommand}" />
+
+                <DropDownButton x:Uid="Setting_Language_Button">
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem Text="English" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="en-US"/>
+                            <MenuFlyoutItem Text="Ukrainian" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="uk-UA"/>
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+                
             </StackPanel>
         </StackPanel>
     </Grid>    

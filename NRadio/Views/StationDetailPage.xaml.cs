@@ -18,6 +18,7 @@ namespace NRadio.Views
         public StationDetailPage()
         {
             InitializeComponent();
+            DataContext = ViewModel;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
