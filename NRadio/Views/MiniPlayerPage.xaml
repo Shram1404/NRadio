@@ -6,14 +6,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media">
 
-    <Grid>
+    <Grid Height="56">
         <Grid.Background>
             <ImageBrush ImageSource="{Binding StationImageUrl}" Stretch="UniformToFill"/>
         </Grid.Background>
+        <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
+            <Border.Background>
+                <media:BackdropBlurBrush Amount="20" />
+            </Border.Background>
+        </Border>
+        <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
+            <Border.Background>
+                <SolidColorBrush Color="#000000" Opacity="0.5" />
+            </Border.Background>
+        </Border>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Foreground="White" Text="{Binding StationName}" VerticalAlignment="Center" Margin="10,0,10,0" />
+            <TextBlock Foreground="White" Text="{Binding StationName}" VerticalAlignment="Center" Margin="0,0,10,0" />
         </StackPanel>
     </Grid>
 </Page>

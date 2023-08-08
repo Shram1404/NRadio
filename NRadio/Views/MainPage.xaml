@@ -15,7 +15,7 @@
         <helper:ItemClickEventArgsConverter x:Key="Converter"/>
     </Page.Resources>
     
-    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+    <Grid x:Name="ContentArea">
         <Grid
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
             <Grid>

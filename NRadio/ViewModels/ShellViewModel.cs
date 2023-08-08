@@ -61,6 +61,13 @@ namespace NRadio.ViewModels
             set { SetProperty(ref _user, value); }
         }
 
+        private UserControl _miniPlayer;
+        public UserControl MiniPlayer
+        {
+            get { return _miniPlayer; }
+            set { SetProperty(ref _miniPlayer, value); }
+        }
+
         public ShellViewModel()
         {
             Debug.WriteLine("ShellVM created");
@@ -70,6 +77,8 @@ namespace NRadio.ViewModels
         {
             _navigationView = navigationView;
             _keyboardAccelerators = keyboardAccelerators;
+            
+            MiniPlayer = new MiniPlayerPage();
             NavigationService.Frame = frame;
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;

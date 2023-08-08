@@ -92,12 +92,6 @@ namespace NRadio.ViewModels
             }
         }
 
-        private BitmapImage _blurredImage;
-        public BitmapImage BlurredImage
-        {
-            get => _blurredImage;
-            set => SetProperty(ref _blurredImage, value);
-        }
 
         public Slider VolumeSlider { get; set; }
 
@@ -119,7 +113,6 @@ namespace NRadio.ViewModels
             UpdateAudioListCommand = new RelayCommand(UpdateAudioList);
             ChangeFavoriteStateCommand = new RelayCommand(ChangeFavoriteState);
 
-            BlurredImage = ImageFilterService.BlurImageAsync(_radioStations[_currentSongIndex].Favicon).Result;
             RadioStation Item = _radioStations[_currentSongIndex];
             FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(Item) ? "\xE735" : "\xE734";
 

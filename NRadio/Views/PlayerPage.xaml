@@ -5,17 +5,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
-    mc:Ignorable="d">
-    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+    mc:Ignorable="d"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media">
+
+    <Grid x:Name="ContentArea">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="91*"/>
             <ColumnDefinition Width="272*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.ColumnSpan="2">
             <Grid.Background>
-                <ImageBrush ImageSource="{Binding BlurredImage}" Stretch="UniformToFill" ></ImageBrush>
+                <ImageBrush ImageSource="{Binding StationImageUrl}" Stretch="UniformToFill" >
+                </ImageBrush>
             </Grid.Background>
-
+    
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="8*"/>
                 <RowDefinition Height="Auto"/>
@@ -26,6 +30,17 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+
+            <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
+                <Border.Background>
+                    <media:BackdropBlurBrush Amount="20" />
+                </Border.Background>
+            </Border>
+            <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
+                <Border.Background>
+                    <SolidColorBrush Color="#000000" Opacity="0.5" />
+                </Border.Background>
+            </Border>
 
             <Button Grid.Row="0" Grid.Column="2"
                     Height="48" Width="48"

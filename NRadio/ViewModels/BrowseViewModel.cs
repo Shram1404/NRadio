@@ -51,7 +51,7 @@ namespace NRadio.ViewModels
             else if (sortBy == "News") Stations = new ObservableCollection<RadioStation>(_allStations.Where(s => s.Tags.Contains("news")));
             else if (sortBy == "Premium")
             {
-                if (false) // TODO: Check if premium
+                if (true) // TODO: Check if premium
                 {
                     Stations = new ObservableCollection<RadioStation>(RadioStationsContainer.PremiumStations);
                 }

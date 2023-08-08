@@ -10,6 +10,7 @@
     xmlns:views="using:NRadio.Views"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+
     mc:Ignorable="d">
 
     <i:Interaction.Behaviors>
@@ -19,50 +20,30 @@
     </i:Interaction.Behaviors>
 
     <winui:NavigationView
-        x:Name="navigationView"
-        IsBackButtonVisible="Visible"
-        IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
-        SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
-        IsSettingsVisible="True"
-        ExpandedModeThresholdWidth="1280"
-        Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
-        <winui:NavigationView.MenuItems>
-            <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Document" helpers:NavHelper.NavigateTo="views:MainPage" />
-            <winui:NavigationViewItem x:Uid="Shell_Browse" Icon="Document" helpers:NavHelper.NavigateTo="views:BrowsePage" />
-            <winui:NavigationViewItem x:Uid="Shell_Search" Icon="Document" helpers:NavHelper.NavigateTo="views:SearchPage" />
-            <winui:NavigationViewItem x:Uid="Shell_Player" Icon="Document" helpers:NavHelper.NavigateTo="views:PlayerPage" />
-        </winui:NavigationView.MenuItems>
-        
+    x:Name="navigationView"
+    IsBackButtonVisible="Visible"
+    IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
+    SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
+    IsSettingsVisible="True"
+    ExpandedModeThresholdWidth="1280"
+    Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+    <winui:NavigationView.MenuItems>
+        <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Document" helpers:NavHelper.NavigateTo="views:MainPage" />
+        <winui:NavigationViewItem x:Uid="Shell_Browse" Icon="Document" helpers:NavHelper.NavigateTo="views:BrowsePage" />
+        <winui:NavigationViewItem x:Uid="Shell_Search" Icon="Document" helpers:NavHelper.NavigateTo="views:SearchPage" />
+        <winui:NavigationViewItem x:Uid="Shell_Player" Icon="Document" helpers:NavHelper.NavigateTo="views:PlayerPage" />
+    </winui:NavigationView.MenuItems>
+        <winui:NavigationView.PaneFooter>
+            <StackPanel>
+                <views:MiniPlayerPage  />
+            </StackPanel>
+        </winui:NavigationView.PaneFooter>
+
         <i:Interaction.Behaviors>
-            <behaviors:NavigationViewHeaderBehavior
-                DefaultHeader="{x:Bind ViewModel.Selected.Content, Mode=OneWay}">
-                <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <TextBlock
-                                Text="{Binding}"
-                                Style="{ThemeResource TitleTextBlockStyle}"
-                                Margin="{StaticResource SmallLeftRightMargin}" />
-                        </Grid>
-                    </DataTemplate>
-                </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
-            </behaviors:NavigationViewHeaderBehavior>
             <ic:EventTriggerBehavior EventName="ItemInvoked">
                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
             </ic:EventTriggerBehavior>
         </i:Interaction.Behaviors>
-        <!--<winui:NavigationView.PaneFooter>
-            <Button x:Uid="Shell_MiniPlayerButton"
-                    Padding="0" Margin="0"
-                    VerticalAlignment="Bottom" 
-                    Command="{Binding PlayerViewCommand}"
-                    Visibility="{Binding IsPlayerCreated}">
-                        <UserControl x:Name="MiniPlayerControl" 
-                                     Grid.Row="1" 
-                                     VerticalAlignment="Bottom" 
-                                     Content="{Binding MiniPlayerView}"/>
-            </Button>
-        </winui:NavigationView.PaneFooter>-->
         <Grid>
             <Frame x:Name="shellFrame" />
         </Grid>
