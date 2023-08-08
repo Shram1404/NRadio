@@ -19,7 +19,6 @@
 
     <Grid x:Name="ContentArea">
         <ListView
-            Padding="{StaticResource MediumLeftRightMargin}"
             IsItemClickEnabled="True"
             ItemsSource="{x:Bind ViewModel.Source,Mode=OneWay}"
             SelectionMode="None">

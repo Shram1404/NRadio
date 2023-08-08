@@ -41,7 +41,7 @@ namespace NRadio
             IdentityService.LoggedOut += OnLoggedOut;
 
             RegisterServices();
-            InitializeLicense();
+            //InitializeLicense();
 
         }
 

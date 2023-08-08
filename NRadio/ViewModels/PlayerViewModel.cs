@@ -92,7 +92,6 @@ namespace NRadio.ViewModels
             }
         }
 
-
         public Slider VolumeSlider { get; set; }
 
         public PlayerViewModel()

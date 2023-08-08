@@ -31,11 +31,17 @@
         <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Document" helpers:NavHelper.NavigateTo="views:MainPage" />
         <winui:NavigationViewItem x:Uid="Shell_Browse" Icon="Document" helpers:NavHelper.NavigateTo="views:BrowsePage" />
         <winui:NavigationViewItem x:Uid="Shell_Search" Icon="Document" helpers:NavHelper.NavigateTo="views:SearchPage" />
-        <winui:NavigationViewItem x:Uid="Shell_Player" Icon="Document" helpers:NavHelper.NavigateTo="views:PlayerPage" />
-    </winui:NavigationView.MenuItems>
+        </winui:NavigationView.MenuItems>
         <winui:NavigationView.PaneFooter>
             <StackPanel>
-                <views:MiniPlayerPage  />
+                <views:MiniPlayerPage>
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="Tapped">
+                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToPlayerCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </views:MiniPlayerPage>
+
             </StackPanel>
         </winui:NavigationView.PaneFooter>
 

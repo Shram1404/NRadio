@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Xaml.Interactions.Core;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Helpers;
@@ -31,6 +32,7 @@ namespace NRadio.ViewModels
         private ICommand _loadedCommand;
         private ICommand _itemInvokedCommand;
         private ICommand _userProfileCommand;
+        private ICommand _playerCommand;
         private UserViewModel _user;
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
@@ -68,6 +70,9 @@ namespace NRadio.ViewModels
             set { SetProperty(ref _miniPlayer, value); }
         }
 
+        
+        public ICommand NavigateToPlayerCommand => _playerCommand ?? (_playerCommand = new RelayCommand(OnNavigateToPlayer));
+
         public ShellViewModel()
         {
             Debug.WriteLine("ShellVM created");
@@ -77,8 +82,6 @@ namespace NRadio.ViewModels
         {
             _navigationView = navigationView;
             _keyboardAccelerators = keyboardAccelerators;
-            
-            MiniPlayer = new MiniPlayerPage();
             NavigationService.Frame = frame;
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
@@ -200,6 +203,11 @@ namespace NRadio.ViewModels
         {
             var result = NavigationService.GoBack();
             args.Handled = result;
+        }
+
+        private void OnNavigateToPlayer()
+        {
+            NavigationService.Navigate<PlayerPage>();
         }
     }
 }

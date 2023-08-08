@@ -15,7 +15,7 @@
         </Grid.Background>
         <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
             <Border.Background>
-                <media:BackdropBlurBrush Amount="20" />
+                <media:BackdropBlurBrush Amount="2" />
             </Border.Background>
         </Border>
         <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
