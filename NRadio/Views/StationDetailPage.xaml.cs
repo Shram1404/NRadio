@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.Toolkit.Uwp.UI.Animations;
+﻿using Microsoft.Toolkit.Uwp.UI.Animations;
 
 using NRadio.Services;
 using NRadio.ViewModels;

@@ -3,25 +3,73 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="using:NRadio.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <helper:StringToEnumConverter x:Key="StringToEnumConverter" EnumType="{x:Bind ViewModel.EnumType}" />
+    </Page.Resources>
+
     <Grid>
         <ScrollViewer>
             <StackPanel Orientation="Vertical" >
-                <Button x:Uid="Browse_Premium_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Premium"></Button>
-                <Button x:Uid="Browse_All_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="All"></Button>
-                <Button x:Uid="Browse_Local_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Local"></Button>
-                <Button x:Uid="Browse_Recent_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Recents"></Button>
-                <Button x:Uid="Browse_Favorites_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Favorites"></Button>
-                <Button x:Uid="Browse_Trending_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Trending"></Button>
-                <Button x:Uid="Browse_Music_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Music"></Button>
-                <Button x:Uid="Browse_Sports_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Sports"></Button>
-                <Button x:Uid="Browse_NewsAndTalk_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="News"></Button>
-                <Button x:Uid="Browse_Podcasts_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="Podcasts"></Button>
-                <Button x:Uid="Browse_ByLocation_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="By Location"></Button>
-                <Button x:Uid="Browse_ByLanguage_Radio_Button" HorizontalAlignment="Stretch" Height="100" Command="{x:Bind ViewModel.GoToCommand}" CommandParameter="By Language"></Button>
+                <Button x:Uid="Browse_Premium_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Premium}"/>
+                <Button x:Uid="Browse_Local_Radio_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Local}"/>
+                <Button x:Uid="Browse_Recent_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Recent}"/>
+                <Button x:Uid="Browse_Favorites_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Favorites}"/>
+                <Button x:Uid="Browse_Trending_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Trending}"/>
+                <Button x:Uid="Browse_Music_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Music}"/>
+                <Button x:Uid="Browse_Sports_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Sports}"/>
+                <Button x:Uid="Browse_NewsAndTalk_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=NewsAndTalk}"/>
+                <Button x:Uid="Browse_Podcasts_Radio_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Podcasts}"/>
+                <Button x:Uid="Browse_ByLocation_Radio_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Location}"/>
+                <Button x:Uid="Browse_ByLanguage_Radio_Button"
+                        HorizontalAlignment="Stretch"
+                        Height="100"
+                        Command="{x:Bind ViewModel.GoToCommand}"
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Language}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

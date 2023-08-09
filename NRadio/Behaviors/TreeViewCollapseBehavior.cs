@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Windows.Input;
-
-using Microsoft.Toolkit.Mvvm.Input;
+﻿using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Xaml.Interactivity;
-
+using System.Collections.Generic;
+using System.Windows.Input;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace NRadio.Behaviors

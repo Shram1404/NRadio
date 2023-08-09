@@ -1,13 +1,10 @@
-﻿using System;
+﻿using NRadio.Activation;
+using NRadio.Core.Helpers;
+using NRadio.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using NRadio.Activation;
-using NRadio.Core.Helpers;
-using NRadio.Core.Services;
-using NRadio.Services;
-
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,9 +15,9 @@ namespace NRadio.Services
     // https://github.com/microsoft/TemplateStudio/blob/main/docs/UWP/activation.md
     internal class ActivationService
     {
-        private readonly App _app;
-        private readonly Type _defaultNavItem;
-        private Lazy<UIElement> _shell;
+        private readonly App app;
+        private readonly Type defaultNavItem;
+        private Lazy<UIElement> shell;
 
         private object _lastActivationArgs;
 
@@ -30,9 +27,9 @@ namespace NRadio.Services
 
         public ActivationService(App app, Type defaultNavItem, Lazy<UIElement> shell = null)
         {
-            _app = app;
-            _shell = shell;
-            _defaultNavItem = defaultNavItem;
+            this.app = app;
+            this.shell = shell;
+            this.defaultNavItem = defaultNavItem;
             IdentityService.LoggedIn += OnLoggedIn;
         }
 
@@ -56,7 +53,7 @@ namespace NRadio.Services
                 if (Window.Current.Content == null)
                 {
                     // Create a Shell or Frame to act as the navigation context
-                    Window.Current.Content = _shell?.Value ?? new Frame();
+                    Window.Current.Content = shell?.Value ?? new Frame();
                 }
             }
 
@@ -87,9 +84,9 @@ namespace NRadio.Services
 
         private async void OnLoggedIn(object sender, EventArgs e)
         {
-            if (_shell?.Value != null)
+            if (shell?.Value != null)
             {
-                Window.Current.Content = _shell.Value;
+                Window.Current.Content = shell.Value;
             }
             else
             {
@@ -105,7 +102,6 @@ namespace NRadio.Services
 
         private async Task InitializeAsync()
         {
-            await Singleton<LiveTileService>.Instance.EnableQueueAsync().ConfigureAwait(false);
             await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync().ConfigureAwait(false);
             await LanguageSelectorService.InitializeAsync().ConfigureAwait(false);
             await ThemeSelectorService.InitializeAsync().ConfigureAwait(false);
@@ -123,7 +119,7 @@ namespace NRadio.Services
 
             if (IsInteractive(activationArgs))
             {
-                var defaultHandler = new DefaultActivationHandler(_defaultNavItem);
+                var defaultHandler = new DefaultActivationHandler(defaultNavItem);
                 if (defaultHandler.CanHandle(activationArgs))
                 {
                     await defaultHandler.HandleAsync(activationArgs);
@@ -136,13 +132,10 @@ namespace NRadio.Services
             await LanguageSelectorService.SetRequestedLanguageAsync();
             await ThemeSelectorService.SetRequestedThemeAsync();
             await FirstRunDisplayService.ShowIfAppropriateAsync();
-            Singleton<LiveTileService>.Instance.SampleUpdate();
         }
 
         private IEnumerable<ActivationHandler> GetActivationHandlers()
         {
-            yield return Singleton<LiveTileService>.Instance;
-            yield return Singleton<ToastNotificationsService>.Instance;
             yield return Singleton<BackgroundTaskService>.Instance;
             yield return Singleton<SuspendAndResumeService>.Instance;
             yield return Singleton<WebToAppLinkActivationHandler>.Instance;
@@ -165,7 +158,7 @@ namespace NRadio.Services
 
         public void SetShell(Lazy<UIElement> shell)
         {
-            _shell = shell;
+            this.shell = shell;
         }
     }
 }

@@ -7,7 +7,6 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Store;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
 
@@ -19,15 +18,15 @@ namespace NRadio
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
 
-        private Lazy<ActivationService> _activationService;
+        private Lazy<ActivationService> activationService;
 
         private ActivationService ActivationService
         {
-            get { return _activationService.Value; }
+            get { return activationService.Value; }
         }
 
-        private ServiceProvider _serviceProvider;
-        public ViewModelLocator ViewModelLocator => _serviceProvider.GetService<ViewModelLocator>();
+        private ServiceProvider serviceProvider;
+        public ViewModelLocator ViewModelLocator => serviceProvider.GetService<ViewModelLocator>();
 
         public App()
         {
@@ -37,27 +36,27 @@ namespace NRadio
             Resuming += App_Resuming;
             UnhandledException += OnAppUnhandledException;
 
-            _activationService = new Lazy<ActivationService>(CreateActivationService);
+            activationService = new Lazy<ActivationService>(CreateActivationService);
             IdentityService.LoggedOut += OnLoggedOut;
 
             RegisterServices();
-            //InitializeLicense();
+            //InitializeLicense(); // TODO: Uncomment
 
         }
 
         private async Task InitializeLicense()
         {
-            if(context == null)
+            if (context == null)
             {
                 context = StoreContext.GetDefault();
             }
             StoreProductResult result = await context.GetStoreProductForCurrentAppAsync();
-            if(result.ExtendedError == null)
+            if (result.ExtendedError == null)
             {
                 StoreProduct product = result.Product;
             }
         }
-        
+
         private void RegisterServices()
         {
             IServiceCollection services = new ServiceCollection();
@@ -70,7 +69,7 @@ namespace NRadio
             services.AddSingleton<StationDetailViewModel>();
             services.AddSingleton<StationsListViewModel>();
 
-            _serviceProvider = services.BuildServiceProvider();
+            serviceProvider = services.BuildServiceProvider();
         }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)

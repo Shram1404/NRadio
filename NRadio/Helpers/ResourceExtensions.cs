@@ -1,17 +1,14 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-using Windows.ApplicationModel.Resources;
+﻿using Windows.ApplicationModel.Resources;
 
 namespace NRadio.Helpers
 {
     internal static class ResourceExtensions
     {
-        private static ResourceLoader _resLoader = new ResourceLoader();
+        private static ResourceLoader resLoader = new ResourceLoader();
 
         public static string GetLocalized(this string resourceKey)
         {
-            return _resLoader.GetString(resourceKey);
+            return resLoader.GetString(resourceKey);
         }
     }
 }

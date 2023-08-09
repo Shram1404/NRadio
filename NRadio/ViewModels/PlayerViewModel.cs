@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
+using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace NRadio.ViewModels
 {
@@ -179,7 +177,7 @@ namespace NRadio.ViewModels
         {
             if (Volume == 0)
                 PlayerService.SetVolume(0);
-            else if (Volume == 100)
+            else if (Volume == 100) // TODO: Change to max volume and min volume constants
                 PlayerService.SetVolume(1);
             else
                 PlayerService.SetVolume(Volume / 100);
@@ -213,7 +211,7 @@ namespace NRadio.ViewModels
 
         private async void ChangeFavoriteState()
         {
-            if(_radioStations.Count == 0)
+            if (_radioStations.Count == 0)
             {
                 int LastStationIndex = RadioStationsContainer.RecentStations.Count - 1;
                 RadioStation LastStation = RadioStationsContainer.RecentStations[LastStationIndex];

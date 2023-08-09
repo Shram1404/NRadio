@@ -7,32 +7,32 @@ using Windows.UI.Xaml.Navigation;
 
 namespace NRadio.Services
 {
-    public static class NavigationService 
+    public static class NavigationService
     {
         public static event NavigatedEventHandler Navigated;
 
         public static event NavigationFailedEventHandler NavigationFailed;
 
-        private static Frame _frame;
-        private static object _lastParamUsed;
+        private static Frame frame;
+        private static object lastParamUsed;
 
         public static Frame Frame
         {
             get
             {
-                if (_frame == null)
+                if (frame == null)
                 {
-                    _frame = Window.Current.Content as Frame;
+                    frame = Window.Current.Content as Frame;
                     RegisterFrameEvents();
                 }
 
-                return _frame;
+                return frame;
             }
 
             set
             {
                 UnregisterFrameEvents();
-                _frame = value;
+                frame = value;
                 RegisterFrameEvents();
             }
         }
@@ -62,12 +62,12 @@ namespace NRadio.Services
             }
 
             // Don't open the same page multiple times
-            if (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParamUsed)))
+            if (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(lastParamUsed)))
             {
                 var navigationResult = Frame.Navigate(pageType, parameter, infoOverride);
                 if (navigationResult)
                 {
-                    _lastParamUsed = parameter;
+                    lastParamUsed = parameter;
                 }
 
                 return navigationResult;
@@ -84,19 +84,19 @@ namespace NRadio.Services
 
         private static void RegisterFrameEvents()
         {
-            if (_frame != null)
+            if (frame != null)
             {
-                _frame.Navigated += Frame_Navigated;
-                _frame.NavigationFailed += Frame_NavigationFailed;
+                frame.Navigated += Frame_Navigated;
+                frame.NavigationFailed += Frame_NavigationFailed;
             }
         }
 
         private static void UnregisterFrameEvents()
         {
-            if (_frame != null)
+            if (frame != null)
             {
-                _frame.Navigated -= Frame_Navigated;
-                _frame.NavigationFailed -= Frame_NavigationFailed;
+                frame.Navigated -= Frame_Navigated;
+                frame.NavigationFailed -= Frame_NavigationFailed;
             }
         }
 

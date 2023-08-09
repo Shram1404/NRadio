@@ -32,7 +32,7 @@ namespace NRadio.Core.Services
             UnitedKingdom,
         }
 
-        private static StorageFolder _folder = ApplicationData.Current.LocalFolder;
+        private static StorageFolder folder = ApplicationData.Current.LocalFolder;
 
         public static ConfigService Cfg { get; private set; }
 
@@ -81,22 +81,22 @@ namespace NRadio.Core.Services
         }
 
         private static async Task SaveAllToFileAsync() =>
-            await _folder.SaveAsync(Cfg.RadioStationsFileName, RadioStationsContainer.AllStations);
+            await folder.SaveAsync(Cfg.RadioStationsFileName, RadioStationsContainer.AllStations);
         private static async Task SaveRecentToFileAsync() =>
-            await _folder.SaveAsync(Cfg.RecentStationsFileName, RadioStationsContainer.RecentStations);
+            await folder.SaveAsync(Cfg.RecentStationsFileName, RadioStationsContainer.RecentStations);
         private static async Task SaveFavoriteToFileAsync() =>
-            await _folder.SaveAsync(Cfg.FavoriteStationsFileName, RadioStationsContainer.FavoriteStations);
+            await folder.SaveAsync(Cfg.FavoriteStationsFileName, RadioStationsContainer.FavoriteStations);
         private static async Task SavePremiumToFileAsync() =>
-            await _folder.SaveAsync(Cfg.PremiumStationsFileName, RadioStationsContainer.PremiumStations);
+            await folder.SaveAsync(Cfg.PremiumStationsFileName, RadioStationsContainer.PremiumStations);
 
         private static async Task<ObservableCollection<RadioStation>> LoadAllFromFileAsync() =>
-     await _folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.RadioStationsFileName);
+     await folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.RadioStationsFileName);
         private static async Task<ObservableCollection<RadioStation>> LoadRecentFromFileAsync() =>
-            await _folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.RecentStationsFileName);
+            await folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.RecentStationsFileName);
         private static async Task<ObservableCollection<RadioStation>> LoadFavoriteFromFileAsync() =>
-            await _folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.FavoriteStationsFileName);
+            await folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.FavoriteStationsFileName);
         private static async Task<ObservableCollection<RadioStation>> LoadPremiumFromFileAsync() =>
-            await _folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.PremiumStationsFileName);
+            await folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.PremiumStationsFileName);
 
 
         private static async Task SaveFilteredStationsFromApiToContainerAsync(Filter options) =>

@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Microsoft.Identity.Client;
+using NRadio.Core.Helpers;
+using System;
 using System.Configuration;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-
-using Microsoft.Identity.Client;
-
-using NRadio.Core.Helpers;
 
 namespace NRadio.Core.Services
 {
@@ -21,15 +19,15 @@ namespace NRadio.Core.Services
 
         // TODO: Please create a ClientID following these steps and update the app.config IdentityClientId.
         // https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-        private readonly string _clientId = ConfigurationManager.AppSettings["IdentityClientId"];
+        private readonly string clientId = ConfigurationManager.AppSettings["IdentityClientId"];
 
-        private readonly string _redirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
+        private readonly string redirectUri = "https://login.microsoftonline.com/common/oauth2/nativeclient";
 
-        private readonly string[] _graphScopes = new string[] { "user.read" };
+        private readonly string[] graphScopes = new string[] { "user.read" };
 
-        private bool _integratedAuthAvailable;
-        private IPublicClientApplication _client;
-        private AuthenticationResult _authenticationResult;
+        private bool integratedAuthAvailable;
+        private IPublicClientApplication client;
+        private AuthenticationResult authenticationResult;
 
         public event EventHandler LoggedIn;
 
@@ -37,41 +35,41 @@ namespace NRadio.Core.Services
 
         public void InitializeWithAadAndPersonalMsAccounts()
         {
-            _integratedAuthAvailable = false;
-            _client = PublicClientApplicationBuilder.Create(_clientId)
+            integratedAuthAvailable = false;
+            client = PublicClientApplicationBuilder.Create(clientId)
                                                     .WithAuthority(AadAuthorityAudience.AzureAdAndPersonalMicrosoftAccount)
-                                                    .WithRedirectUri(_redirectUri)
+                                                    .WithRedirectUri(redirectUri)
                                                     .Build();
         }
 
         public void InitializeWithPersonalMsAccount()
         {
-            _integratedAuthAvailable = false;
-            _client = PublicClientApplicationBuilder.Create(_clientId)
+            integratedAuthAvailable = false;
+            client = PublicClientApplicationBuilder.Create(clientId)
                                                     .WithAuthority(AadAuthorityAudience.PersonalMicrosoftAccount)
-                                                    .WithRedirectUri(_redirectUri)
+                                                    .WithRedirectUri(redirectUri)
                                                     .Build();
         }
 
         public void InitializeWithAadMultipleOrgs(bool integratedAuth = false)
         {
-            _integratedAuthAvailable = integratedAuth;
-            _client = PublicClientApplicationBuilder.Create(_clientId)
+            integratedAuthAvailable = integratedAuth;
+            client = PublicClientApplicationBuilder.Create(clientId)
                                                     .WithAuthority(AadAuthorityAudience.AzureAdMultipleOrgs)
-                                                    .WithRedirectUri(_redirectUri)
+                                                    .WithRedirectUri(redirectUri)
                                                     .Build();
         }
 
         public void InitializeWithAadSingleOrg(string tenant, bool integratedAuth = false)
         {
-            _integratedAuthAvailable = integratedAuth;
-            _client = PublicClientApplicationBuilder.Create(_clientId)
+            integratedAuthAvailable = integratedAuth;
+            client = PublicClientApplicationBuilder.Create(clientId)
                                                     .WithAuthority(AzureCloudInstance.AzurePublic, tenant)
-                                                    .WithRedirectUri(_redirectUri)
+                                                    .WithRedirectUri(redirectUri)
                                                     .Build();
         }
 
-        public bool IsLoggedIn() => _authenticationResult != null;
+        public bool IsLoggedIn() => authenticationResult != null;
 
         public async Task<LoginResultType> LoginAsync()
         {
@@ -82,13 +80,13 @@ namespace NRadio.Core.Services
 
             try
             {
-                var accounts = await _client.GetAccountsAsync();
-                _authenticationResult = await _client.AcquireTokenInteractive(_graphScopes)
+                var accounts = await client.GetAccountsAsync();
+                authenticationResult = await client.AcquireTokenInteractive(graphScopes)
                                                      .WithAccount(accounts.FirstOrDefault())
                                                      .ExecuteAsync();
                 if (!IsAuthorized())
                 {
-                    _authenticationResult = null;
+                    authenticationResult = null;
                     return LoginResultType.Unauthorized;
                 }
 
@@ -119,21 +117,21 @@ namespace NRadio.Core.Services
 
         public string GetAccountUserName()
         {
-            return _authenticationResult?.Account?.Username;
+            return authenticationResult?.Account?.Username;
         }
 
         public async Task LogoutAsync()
         {
             try
             {
-                var accounts = await _client.GetAccountsAsync();
+                var accounts = await client.GetAccountsAsync();
                 var account = accounts.FirstOrDefault();
                 if (account != null)
                 {
-                    await _client.RemoveAsync(account);
+                    await client.RemoveAsync(account);
                 }
 
-                _authenticationResult = null;
+                authenticationResult = null;
                 LoggedOut?.Invoke(this, EventArgs.Empty);
             }
             catch (MsalException)
@@ -144,37 +142,37 @@ namespace NRadio.Core.Services
             }
         }
 
-        public async Task<string> GetAccessTokenForGraphAsync() => await GetAccessTokenAsync(_graphScopes);
+        public async Task<string> GetAccessTokenForGraphAsync() => await GetAccessTokenAsync(graphScopes);
 
         public async Task<string> GetAccessTokenAsync(string[] scopes)
         {
             var acquireTokenSuccess = await AcquireTokenSilentAsync(scopes);
             if (acquireTokenSuccess)
             {
-                return _authenticationResult.AccessToken;
+                return authenticationResult.AccessToken;
             }
             else
             {
                 try
                 {
                     // Interactive authentication is required
-                    var accounts = await _client.GetAccountsAsync();
-                    _authenticationResult = await _client.AcquireTokenInteractive(scopes)
+                    var accounts = await client.GetAccountsAsync();
+                    authenticationResult = await client.AcquireTokenInteractive(scopes)
                                                          .WithAccount(accounts.FirstOrDefault())
                                                          .ExecuteAsync();
-                    return _authenticationResult.AccessToken;
+                    return authenticationResult.AccessToken;
                 }
                 catch (MsalException)
                 {
                     // AcquireTokenSilent and AcquireTokenInteractive failed, the session will be closed.
-                    _authenticationResult = null;
+                    authenticationResult = null;
                     LoggedOut?.Invoke(this, EventArgs.Empty);
                     return string.Empty;
                 }
             }
         }
 
-        public async Task<bool> AcquireTokenSilentAsync() => await AcquireTokenSilentAsync(_graphScopes);
+        public async Task<bool> AcquireTokenSilentAsync() => await AcquireTokenSilentAsync(graphScopes);
 
         private async Task<bool> AcquireTokenSilentAsync(string[] scopes)
         {
@@ -185,18 +183,18 @@ namespace NRadio.Core.Services
 
             try
             {
-                var accounts = await _client.GetAccountsAsync();
-                _authenticationResult = await _client.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
+                var accounts = await client.GetAccountsAsync();
+                authenticationResult = await client.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                                                      .ExecuteAsync();
                 return true;
             }
             catch (MsalUiRequiredException)
             {
-                if (_integratedAuthAvailable)
+                if (integratedAuthAvailable)
                 {
                     try
                     {
-                        _authenticationResult = await _client.AcquireTokenByIntegratedWindowsAuth(_graphScopes)
+                        authenticationResult = await client.AcquireTokenByIntegratedWindowsAuth(graphScopes)
                                                              .ExecuteAsync();
                         return true;
                     }

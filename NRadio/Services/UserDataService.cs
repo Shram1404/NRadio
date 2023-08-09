@@ -1,21 +1,19 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using NRadio.Core.Helpers;
+﻿using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.ViewModels;
-
+using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace NRadio.Services
 {
     public class UserDataService
     {
-        private const string _userSettingsKey = "IdentityUser";
+        private const string userSettingsKey = "IdentityUser";
 
-        private UserViewModel _user;
+        private UserViewModel user;
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
 
@@ -35,33 +33,33 @@ namespace NRadio.Services
 
         public async Task<UserViewModel> GetUserAsync()
         {
-            if (_user == null)
+            if (user == null)
             {
-                _user = await GetUserFromCacheAsync();
-                if (_user == null)
+                user = await GetUserFromCacheAsync();
+                if (user == null)
                 {
-                    _user = GetDefaultUserData();
+                    user = GetDefaultUserData();
                 }
             }
 
-            return _user;
+            return user;
         }
 
         private async void OnLoggedIn(object sender, EventArgs e)
         {
-            _user = await GetUserFromGraphApiAsync();
-            UserDataUpdated?.Invoke(this, _user);
+            user = await GetUserFromGraphApiAsync();
+            UserDataUpdated?.Invoke(this, user);
         }
 
         private async void OnLoggedOut(object sender, EventArgs e)
         {
-            _user = null;
-            await ApplicationData.Current.LocalFolder.SaveAsync<User>(_userSettingsKey, null);
+            user = null;
+            await ApplicationData.Current.LocalFolder.SaveAsync<User>(userSettingsKey, null);
         }
 
         private async Task<UserViewModel> GetUserFromCacheAsync()
         {
-            var cacheData = await ApplicationData.Current.LocalFolder.ReadAsync<User>(_userSettingsKey);
+            var cacheData = await ApplicationData.Current.LocalFolder.ReadAsync<User>(userSettingsKey);
             return await GetUserViewModelFromData(cacheData);
         }
 
@@ -77,7 +75,7 @@ namespace NRadio.Services
             if (userData != null)
             {
                 userData.Photo = await MicrosoftGraphService.GetUserPhoto(accessToken);
-                await ApplicationData.Current.LocalFolder.SaveAsync(_userSettingsKey, userData);
+                await ApplicationData.Current.LocalFolder.SaveAsync(userSettingsKey, userData);
             }
 
             return await GetUserViewModelFromData(userData);

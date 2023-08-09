@@ -1,6 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Xaml.Interactions.Core;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Helpers;
@@ -12,7 +11,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using Windows.System;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -70,7 +68,7 @@ namespace NRadio.ViewModels
             set { SetProperty(ref _miniPlayer, value); }
         }
 
-        
+
         public ICommand NavigateToPlayerCommand => _playerCommand ?? (_playerCommand = new RelayCommand(OnNavigateToPlayer));
 
         public ShellViewModel()

@@ -1,19 +1,15 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
-using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection.Metadata;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.Resources;
-using Windows.ApplicationModel.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -21,65 +17,92 @@ namespace NRadio.ViewModels
 {
     public class BrowseViewModel : ObservableObject
     {
-        public ICommand GoToCommand { get; private set; }
-
-        private readonly ObservableCollection<RadioStation> _allStations = RadioStationsContainer.AllStations;
-
-        private ObservableCollection<RadioStation> _stations;
-        public ObservableCollection<RadioStation> Stations
-        {
-            get => _stations;
-            private set => SetProperty(ref _stations, value);
-        }
+        private readonly ObservableCollection<RadioStation> allStations = RadioStationsContainer.AllStations;
+        private ObservableCollection<RadioStation> stations;
 
         public BrowseViewModel()
         {
-            GoToCommand = new RelayCommand<string>(GoToPage);
+            GoToCommand = new AsyncRelayCommand<BrowseBy>(GoToSortedListPage);
         }
 
+        public ICommand GoToCommand { get; private set; }
+        public Type EnumType { get => typeof(BrowseBy); }
         public string Name { get; set; }
 
-        private async void GoToPage(string sortBy)
+        public ObservableCollection<RadioStation> Stations
         {
-            System.Diagnostics.Debug.WriteLine("StationsListViewModel created");
+            get => stations;
+            private set => SetProperty(ref stations, value);
+        }
 
-            if (sortBy == "All") Stations = _allStations; // TODO: Remove in future
-            else if (sortBy == "Local") Stations = new ObservableCollection<RadioStation>(_allStations.Where(s => s.CountryCode == "UA")); //TODO: Change to current locale
-            else if (sortBy == "Favorites") Stations = RadioStationsContainer.FavoriteStations;
-            else if (sortBy == "Recents") Stations = RadioStationsContainer.RecentStations;
-            else if (sortBy == "Sports") Stations = new ObservableCollection<RadioStation>(_allStations.Where(s => s.Tags.Contains("sport")));
-            else if (sortBy == "News") Stations = new ObservableCollection<RadioStation>(_allStations.Where(s => s.Tags.Contains("news")));
-            else if (sortBy == "Premium")
+        private async Task GoToSortedListPage(BrowseBy sortBy)
+        {
+            switch (sortBy)
             {
-                if (true) // TODO: Check if premium
-                {
-                    Stations = new ObservableCollection<RadioStation>(RadioStationsContainer.PremiumStations);
-                }
-                else
-                {
-                    var loader = new ResourceLoader();
-                    var title = loader.GetString("Premium_NotActive/Title");
-                    var content = loader.GetString("Premium_NotActive/Content");
-                    var closeButtonText = loader.GetString("Premium_NotActive/CloseButtonText");
-
-                    var dialog = new ContentDialog
-                    {
-                        Title = title,
-                        Content = content,
-                        CloseButtonText = closeButtonText
-                    };
-
-
-                    await dialog.ShowAsync();
-                    return;
-                }
+                case BrowseBy.Premium:
+                    if (true) Stations = new ObservableCollection<RadioStation>(RadioStationsContainer.PremiumStations); // TOD: Change to real premium check
+                    else await ShowPremiumDialog();
+                    break;
+                case BrowseBy.Local:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
+                    break;
+                case BrowseBy.Recent:
+                    Stations = RadioStationsContainer.RecentStations;
+                    break;
+                case BrowseBy.Favorites:
+                    Stations = RadioStationsContainer.FavoriteStations;
+                    break;
+                case BrowseBy.Trending:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("trending")));
+                    break;
+                case BrowseBy.Music:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("music")));
+                    break;
+                case BrowseBy.Sports:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("sport")));
+                    break;
+                case BrowseBy.NewsAndTalk:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("news")
+                    || s.Tags.Contains("talk")));
+                    break;
+                case BrowseBy.Podcasts:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("podcast")));
+                    break;
+                    // TODO: Add subpage with different locations and languages
             }
-            else Stations = new ObservableCollection<RadioStation>(_allStations);
 
             await ((App)Application.Current).ViewModelLocator.StationsListVM.LoadDataAsync(Stations);
-
             NavigationService.Navigate<StationsListPage>();
         }
 
+        private async Task ShowPremiumDialog()
+        {
+            var loader = new ResourceLoader();
+            var title = loader.GetString("Premium_NotActive/Title");
+            var content = loader.GetString("Premium_NotActive/Content");
+            var closeButtonText = loader.GetString("Premium_NotActive/CloseButtonText");
+
+            var dialog = new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = closeButtonText
+            };
+        }
+
+        public enum BrowseBy
+        {
+            Premium,
+            Local,
+            Recent,
+            Favorites,
+            Trending,
+            Music,
+            Sports,
+            NewsAndTalk,
+            Podcasts,
+            Location,
+            Language,
+        }
     }
 }
