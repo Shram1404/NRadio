@@ -4,40 +4,41 @@ using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Helpers;
+using System.Threading.Tasks;
 
 namespace NRadio.ViewModels
 {
     public class LogInViewModel : ObservableObject
     {
-        private string _statusMessage;
-        private bool _isBusy;
-        private RelayCommand _loginCommand;
-
-        private IdentityService IdentityService => Singleton<IdentityService>.Instance;
-
-        public string StatusMessage
-        {
-            get => _statusMessage;
-            set => SetProperty(ref _statusMessage, value);
-        }
-
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set
-            {
-                SetProperty(ref _isBusy, value);
-                LoginCommand.NotifyCanExecuteChanged();
-            }
-        }
-
-        public RelayCommand LoginCommand => _loginCommand ?? (_loginCommand = new RelayCommand(OnLogin, () => !IsBusy));
+        private string statusMessage;
+        private bool isBusy;
+        private AsyncRelayCommand loginCommand;
 
         public LogInViewModel()
         {
         }
 
-        private async void OnLogin()
+        private IdentityService IdentityService => Singleton<IdentityService>.Instance;
+
+        public string StatusMessage
+        {
+            get => statusMessage;
+            set => SetProperty(ref statusMessage, value);
+        }
+
+        public bool IsBusy
+        {
+            get => isBusy;
+            set
+            {
+                SetProperty(ref isBusy, value);
+                LoginCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        public AsyncRelayCommand LoginCommand => loginCommand ?? (loginCommand = new AsyncRelayCommand(OnLogin, () => !IsBusy));
+
+        private async Task OnLogin()
         {
             IsBusy = true;
             StatusMessage = string.Empty;
