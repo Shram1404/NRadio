@@ -1,12 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using NRadio.Core.Helpers;
+﻿using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.ViewModels;
-
+using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace NRadio.Services

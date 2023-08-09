@@ -1,6 +1,4 @@
-﻿using System;
-
-using NRadio.ViewModels;
+﻿using NRadio.ViewModels;
 
 using Windows.UI.Xaml.Controls;
 

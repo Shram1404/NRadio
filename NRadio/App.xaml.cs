@@ -7,7 +7,6 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Store;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
 
@@ -47,17 +46,17 @@ namespace NRadio
 
         private async Task InitializeLicense()
         {
-            if(context == null)
+            if (context == null)
             {
                 context = StoreContext.GetDefault();
             }
             StoreProductResult result = await context.GetStoreProductForCurrentAppAsync();
-            if(result.ExtendedError == null)
+            if (result.ExtendedError == null)
             {
                 StoreProduct product = result.Product;
             }
         }
-        
+
         private void RegisterServices()
         {
             IServiceCollection services = new ServiceCollection();

@@ -17,66 +17,63 @@ namespace NRadio.ViewModels
 {
     public class BrowseViewModel : ObservableObject
     {
-        public ICommand GoToCommand { get; private set; }
-
         private readonly ObservableCollection<RadioStation> allStations = RadioStationsContainer.AllStations;
-
         private ObservableCollection<RadioStation> stations;
+
+        public BrowseViewModel()
+        {
+            GoToCommand = new AsyncRelayCommand<BrowseBy>(GoToSortedListPage);
+        }
+
+        public ICommand GoToCommand { get; private set; }
+        public Type EnumType { get => typeof(BrowseBy); }
+        public string Name { get; set; }
+
         public ObservableCollection<RadioStation> Stations
         {
             get => stations;
             private set => SetProperty(ref stations, value);
         }
 
-        public BrowseViewModel()
+        private async Task GoToSortedListPage(BrowseBy sortBy)
         {
-            GoToCommand = new AsyncRelayCommand<SortByCategory>(GoToListPage);
-        }
-
-        public string Name { get; set; }
-
-        private async Task GoToListPage(SortByCategory sortBy)
-        {
-            System.Diagnostics.Debug.WriteLine("StationsListViewModel created");
-
             switch (sortBy)
             {
-                case SortByCategory.Local:
-                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); //TODO: Change to current locale
+                case BrowseBy.Premium:
+                    if (true) Stations = new ObservableCollection<RadioStation>(RadioStationsContainer.PremiumStations); // TOD: Change to real premium check
+                    else await ShowPremiumDialog();
                     break;
-                case SortByCategory.Favorites:
-                    Stations = RadioStationsContainer.FavoriteStations;
+                case BrowseBy.Local:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
                     break;
-                case SortByCategory.Recent:
+                case BrowseBy.Recent:
                     Stations = RadioStationsContainer.RecentStations;
                     break;
-                case SortByCategory.Sports:
+                case BrowseBy.Favorites:
+                    Stations = RadioStationsContainer.FavoriteStations;
+                    break;
+                case BrowseBy.Trending:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("trending")));
+                    break;
+                case BrowseBy.Music:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("music")));
+                    break;
+                case BrowseBy.Sports:
                     Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("sport")));
                     break;
-                case SortByCategory.News:
-                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("news")));
+                case BrowseBy.NewsAndTalk:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("news")
+                    || s.Tags.Contains("talk")));
                     break;
-                case SortByCategory.Premium:
-                    if (false) // TODO: Check if premium
-                    {
-                        Stations = new ObservableCollection<RadioStation>(RadioStationsContainer.PremiumStations);
-                    }
-                    else
-                    {
-                        await ShowPremiumDialog();
-                        return;
-                    }
+                case BrowseBy.Podcasts:
+                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("podcast")));
                     break;
-                default:
-                    Stations = new ObservableCollection<RadioStation>(allStations);
-                    break;
+                    // TODO: Add subpage with different locations and languages
             }
 
             await ((App)Application.Current).ViewModelLocator.StationsListVM.LoadDataAsync(Stations);
-
             NavigationService.Navigate<StationsListPage>();
         }
-
 
         private async Task ShowPremiumDialog()
         {
@@ -93,14 +90,19 @@ namespace NRadio.ViewModels
             };
         }
 
-        private enum SortByCategory
+        public enum BrowseBy
         {
-            Local,
-            Favorites,
-            Recent,
-            Sports,
-            News,
             Premium,
+            Local,
+            Recent,
+            Favorites,
+            Trending,
+            Music,
+            Sports,
+            NewsAndTalk,
+            Podcasts,
+            Location,
+            Language,
         }
     }
 }

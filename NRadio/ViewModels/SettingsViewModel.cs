@@ -1,19 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Services;
-
+using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Store;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace NRadio.ViewModels
 {
@@ -29,7 +24,6 @@ namespace NRadio.ViewModels
         public ElementTheme ElementTheme
         {
             get { return _elementTheme; }
-
             set { SetProperty(ref _elementTheme, value); }
         }
 

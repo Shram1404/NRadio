@@ -1,10 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using Microsoft.Toolkit.Uwp.Helpers;
-
+﻿using Microsoft.Toolkit.Uwp.Helpers;
 using NRadio.Views;
-
+using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 

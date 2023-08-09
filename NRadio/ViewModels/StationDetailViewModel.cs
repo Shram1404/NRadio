@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.Views;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels

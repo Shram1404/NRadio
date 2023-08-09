@@ -1,13 +1,10 @@
-﻿using System;
+﻿using NRadio.Activation;
+using NRadio.Core.Helpers;
+using NRadio.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using NRadio.Activation;
-using NRadio.Core.Helpers;
-using NRadio.Core.Services;
-using NRadio.Services;
-
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
