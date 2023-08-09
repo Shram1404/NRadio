@@ -30,9 +30,9 @@ namespace NRadio.Services
 
         public ActivationService(App app, Type defaultNavItem, Lazy<UIElement> shell = null)
         {
-            app = app;
-            shell = shell;
-            defaultNavItem = defaultNavItem;
+            this.app = app;
+            this.shell = shell;
+            this.defaultNavItem = defaultNavItem;
             IdentityService.LoggedIn += OnLoggedIn;
         }
 
