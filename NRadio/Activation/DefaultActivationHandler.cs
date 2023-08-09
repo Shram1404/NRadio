@@ -10,11 +10,11 @@ namespace NRadio.Activation
 {
     internal class DefaultActivationHandler : ActivationHandler<IActivatedEventArgs>
     {
-        private readonly Type _navElement;
+        private readonly Type navElement;
 
         public DefaultActivationHandler(Type navElement)
         {
-            _navElement = navElement;
+            navElement = navElement;
         }
 
         protected override async Task HandleInternalAsync(IActivatedEventArgs args)
@@ -27,18 +27,17 @@ namespace NRadio.Activation
                 arguments = launchArgs.Arguments;
             }
 
-            NavigationService.Navigate(_navElement, arguments);
+            NavigationService.Navigate(navElement, arguments);
 
             // TODO: Remove or change this sample which shows a toast notification when the app is launched.
             // You can use this sample to create toast notifications where needed in your app.
-            Singleton<ToastNotificationsService>.Instance.ShowToastNotificationSample();
             await Task.CompletedTask;
         }
 
         protected override bool CanHandleInternal(IActivatedEventArgs args)
         {
             // None of the ActivationHandlers has handled the app activation
-            return NavigationService.Frame.Content == null && _navElement != null;
+            return NavigationService.Frame.Content == null && navElement != null;
         }
     }
 }

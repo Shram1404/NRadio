@@ -18,9 +18,9 @@ namespace NRadio.Services
     // https://github.com/microsoft/TemplateStudio/blob/main/docs/UWP/activation.md
     internal class ActivationService
     {
-        private readonly App _app;
-        private readonly Type _defaultNavItem;
-        private Lazy<UIElement> _shell;
+        private readonly App app;
+        private readonly Type defaultNavItem;
+        private Lazy<UIElement> shell;
 
         private object _lastActivationArgs;
 
@@ -30,9 +30,9 @@ namespace NRadio.Services
 
         public ActivationService(App app, Type defaultNavItem, Lazy<UIElement> shell = null)
         {
-            _app = app;
-            _shell = shell;
-            _defaultNavItem = defaultNavItem;
+            app = app;
+            shell = shell;
+            defaultNavItem = defaultNavItem;
             IdentityService.LoggedIn += OnLoggedIn;
         }
 
@@ -56,7 +56,7 @@ namespace NRadio.Services
                 if (Window.Current.Content == null)
                 {
                     // Create a Shell or Frame to act as the navigation context
-                    Window.Current.Content = _shell?.Value ?? new Frame();
+                    Window.Current.Content = shell?.Value ?? new Frame();
                 }
             }
 
@@ -87,9 +87,9 @@ namespace NRadio.Services
 
         private async void OnLoggedIn(object sender, EventArgs e)
         {
-            if (_shell?.Value != null)
+            if (shell?.Value != null)
             {
-                Window.Current.Content = _shell.Value;
+                Window.Current.Content = shell.Value;
             }
             else
             {
@@ -122,7 +122,7 @@ namespace NRadio.Services
 
             if (IsInteractive(activationArgs))
             {
-                var defaultHandler = new DefaultActivationHandler(_defaultNavItem);
+                var defaultHandler = new DefaultActivationHandler(defaultNavItem);
                 if (defaultHandler.CanHandle(activationArgs))
                 {
                     await defaultHandler.HandleAsync(activationArgs);
@@ -139,7 +139,6 @@ namespace NRadio.Services
 
         private IEnumerable<ActivationHandler> GetActivationHandlers()
         {
-            yield return Singleton<ToastNotificationsService>.Instance;
             yield return Singleton<BackgroundTaskService>.Instance;
             yield return Singleton<SuspendAndResumeService>.Instance;
             yield return Singleton<WebToAppLinkActivationHandler>.Instance;
@@ -162,7 +161,7 @@ namespace NRadio.Services
 
         public void SetShell(Lazy<UIElement> shell)
         {
-            _shell = shell;
+            this.shell = shell;
         }
     }
 }

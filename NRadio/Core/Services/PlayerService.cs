@@ -8,67 +8,67 @@ namespace NRadio.Core.Services
 {
     public static class PlayerService
     {
-        private static SystemMediaTransportControls _systemMediaControls;
-        private static MediaPlayer _mediaPlayer = new MediaPlayer();
-        private static string _currentUrl;
+        private static SystemMediaTransportControls systemMediaControls;
+        private static MediaPlayer mediaPlayer = new MediaPlayer();
+        private static string currentUrl;
 
         public static event Action NextButtonPressed;
         public static event Action PreviousButtonPressed;
 
         static PlayerService()
         {
-            _systemMediaControls = SystemMediaTransportControls.GetForCurrentView();
-            _systemMediaControls.ButtonPressed += SystemMediaControls_ButtonPressed;
-            _mediaPlayer.CommandManager.IsEnabled = false;
+            systemMediaControls = SystemMediaTransportControls.GetForCurrentView();
+            systemMediaControls.ButtonPressed += SystemMediaControls_ButtonPressed;
+            mediaPlayer.CommandManager.IsEnabled = false;
         }
 
         public static void PlayRadioStream(string url)
         {
             SetStation(url);
-            _mediaPlayer.Play();
+            mediaPlayer.Play();
 
-            _systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
+            systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
             EnableSystemMediaControls();
 
         }
         public static void PauseRadioStream()
         {
-            _mediaPlayer.Pause();
-            _systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Paused;
+            mediaPlayer.Pause();
+            systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Paused;
         }
         public static void StopRadioStream()
         {
-            _mediaPlayer.Pause();
-            _mediaPlayer.Dispose();
-            _systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Stopped;
+            mediaPlayer.Pause();
+            mediaPlayer.Dispose();
+            systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Stopped;
         }
         public static void SetStation(string url)
         {
-            if (url != _currentUrl || _mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.None)
+            if (url != currentUrl || mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.None)
             {
-                _currentUrl = url;
+                currentUrl = url;
                 var mediaSource = MediaSource.CreateFromUri(new Uri(url));
-                _mediaPlayer.Source = mediaSource;
-                _mediaPlayer.Play();
+                mediaPlayer.Source = mediaSource;
+                mediaPlayer.Play();
             }
         }
-        public static void SetVolume(double volume) => _mediaPlayer.Volume = volume;
+        public static void SetVolume(double volume) => mediaPlayer.Volume = volume;
 
 
         private static void EnableSystemMediaControls()
         {
-            _systemMediaControls.IsPlayEnabled = true;
-            _systemMediaControls.IsPauseEnabled = true;
-            _systemMediaControls.IsStopEnabled = true;
-            _systemMediaControls.IsNextEnabled = true;
-            _systemMediaControls.IsPreviousEnabled = true;
+            systemMediaControls.IsPlayEnabled = true;
+            systemMediaControls.IsPauseEnabled = true;
+            systemMediaControls.IsStopEnabled = true;
+            systemMediaControls.IsNextEnabled = true;
+            systemMediaControls.IsPreviousEnabled = true;
         }
         private static void SystemMediaControls_ButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs args)
         {
             switch (args.Button)
             {
                 case SystemMediaTransportControlsButton.Play:
-                    PlayRadioStream(_currentUrl);
+                    PlayRadioStream(currentUrl);
                     break;
                 case SystemMediaTransportControlsButton.Pause:
                     PauseRadioStream();
