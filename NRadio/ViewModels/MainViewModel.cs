@@ -119,7 +119,7 @@ namespace NRadio.ViewModels
             }
             else
             {
-                throw new Exception("Unknown station");
+                throw new ArgumentException("Unknown station");
             }
 
             NavigationService.Navigate<StationDetailPage>(clickedItem.Name);

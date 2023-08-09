@@ -5,16 +5,36 @@ using NRadio.Core.Models;
 using NRadio.Core.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
 
 namespace NRadio.ViewModels
 {
     public class PlayerViewModel : ObservableObject
     {
+        const double DefaultVolume = 50;
+
+        private int currentStationIndex;
+        private RadioStation CurrentStation;
+        private ObservableCollection<RadioStation> radioStations;
+        private string stationName;
+        private string stationUrl;
+        private string stationDescription;
+        private string stationImageUrl;
+        private string playGlyph;
+        private string favoriteGlyph;
+        private double volume = DefaultVolume;
+        private bool isPlaying;
+
+        public PlayerViewModel()
+        {
+            System.Diagnostics.Debug.WriteLine("PlayerVM created");
+        }
 
         public ICommand PlayPauseCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
@@ -23,141 +43,152 @@ namespace NRadio.ViewModels
         public ICommand UpdateAudioListCommand { get; private set; }
         public ICommand ChangeFavoriteStateCommand { get; private set; }
 
-        private ObservableCollection<RadioStation> _radioStations;
-        private int _currentSongIndex;
-
-        private string _stationName;
         public string StationName
         {
-            get => _stationName;
-            set => SetProperty(ref _stationName, value);
+            get => stationName;
+            set => SetProperty(ref stationName, value);
         }
-        private string _stationUrl;
         public string StationUrl
         {
-            get => _stationUrl;
+            get => stationUrl;
             set
             {
-                SetProperty(ref _stationUrl, value);
+                SetProperty(ref stationUrl, value);
                 AddToRecent();
             }
         }
-
-        private string _stationDescription;
         public string StationDescription
         {
-            get => _stationDescription;
-            set => SetProperty(ref _stationDescription, value);
+            get => stationDescription;
+            set => SetProperty(ref stationDescription, value);
         }
-        private string _stationImageUrl;
         public string StationImageUrl
         {
-            get => _stationImageUrl;
-            set => SetProperty(ref _stationImageUrl, value);
+            get => stationImageUrl;
+            set => SetProperty(ref stationImageUrl, value);
         }
-        private double _volume = 50;
-        public double Volume
-        {
-            get { return _volume; }
-            set
-            {
-                SetProperty(ref _volume, value);
-                OnValueChanged();
-            }
-        }
-
-        private string _playGlyph = "\uE768"; // Play glyph
         public string PlayGlyph
         {
-            get => _playGlyph;
-            set => SetProperty(ref _playGlyph, value);
+            get => playGlyph;
+            set => SetProperty(ref playGlyph, value);
         }
-        private string _favoriteGlyph;
         public string FavoriteGlyph
         {
-            get { return _favoriteGlyph; }
-            set { SetProperty(ref _favoriteGlyph, value); }
+            get => favoriteGlyph; 
+            set => SetProperty(ref favoriteGlyph, value); 
         }
-
-        private bool _isPlaying;
-        public bool IsPlaying
+        public double Volume
         {
-            get => _isPlaying;
+            get { return volume; }
             set
             {
-                SetProperty(ref _isPlaying, value);
-                IsPlayGlyphString();
+                SetProperty(ref volume, value);
+                SetVolume();
             }
         }
-
-        public Slider VolumeSlider { get; set; }
-
-        public PlayerViewModel()
+        public bool IsPlaying
         {
-            System.Diagnostics.Debug.WriteLine("PlayerVM created");
+            get => isPlaying;
+            set
+            {
+                SetProperty(ref isPlaying, value);
+                IsPlayGlyphString();
+            }
         }
 
         public void Initialize(ObservableCollection<RadioStation> radioStations, int index)
         {
             System.Diagnostics.Debug.WriteLine("PlayerVM initialized");
-            _radioStations = radioStations;
-            _currentSongIndex = index;
 
             PlayPauseCommand = new RelayCommand(PlayPause);
             StopCommand = new RelayCommand(Stop);
             PlayNextCommand = new RelayCommand(PlayNext);
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
-            UpdateAudioListCommand = new RelayCommand(UpdateAudioList);
-            ChangeFavoriteStateCommand = new RelayCommand(ChangeFavoriteState);
+            UpdateAudioListCommand = new AsyncRelayCommand(UpdateAudioList);
+            ChangeFavoriteStateCommand = new AsyncRelayCommand(ChangeFavoriteState);
 
-            RadioStation Item = _radioStations[_currentSongIndex];
-            FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(Item) ? "\xE735" : "\xE734";
-
+            this.radioStations = radioStations;
+            currentStationIndex = index;
+            
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey("Volume"))
             {
                 Volume = (double)ApplicationData.Current.LocalSettings.Values["Volume"];
             }
 
-            SetStationForPage();
+            SetCurrentStation();
+            SetGlyphsFromResources();
 
-            PlayerService.NextButtonPressed += async () => await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayNext);
-            PlayerService.PreviousButtonPressed += async () => await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayPrevious);
+            PlayerService.NextButtonPressed += async () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayNext);
+            PlayerService.PreviousButtonPressed += async () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayPrevious);
 
-            PlayPause();
+            PlayerService.PlayRadioStream(StationUrl);
+        
             IsPlaying = true;
+        }
+
+        public void ChangePlaylist(ObservableCollection<RadioStation> radioStations, int currentStationIndex)
+        {
+            this.radioStations = radioStations;
+            this.currentStationIndex = currentStationIndex;
+
+            if (StationName != CurrentStation.Name)
+            {
+                SetCurrentStation();
+                PlayerService.PlayRadioStream(StationUrl);
+            }
+        }
+
+        private void SetCurrentStation()
+        {
+            CurrentStation = radioStations[currentStationIndex];
+            StationName = CurrentStation.Name;
+            StationUrl = CurrentStation.Url;
+            StationImageUrl = CurrentStation.Favicon;
         }
 
         private void PlayNext()
         {
-            if (_currentSongIndex < _radioStations.Count - 1)
-                _currentSongIndex++;
+            if (currentStationIndex < radioStations.Count - 1)
+            {
+                currentStationIndex++;
+            }
             else
-                _currentSongIndex = 0;
+            {
+                currentStationIndex = 0;
+            }
 
-            SetStationForPage();
+            SetCurrentStation();
+            SetFavoriteGlyph();
+
             if (IsPlaying)
-                PlayerService.SetStation(StationUrl);
+            {
+                PlayerService.PlayRadioStream(StationUrl);
+            }
         }
+
         private void PlayPrevious()
         {
-            if (_currentSongIndex > 0)
-                _currentSongIndex--;
+            if (currentStationIndex > 0)
+            {
+                currentStationIndex--;
+            }
             else
-                _currentSongIndex = _radioStations.Count - 1;
+            {
+                currentStationIndex = radioStations.Count - 1;
+            }
 
-            SetStationForPage();
+            SetCurrentStation();
+            SetFavoriteGlyph();    
+
             if (IsPlaying)
-                PlayerService.SetStation(StationUrl);
+            {
+                PlayerService.PlayRadioStream(StationUrl);
+            }
         }
-        private void SetStationForPage()
-        {
-            var currentSong = _radioStations[_currentSongIndex];
-            StationName = currentSong.Name;
-            StationUrl = currentSong.Url;
-            StationImageUrl = currentSong.Favicon;
-        }
-
-        public void PlayPause()
+     
+        private void PlayPause()
         {
             if (!IsPlaying)
             {
@@ -170,56 +201,55 @@ namespace NRadio.ViewModels
                 IsPlaying = false;
             }
         }
+
         private void Stop() => PlayerService.StopRadioStream();
 
-        private void OnValueChanged() => SetVolume();
-        private void SetVolume()
+        private void SetVolume() => PlayerService.SetVolume(Volume / 100); // Volume in PlayerService is in range 0-1
+
+        private async Task UpdateAudioList() => await RadioStationsLoader.UpdateRadioStations();
+
+        private void SetGlyphsFromResources()
         {
-            if (Volume == 0)
-                PlayerService.SetVolume(0);
-            else if (Volume == 100) // TODO: Change to max volume and min volume constants
-                PlayerService.SetVolume(1);
+            PlayGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Play_Glyph");
+            SetFavoriteGlyph();
+        }
+
+        private void SetFavoriteGlyph()
+        {
+            if(RadioStationsContainer.FavoriteStations.Contains(CurrentStation))
+            {
+                FavoriteGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Favorite_Glyph");
+            }
             else
-                PlayerService.SetVolume(Volume / 100);
+            {
+                FavoriteGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Not_Favorite_Glyph");
+            }
         }
 
         private void IsPlayGlyphString()
         {
-            if (IsPlaying) PlayGlyph = "\uE769"; // Pause glyph
-            else PlayGlyph = "\uE768"; // Play glyph
+            if (IsPlaying)
+            {
+                PlayGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Pause_Glyph");
+            }
+            else
+            {
+                PlayGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Play_Glyph");
+            }
         }
 
-        public void ChangePlaylist(ObservableCollection<RadioStation> radioStations, int currentSongIndex)
-        {
-            _radioStations = radioStations;
-            _currentSongIndex = currentSongIndex;
+        private async Task AddToRecent() => await RadioStationsLoader.AddToLastRecentAsync(CurrentStation);
 
-            if (StationName != _radioStations[_currentSongIndex].Name)
+        private async Task ChangeFavoriteState()
+        {
+            if (radioStations.Count == 0) 
             {
-                SetStationForPage();
-                PlayerService.PlayRadioStream(StationUrl);
+                var LastStation = RadioStationsContainer.RecentStations.Last();
+                await RadioStationsLoader.ChangeIsFavoriteAsync(LastStation);
             }
 
-        }
-        private async void UpdateAudioList() => await RadioStationsLoader.UpdateRadioStations();
-
-        private async Task AddToRecent()
-        {
-            var currentSong = _radioStations[_currentSongIndex];
-            await RadioStationsLoader.AddToLastRecentAsync(currentSong);
-        }
-
-        private async void ChangeFavoriteState()
-        {
-            if (_radioStations.Count == 0)
-            {
-                int LastStationIndex = RadioStationsContainer.RecentStations.Count - 1;
-                RadioStation LastStation = RadioStationsContainer.RecentStations[LastStationIndex];
-                RadioStationsLoader.ChangeIsFavoriteAsync(LastStation);
-            }
-            RadioStation Item = _radioStations[_currentSongIndex];
-            await RadioStationsLoader.ChangeIsFavoriteAsync(Item);
-            FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(Item) ? "\xE735" : "\xE734";
+            await RadioStationsLoader.ChangeIsFavoriteAsync(CurrentStation);
+            SetFavoriteGlyph();
         }
     }
 }

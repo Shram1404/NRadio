@@ -193,12 +193,12 @@
     <Compile Include="Core\Models\RadioStation.cs" />
     <Compile Include="Core\Models\User.cs" />
     <Compile Include="Core\Services\ConfigService.cs" />
-    <Compile Include="Core\Services\HttpDataService.cs" />
     <Compile Include="Core\Services\IdentityService.cs" />
     <Compile Include="Core\Services\MicrosoftGraphService.cs" />
     <Compile Include="Core\Services\PlayerService.cs" />
     <Compile Include="Core\Services\RadioStationsLoader.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
+    <Compile Include="Helpers\Glyphs.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\ItemClickEventArgsConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
@@ -364,6 +364,9 @@
     <None Include="NRadio_TemporaryKey.pfx" />
     <None Include="README.md" />
     <None Include="Settings.XamlStyler" />
+    <PRIResource Include="Strings\Glyphs\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
     <PRIResource Include="Strings\uk-UA\Resources.resw" />
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d"
-    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media">
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:helper="using:NRadio.Helpers">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <helper:Glyphs x:Key="GlyphCode"/>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid x:Name="ContentArea">
         <Grid.ColumnDefinitions>
@@ -73,7 +80,7 @@
                         Height="48" Width="48"
                         Command="{Binding PlayPreviousCommand}"
                         Margin="{StaticResource SmallRightMargin}">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Previous_Glyph]}"/>
                 </Button>
 
                 <Button Style="{StaticResource CircleButtonStyle}"
@@ -88,7 +95,7 @@
                         Width="48"
                         Command="{Binding PlayNextCommand}"
                         Margin="{StaticResource SmallLeftMargin}">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Next_Glyph]}"/>
                 </Button>
             </StackPanel>
             <Slider Orientation="Vertical"

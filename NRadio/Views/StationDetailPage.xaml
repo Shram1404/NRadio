@@ -5,7 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    xmlns:helper="using:NRadio.Helpers">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <helper:Glyphs x:Key="GlyphCode"/>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid
         x:Name="ContentArea">
@@ -105,7 +112,7 @@
                             Command="{x:Bind ViewModel.OpenPlayerCommand}">
                         <FontIcon
                                 FontFamily="Segoe MDL2 Assets"
-                                Glyph="" />
+                                Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Play_Glyph]}" />
                     </Button>
                 </RelativePanel>
 

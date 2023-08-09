@@ -1,6 +1,6 @@
 ﻿namespace NRadio.Core.Services
 {
-    public class ConfigService
+    public class ConfigService // TODO: Move to models or use a default config file
     {
         public string RadioStationsFileName { get; set; }
         public string RecentStationsFileName { get; set; }

@@ -19,7 +19,7 @@ namespace NRadio.Views
             DataContext = ViewModel;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e) // TODO: Change to behaviors
         {
             base.OnNavigatedTo(e);
             this.RegisterElementForConnectedAnimation("animationKeyContentGrid", itemHero);
@@ -34,7 +34,7 @@ namespace NRadio.Views
             base.OnNavigatingFrom(e);
             if (e.NavigationMode == NavigationMode.Back)
             {
-                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(ViewModel.Item);
+                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(ViewModel.CurrentStation);
             }
         }
     }

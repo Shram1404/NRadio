@@ -8,53 +8,52 @@ using NRadio.Views;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels
 {
     public class StationDetailViewModel : ObservableObject
     {
+        private RadioStation currentStation;
+        private ObservableCollection<RadioStation> source = new ObservableCollection<RadioStation>();
+        private int currentSongIndex;
+        private string favoriteGlyph;
+
         public ICommand OpenPlayerCommand => new RelayCommand(OnOpenPlayer);
         public ICommand ChangeFavoriteStateCommand => new RelayCommand(OnChangeFavoriteState);
-
-        private RadioStation _item;
-        public RadioStation Item
-        {
-            get { return _item; }
-            set { SetProperty(ref _item, value); }
-        }
-
-        private ObservableCollection<RadioStation> _source = new ObservableCollection<RadioStation>();
-        public ObservableCollection<RadioStation> Source
-        {
-            get { return _source; }
-            set { SetProperty(ref _source, value); }
-        }
-
-        private int _currentSongIndex;
-        public int CurrentSongIndex
-        {
-            get { return _currentSongIndex; }
-            set { SetProperty(ref _currentSongIndex, value); }
-        }
-
-        private string _favoriteGlyph;
-        public string FavoriteGlyph
-        {
-            get { return _favoriteGlyph; }
-            set { SetProperty(ref _favoriteGlyph, value); }
-        }
 
         public StationDetailViewModel()
         {
             System.Diagnostics.Debug.WriteLine("StationDetailViewModel created");
         }
 
+        public RadioStation CurrentStation
+        {
+            get => currentStation;
+            set => SetProperty(ref currentStation, value);
+        }
+        public ObservableCollection<RadioStation> Source
+        {
+            get => source; 
+            set => SetProperty(ref source, value); 
+        }
+        public int CurrentSongIndex
+        {
+            get => currentSongIndex;
+            set => SetProperty(ref currentSongIndex, value);
+        }
+        public string FavoriteGlyph
+        {
+            get => favoriteGlyph; 
+            set => SetProperty(ref favoriteGlyph, value); 
+        }
+
         public void Initialize(string name)
         {
-            var data = RadioStationsContainer.AllStations; // TODO: change to current playlist
-            Item = data.FirstOrDefault(i => i.Name == name);
-            FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(Item) ? "\xE735" : "\xE734";
+            var data = RadioStationsContainer.AllStations; // TODO: change to current playlist for faster loading
+            CurrentStation = data.FirstOrDefault(i => i.Name == name);
+            SetFavoriteGlyph();
         }
 
         private void OnOpenPlayer()
@@ -64,8 +63,19 @@ namespace NRadio.ViewModels
         }
         private async void OnChangeFavoriteState()
         {
-            await RadioStationsLoader.ChangeIsFavoriteAsync(Item);
-            FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(Item) ? "\xE735" : "\xE734";
+            await RadioStationsLoader.ChangeIsFavoriteAsync(CurrentStation);
+            SetFavoriteGlyph();
+        }
+        private void SetFavoriteGlyph()
+        {
+            if (RadioStationsContainer.FavoriteStations.Contains(CurrentStation))
+            {
+                FavoriteGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Favorite_Glyph");
+            }
+            else
+            {
+                FavoriteGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Not_Favorite_Glyph");
+            }
         }
     }
 }
