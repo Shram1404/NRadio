@@ -6,12 +6,12 @@ namespace NRadio.Views
 {
     public sealed partial class BrowsePage : Page
     {
-        public BrowseViewModel ViewModel { get; set; } = new BrowseViewModel();
+        public BrowseViewModel ViewModel { get; } = new BrowseViewModel();
 
         public BrowsePage()
         {
             Debug.WriteLine("BrowsePage created");
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

@@ -15,6 +15,31 @@ namespace NRadio.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
+        private const int MoveOffset = 200;
+
+        private double recentHorizontalOffset;
+        private double favoriteHorizontalOffset;
+        private double localHorizontalOffset;
+
+        private ObservableCollection<RadioStation> recentStations;
+        private ObservableCollection<RadioStation> favoriteStations;
+        private ObservableCollection<RadioStation> localStations;
+
+        public MainViewModel()
+        {
+            Debug.WriteLine("MainViewModel created");
+
+            ScrollLeftFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset -= MoveOffset);
+            ScrollRightFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset += MoveOffset);
+            ScrollLeftRecentCommand = new RelayCommand(() => RecentHorizontalOffset -= MoveOffset);
+            ScrollRightRecentCommand = new RelayCommand(() => RecentHorizontalOffset += MoveOffset);
+            ScrollLeftLocalCommand = new RelayCommand(() => LocalHorizontalOffset -= MoveOffset);
+            ScrollRightLocalCommand = new RelayCommand(() => LocalHorizontalOffset += MoveOffset);
+            ItemClickCommand = new RelayCommand<RadioStation>(OnOpenStationDetail);
+
+            Initialize();
+        }
+
         public ICommand ScrollLeftRecentCommand { get; private set; }
         public ICommand ScrollRightRecentCommand { get; private set; }
         public ICommand ScrollLeftFavoriteCommand { get; private set; }
@@ -23,71 +48,49 @@ namespace NRadio.ViewModels
         public ICommand ScrollRightLocalCommand { get; private set; }
         public ICommand ItemClickCommand { get; private set; }
 
-        private int moveOffset = 200;
-
-        private double _recentHorizontalOffset;
         public double RecentHorizontalOffset
         {
-            get => _recentHorizontalOffset;
+            get => recentHorizontalOffset;
             set
             {
                 value = Math.Max(0, value);
-                SetProperty(ref _recentHorizontalOffset, value);
+                SetProperty(ref recentHorizontalOffset, value);
             }
         }
-        private double _favoriteHorizontalOffset;
+
         public double FavoriteHorizontalOffset
         {
-            get => _favoriteHorizontalOffset;
+            get => favoriteHorizontalOffset;
             set
             {
                 value = Math.Max(0, value);
-                SetProperty(ref _favoriteHorizontalOffset, value);
+                SetProperty(ref favoriteHorizontalOffset, value);
             }
         }
-        private double _localHorizontalOffset;
         public double LocalHorizontalOffset
         {
-            get => _localHorizontalOffset;
+            get => localHorizontalOffset;
             set
             {
                 value = Math.Max(0, value);
-                SetProperty(ref _localHorizontalOffset, value);
+                SetProperty(ref localHorizontalOffset, value);
             }
         }
 
-        private ObservableCollection<RadioStation> _recentStations;
         public ObservableCollection<RadioStation> Recent
         {
-            get => _recentStations;
-            set => SetProperty(ref _recentStations, value);
+            get => recentStations;
+            set => SetProperty(ref recentStations, value);
         }
-        private ObservableCollection<RadioStation> _favoriteStations;
         public ObservableCollection<RadioStation> Favorite
         {
-            get => _favoriteStations;
-            set => SetProperty(ref _favoriteStations, value);
+            get => favoriteStations;
+            set => SetProperty(ref favoriteStations, value);
         }
-        private ObservableCollection<RadioStation> _localStations;
         public ObservableCollection<RadioStation> Local
         {
-            get => _localStations;
-            set => SetProperty(ref _localStations, value);
-        }
-
-        public MainViewModel()
-        {
-            Debug.WriteLine("MainViewModel created");
-
-            ScrollLeftFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset -= moveOffset);
-            ScrollRightFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset += moveOffset);
-            ScrollLeftRecentCommand = new RelayCommand(() => RecentHorizontalOffset -= moveOffset);
-            ScrollRightRecentCommand = new RelayCommand(() => RecentHorizontalOffset += moveOffset);
-            ScrollLeftLocalCommand = new RelayCommand(() => LocalHorizontalOffset -= moveOffset);
-            ScrollRightLocalCommand = new RelayCommand(() => LocalHorizontalOffset += moveOffset);
-            ItemClickCommand = new RelayCommand<RadioStation>(OnOpenStationDetail);
-
-            Initialize();
+            get => localStations;
+            set => SetProperty(ref localStations, value);
         }
 
         public void Initialize()
@@ -96,20 +99,28 @@ namespace NRadio.ViewModels
 
             Recent = RadioStationsContainer.RecentStations;
             Favorite = RadioStationsContainer.FavoriteStations;
-            Local = new ObservableCollection<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA")); // TODO: Change to current locale
+            Local = new ObservableCollection<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
         }
 
         private void OnOpenStationDetail(RadioStation clickedItem)
         {
             ObservableCollection<RadioStation> Source = null;
             if (Favorite.Contains(clickedItem)) // TODO: Change to normal check
+            {
                 Source = Favorite;
+            }
             else if (Recent.Contains(clickedItem))
+            {
                 Source = Recent;
+            }
             else if (Local.Contains(clickedItem))
+            {
                 Source = Local;
+            }
             else
+            {
                 throw new Exception("Unknown station");
+            }
 
             NavigationService.Navigate<StationDetailPage>(clickedItem.Name);
             ((App)Application.Current).ViewModelLocator.StationDetailVM.CurrentSongIndex = Source.IndexOf(clickedItem);
