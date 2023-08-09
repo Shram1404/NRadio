@@ -192,9 +192,6 @@
     <Compile Include="Core\Helpers\TaskExtensions.cs" />
     <Compile Include="Core\Models\Filter.cs" />
     <Compile Include="Core\Models\RadioStation.cs" />
-    <Compile Include="Core\Models\SampleCompany.cs" />
-    <Compile Include="Core\Models\SampleOrder.cs" />
-    <Compile Include="Core\Models\SampleOrderDetail.cs" />
     <Compile Include="Core\Models\User.cs" />
     <Compile Include="Core\Services\ConfigService.cs" />
     <Compile Include="Core\Services\HttpDataService.cs" />
@@ -203,7 +200,6 @@
     <Compile Include="Core\Services\PlayerDataService.cs" />
     <Compile Include="Core\Services\PlayerService.cs" />
     <Compile Include="Core\Services\RadioStationsLoader.cs" />
-    <Compile Include="Core\Services\SampleDataService.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\ItemClickEventArgsConverter.cs" />
@@ -214,25 +210,20 @@
     <Compile Include="Services\BackgroundTaskService.cs" />
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\LanguageSelectorService.cs" />
-    <Compile Include="Services\LiveTileService.cs" />
-    <Compile Include="Services\LiveTileService.Samples.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\SuspendAndResumeArgs.cs" />
-    <Compile Include="Services\SuspendAndResumeService.cs" />
+    <Compile Include="Services\SuspendAndResumeServices.cs" />
     <Compile Include="Services\SuspensionState.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="Services\ToastNotificationsService.cs" />
     <Compile Include="Services\ToastNotificationsService.Samples.cs" />
     <Compile Include="Services\UserDataService.cs" />
-    <Compile Include="TemplateSelectors\SampleDataTemplateSelector.cs" />
     <Compile Include="ViewModels\BrowseViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\StationDetailViewModel.cs" />
     <Compile Include="ViewModels\StationsListViewModel.cs" />
-    <Compile Include="ViewModels\ListDetailsViewModel.cs" />
     <Compile Include="ViewModels\LogInViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MediaPlayerViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -250,20 +241,11 @@
     <Compile Include="Views\FirstRunDialog.xaml.cs">
       <DependentUpon>FirstRunDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ListDetailsDetailControl.xaml.cs">
-      <DependentUpon>ListDetailsDetailControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ListDetailsPage.xaml.cs">
-      <DependentUpon>ListDetailsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MediaPlayerPage.xaml.cs">
-      <DependentUpon>MediaPlayerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MiniPlayerPage.xaml.cs">
       <DependentUpon>MiniPlayerPage.xaml</DependentUpon>
@@ -328,23 +310,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ListDetailsDetailControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ListDetailsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\LogInPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\MediaPlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

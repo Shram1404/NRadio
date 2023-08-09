@@ -105,7 +105,6 @@ namespace NRadio.Services
 
         private async Task InitializeAsync()
         {
-            await Singleton<LiveTileService>.Instance.EnableQueueAsync().ConfigureAwait(false);
             await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync().ConfigureAwait(false);
             await LanguageSelectorService.InitializeAsync().ConfigureAwait(false);
             await ThemeSelectorService.InitializeAsync().ConfigureAwait(false);
@@ -136,12 +135,10 @@ namespace NRadio.Services
             await LanguageSelectorService.SetRequestedLanguageAsync();
             await ThemeSelectorService.SetRequestedThemeAsync();
             await FirstRunDisplayService.ShowIfAppropriateAsync();
-            Singleton<LiveTileService>.Instance.SampleUpdate();
         }
 
         private IEnumerable<ActivationHandler> GetActivationHandlers()
         {
-            yield return Singleton<LiveTileService>.Instance;
             yield return Singleton<ToastNotificationsService>.Instance;
             yield return Singleton<BackgroundTaskService>.Instance;
             yield return Singleton<SuspendAndResumeService>.Instance;

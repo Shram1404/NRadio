@@ -179,7 +179,7 @@ namespace NRadio.ViewModels
         {
             if (Volume == 0)
                 PlayerService.SetVolume(0);
-            else if (Volume == 100)
+            else if (Volume == 100) // TODO: Change to max volume and min volume constants
                 PlayerService.SetVolume(1);
             else
                 PlayerService.SetVolume(Volume / 100);

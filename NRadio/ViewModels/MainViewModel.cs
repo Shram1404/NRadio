@@ -24,6 +24,8 @@ namespace NRadio.ViewModels
         public ICommand ScrollRightLocalCommand { get; private set; }
         public ICommand ItemClickCommand { get; private set; }
 
+        private int moveOffset = 200;
+
         private double _recentHorizontalOffset;
         public double RecentHorizontalOffset
         {
@@ -78,12 +80,12 @@ namespace NRadio.ViewModels
         {
             Debug.WriteLine("MainViewModel created");
 
-            ScrollLeftFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset -= 200);
-            ScrollRightFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset += 200);
-            ScrollLeftRecentCommand = new RelayCommand(() => RecentHorizontalOffset -= 200);
-            ScrollRightRecentCommand = new RelayCommand(() => RecentHorizontalOffset += 200);
-            ScrollLeftLocalCommand = new RelayCommand(() => LocalHorizontalOffset -= 200);
-            ScrollRightLocalCommand = new RelayCommand(() => LocalHorizontalOffset += 200);
+            ScrollLeftFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset -= moveOffset);
+            ScrollRightFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset += moveOffset);
+            ScrollLeftRecentCommand = new RelayCommand(() => RecentHorizontalOffset -= moveOffset);
+            ScrollRightRecentCommand = new RelayCommand(() => RecentHorizontalOffset += moveOffset);
+            ScrollLeftLocalCommand = new RelayCommand(() => LocalHorizontalOffset -= moveOffset);
+            ScrollRightLocalCommand = new RelayCommand(() => LocalHorizontalOffset += moveOffset);
             ItemClickCommand = new RelayCommand<RadioStation>(OnOpenStationDetail);
 
             Initialize();
