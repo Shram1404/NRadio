@@ -13,9 +13,10 @@
     
     <Page.Resources>
         <helper:ItemClickEventArgsConverter x:Key="Converter"/>
+        <helper:RadioStationListConverter x:Key="StationConverter" />
     </Page.Resources>
     
-    <Grid x:Name="ContentArea">
+    <Grid x:Name="ContentArea" Margin="{StaticResource LargeTopMargin}">
         <Grid
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
             <Grid>
@@ -41,8 +42,11 @@
                         <core:EventTriggerBehavior EventName="ItemClick">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemClickCommand}">
                                 <core:InvokeCommandAction.InputConverter>
-                                    <StaticResource ResourceKey="Converter" />
+                                    <StaticResource ResourceKey="StationConverter" />
                                 </core:InvokeCommandAction.InputConverter>
+                                <core:InvokeCommandAction.InputConverterParameter>
+                                    <Binding Path="Recent" />
+                                </core:InvokeCommandAction.InputConverterParameter>
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                         <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.RecentHorizontalOffset, Mode=TwoWay}"/>
@@ -82,12 +86,16 @@
                         <core:EventTriggerBehavior EventName="ItemClick">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemClickCommand}">
                                 <core:InvokeCommandAction.InputConverter>
-                                    <StaticResource ResourceKey="Converter" />
+                                    <StaticResource ResourceKey="StationConverter" />
                                 </core:InvokeCommandAction.InputConverter>
+                                <core:InvokeCommandAction.InputConverterParameter>
+                                    <Binding Path="Favorite" />
+                                </core:InvokeCommandAction.InputConverterParameter>
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                         <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.RecentHorizontalOffset, Mode=TwoWay}"/>
                     </Interactivity:Interaction.Behaviors>
+
 
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -124,8 +132,11 @@
                         <core:EventTriggerBehavior EventName="ItemClick">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemClickCommand}">
                                 <core:InvokeCommandAction.InputConverter>
-                                    <StaticResource ResourceKey="Converter" />
+                                    <StaticResource ResourceKey="StationConverter" />
                                 </core:InvokeCommandAction.InputConverter>
+                                <core:InvokeCommandAction.InputConverterParameter>
+                                    <Binding Path="Local" />
+                                </core:InvokeCommandAction.InputConverterParameter>
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                         <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.RecentHorizontalOffset, Mode=TwoWay}"/>

@@ -106,14 +106,14 @@ namespace NRadio.Core.Services
         private static async Task SavePremiumToFileAsync() =>
             await folder.SaveAsync(Cfg.PremiumStationsFileName, RadioStationsContainer.PremiumStations);
 
-        private static async Task<ObservableCollection<RadioStation>> LoadAllFromFileAsync() =>
-            await folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.RadioStationsFileName);
-        private static async Task<ObservableCollection<RadioStation>> LoadRecentFromFileAsync() =>
-            await folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.RecentStationsFileName);
-        private static async Task<ObservableCollection<RadioStation>> LoadFavoriteFromFileAsync() =>
-            await folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.FavoriteStationsFileName);
-        private static async Task<ObservableCollection<RadioStation>> LoadPremiumFromFileAsync() =>
-            await folder.ReadAsync<ObservableCollection<RadioStation>>(Cfg.PremiumStationsFileName);
+        private static async Task<List<RadioStation>> LoadAllFromFileAsync() =>
+            await folder.ReadAsync<List<RadioStation>>(Cfg.RadioStationsFileName);
+        private static async Task<List<RadioStation>> LoadRecentFromFileAsync() =>
+            await folder.ReadAsync<List<RadioStation>>(Cfg.RecentStationsFileName);
+        private static async Task<List<RadioStation>> LoadFavoriteFromFileAsync() =>
+            await folder.ReadAsync<List<RadioStation>>(Cfg.FavoriteStationsFileName);
+        private static async Task<List<RadioStation>> LoadPremiumFromFileAsync() =>
+            await folder.ReadAsync<List<RadioStation>>(Cfg.PremiumStationsFileName);
 
 
         private static async Task SaveFilteredStationsFromApiToContainerAsync(Filter options) =>
@@ -121,7 +121,7 @@ namespace NRadio.Core.Services
         private static async Task SavePremiumFromSomewhereToContainerASync() =>
             RadioStationsContainer.PremiumStations = await LoadPremiumStationsFromSomewhereAsync();
 
-        private static ObservableCollection<RadioStation> FilterStations(ObservableCollection<RadioStation> stations, Filter filter)
+        private static List<RadioStation> FilterStations(List<RadioStation> stations, Filter filter)
         {
             var filteredStations = stations.Where(station =>
                 (!filter.HasName || !string.IsNullOrEmpty(station.Name)) &&
@@ -133,7 +133,7 @@ namespace NRadio.Core.Services
                 (station.Bitrate >= filter.MinBitrate)
             );
 
-            return new ObservableCollection<RadioStation>(filteredStations);
+            return new List<RadioStation>(filteredStations);
         }
 
         private static async Task LoadAllFromFileToContainerAsync()
@@ -143,10 +143,10 @@ namespace NRadio.Core.Services
             var RecentStations = await LoadRecentFromFileAsync();
             var FavoriteStations = await LoadFavoriteFromFileAsync();
 
-            RadioStationsContainer.FavoriteStations = FavoriteStations ?? new ObservableCollection<RadioStation>();
-            RadioStationsContainer.RecentStations = RecentStations ?? new ObservableCollection<RadioStation>();
+            RadioStationsContainer.FavoriteStations = FavoriteStations ?? new List<RadioStation>();
+            RadioStationsContainer.RecentStations = RecentStations ?? new List<RadioStation>();
         }
-        private static async Task<ObservableCollection<RadioStation>> LoadStationsFromApiByAllCountryAsync()
+        private static async Task<List<RadioStation>> LoadStationsFromApiByAllCountryAsync()
         {
             var allStations = new List<RadioStation>();
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -159,10 +159,10 @@ namespace NRadio.Core.Services
                 await Task.Delay(200);
             }
 
-            return new ObservableCollection<RadioStation>(allStations);
+            return new List<RadioStation>(allStations);
         }
 
-        private static async Task<ObservableCollection<RadioStation>> LoadPremiumStationsFromSomewhereAsync()
+        private static async Task<List<RadioStation>> LoadPremiumStationsFromSomewhereAsync()
         {
             // TODO: Change to API or save in file before release
             var premiumStation = new RadioStation
@@ -177,7 +177,7 @@ namespace NRadio.Core.Services
                 Tags = "Anime, Japan",
                 Bitrate = 128
             };
-            return new ObservableCollection<RadioStation> { premiumStation };
+            return new List<RadioStation> { premiumStation };
         }
 
         private enum Countries

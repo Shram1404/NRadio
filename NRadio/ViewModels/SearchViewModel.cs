@@ -1,13 +1,12 @@
-﻿using Microsoft.Toolkit;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Views;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -57,7 +56,7 @@ namespace NRadio.ViewModels
                 StationsListUserControl = new StationsListPage();
             }
 
-            await ((App)Application.Current).ViewModelLocator.StationsListVM.LoadDataAsync(new ObservableCollection<RadioStation>(stations));
+            ((App)Application.Current).ViewModelLocator.StationsListVM.LoadData(new List<RadioStation>(stations));
         }
     }
 }

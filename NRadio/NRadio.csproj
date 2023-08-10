@@ -183,6 +183,7 @@
     <Compile Include="Behaviors\TreeViewCollapseBehavior.cs" />
     <Compile Include="Core\API\RadioBrowserAPI.cs" />
     <Compile Include="BackgroundTasks\UpdateRadioStationsTask.cs" />
+    <Compile Include="Core\Helpers\IncrementalPlaylist.cs" />
     <Compile Include="Core\Helpers\Json.cs" />
     <Compile Include="Core\Helpers\LoginResultType.cs" />
     <Compile Include="Core\Helpers\RadioStationsContainer.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\ItemClickEventArgsConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
+    <Compile Include="Helpers\RadioStationListConverter.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\StringToEnumConverter.cs" />
     <Compile Include="Services\ActivationService.cs" />

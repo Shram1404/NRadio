@@ -18,10 +18,11 @@
     </Page.Resources>
 
     <Grid x:Name="ContentArea">
-        <ListView
-            IsItemClickEnabled="True"
-            ItemsSource="{x:Bind ViewModel.Source,Mode=OneWay}"
-            SelectionMode="None">
+        <ListView IsItemClickEnabled="True"
+                  ItemsSource="{x:Bind ViewModel.IncrementalPlaylist, Mode=OneWay}"
+                  SelectionMode="None"
+                  Margin="{StaticResource LargeTopMargin}">
+            
             <interactivity:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="ItemClick">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemClickCommand}">
@@ -34,19 +35,23 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:RadioStation">
-                    <Grid
-                        x:Name="itemThumbnail"
-                        Padding="{StaticResource XSmallLeftTopRightBottomMargin}"
-                        Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Vertical" Height="260">
-                            <Image Source="{x:Bind Favicon}" Height="200" Width="200" Stretch="UniformToFill"/>
-                            <TextBlock
-                                Margin="{StaticResource XXSmallTopMargin}"
-                                HorizontalAlignment="Center"
-                                Style="{ThemeResource BodyTextStyle}"
-                                Text="{x:Bind Name}"
-                                MaxWidth="200"/>
-                        </StackPanel>
+                    <Grid x:Name="StationThumbnail"
+                          Padding="{StaticResource XSmallLeftTopRightBottomMargin}"
+                          Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                          <StackPanel HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      Orientation="Horizontal"
+                                      Height="144">
+                              <Image Source="{x:Bind Favicon}"
+                                     Height="140"
+                                     Width="140"
+                                     Stretch="Uniform"/>
+                              <TextBlock Margin="{StaticResource SmallLeftMargin}"
+                                         VerticalAlignment="Center"
+                                         Style="{ThemeResource SubtitleTextBlockStyle}"
+                                         Text="{x:Bind Name}"
+                                         TextWrapping="Wrap"/>
+                          </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

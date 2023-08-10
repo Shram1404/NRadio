@@ -5,6 +5,7 @@ using NRadio.Core.Models;
 using NRadio.Services;
 using NRadio.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,8 +18,8 @@ namespace NRadio.ViewModels
 {
     public class BrowseViewModel : ObservableObject
     {
-        private readonly ObservableCollection<RadioStation> allStations = RadioStationsContainer.AllStations;
-        private ObservableCollection<RadioStation> stations;
+        private readonly List<RadioStation> allStations = RadioStationsContainer.AllStations;
+        private List<RadioStation> stations;
 
         public BrowseViewModel()
         {
@@ -29,7 +30,7 @@ namespace NRadio.ViewModels
         public Type EnumType { get => typeof(BrowseBy); }
         public string Name { get; set; }
 
-        public ObservableCollection<RadioStation> Stations
+        public List<RadioStation> Stations
         {
             get => stations;
             private set => SetProperty(ref stations, value);
@@ -42,7 +43,7 @@ namespace NRadio.ViewModels
                 case BrowseBy.Premium:
                     if (true)  // TODO: Change to real premium check
                     {
-                        Stations = new ObservableCollection<RadioStation>(RadioStationsContainer.PremiumStations);
+                        Stations = new List<RadioStation>(RadioStationsContainer.PremiumStations);
                     }
                     else
                     {
@@ -51,7 +52,7 @@ namespace NRadio.ViewModels
 
                     break;
                 case BrowseBy.Local:
-                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
+                    Stations = new List<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
                     break;
                 case BrowseBy.Recent:
                     Stations = RadioStationsContainer.RecentStations;
@@ -60,25 +61,25 @@ namespace NRadio.ViewModels
                     Stations = RadioStationsContainer.FavoriteStations;
                     break;
                 case BrowseBy.Trending:
-                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("trending")));
+                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("trending")));
                     break;
                 case BrowseBy.Music:
-                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("music")));
+                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("music")));
                     break;
                 case BrowseBy.Sports:
-                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("sport")));
+                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("sport")));
                     break;
                 case BrowseBy.NewsAndTalk:
-                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("news")
+                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("news")
                     || s.Tags.Contains("talk")));
                     break;
                 case BrowseBy.Podcasts:
-                    Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.Tags.Contains("podcast")));
+                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("podcast")));
                     break;
                     // TODO: Add subpage with different locations and languages
             }
 
-            await ((App)Application.Current).ViewModelLocator.StationsListVM.LoadDataAsync(Stations);
+            ((App)Application.Current).ViewModelLocator.StationsListVM.LoadData(Stations);
             NavigationService.Navigate<StationsListPage>();
         }
 

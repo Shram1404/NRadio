@@ -5,6 +5,7 @@ using NRadio.Core.Models;
 using NRadio.Services;
 using NRadio.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -21,9 +22,9 @@ namespace NRadio.ViewModels
         private double favoriteHorizontalOffset;
         private double localHorizontalOffset;
 
-        private ObservableCollection<RadioStation> recentStations;
-        private ObservableCollection<RadioStation> favoriteStations;
-        private ObservableCollection<RadioStation> localStations;
+        private List<RadioStation> recentStations;
+        private List<RadioStation> favoriteStations;
+        private List<RadioStation> localStations;
 
         public MainViewModel()
         {
@@ -35,7 +36,7 @@ namespace NRadio.ViewModels
             ScrollRightRecentCommand = new RelayCommand(() => RecentHorizontalOffset += MoveOffset);
             ScrollLeftLocalCommand = new RelayCommand(() => LocalHorizontalOffset -= MoveOffset);
             ScrollRightLocalCommand = new RelayCommand(() => LocalHorizontalOffset += MoveOffset);
-            ItemClickCommand = new RelayCommand<RadioStation>(OnOpenStationDetail);
+            ItemClickCommand = new RelayCommand<(RadioStation station, List<RadioStation> stations)>(OnOpenStationDetail);
 
             Initialize();
         }
@@ -57,7 +58,6 @@ namespace NRadio.ViewModels
                 SetProperty(ref recentHorizontalOffset, value);
             }
         }
-
         public double FavoriteHorizontalOffset
         {
             get => favoriteHorizontalOffset;
@@ -76,18 +76,17 @@ namespace NRadio.ViewModels
                 SetProperty(ref localHorizontalOffset, value);
             }
         }
-
-        public ObservableCollection<RadioStation> Recent
+        public List<RadioStation> Recent
         {
             get => recentStations;
             set => SetProperty(ref recentStations, value);
         }
-        public ObservableCollection<RadioStation> Favorite
+        public List<RadioStation> Favorite
         {
             get => favoriteStations;
             set => SetProperty(ref favoriteStations, value);
         }
-        public ObservableCollection<RadioStation> Local
+        public List<RadioStation> Local
         {
             get => localStations;
             set => SetProperty(ref localStations, value);
@@ -99,32 +98,14 @@ namespace NRadio.ViewModels
 
             Recent = RadioStationsContainer.RecentStations;
             Favorite = RadioStationsContainer.FavoriteStations;
-            Local = new ObservableCollection<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
+            Local = new List<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
         }
 
-        private void OnOpenStationDetail(RadioStation clickedItem)
+        private void OnOpenStationDetail((RadioStation clickedItem, List<RadioStation> source) args)
         {
-            ObservableCollection<RadioStation> Source = null;
-            if (Favorite.Contains(clickedItem)) // TODO: Change to normal check
-            {
-                Source = Favorite;
-            }
-            else if (Recent.Contains(clickedItem))
-            {
-                Source = Recent;
-            }
-            else if (Local.Contains(clickedItem))
-            {
-                Source = Local;
-            }
-            else
-            {
-                throw new ArgumentException("Unknown station");
-            }
-
+            var (clickedItem, source) = args;
             NavigationService.Navigate<StationDetailPage>(clickedItem.Name);
-            ((App)Application.Current).ViewModelLocator.StationDetailVM.CurrentSongIndex = Source.IndexOf(clickedItem);
-            ((App)Application.Current).ViewModelLocator.StationDetailVM.Source = Source;
+            ((App)Application.Current).ViewModelLocator.StationDetailVM.Initialize(source, clickedItem, source.IndexOf(clickedItem));
         }
     }
 }

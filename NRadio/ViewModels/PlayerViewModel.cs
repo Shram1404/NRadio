@@ -4,6 +4,7 @@ using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace NRadio.ViewModels
 
         private int currentStationIndex;
         private RadioStation CurrentStation;
-        private ObservableCollection<RadioStation> radioStations;
+        private List<RadioStation> radioStations;
         private string stationName;
         private string stationUrl;
         private string stationDescription;
@@ -96,7 +97,7 @@ namespace NRadio.ViewModels
             }
         }
 
-        public void Initialize(ObservableCollection<RadioStation> radioStations, int index)
+        public void Initialize(List<RadioStation> radioStations, int index)
         {
             System.Diagnostics.Debug.WriteLine("PlayerVM initialized");
 
@@ -128,7 +129,7 @@ namespace NRadio.ViewModels
             IsPlaying = true;
         }
 
-        public void ChangePlaylist(ObservableCollection<RadioStation> radioStations, int currentStationIndex)
+        public void ChangePlaylist(List<RadioStation> radioStations, int currentStationIndex)
         {
             this.radioStations = radioStations;
             this.currentStationIndex = currentStationIndex;
