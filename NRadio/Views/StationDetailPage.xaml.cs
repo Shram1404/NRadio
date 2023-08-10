@@ -18,24 +18,5 @@ namespace NRadio.Views
             InitializeComponent();
             DataContext = ViewModel;
         }
-
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            this.RegisterElementForConnectedAnimation("animationKeyContentGrid", itemHero);
-            if (e.Parameter is string name)
-            {
-                ViewModel.Initialize(name);
-            }
-        }
-
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-            if (e.NavigationMode == NavigationMode.Back)
-            {
-                NavigationService.Frame.SetListDataItemForNextConnectedAnimation(ViewModel.Item);
-            }
-        }
     }
 }

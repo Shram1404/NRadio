@@ -15,6 +15,5 @@ namespace NRadio.Views
             InitializeComponent();
             DataContext = ViewModel;
         }
-
     }
 }

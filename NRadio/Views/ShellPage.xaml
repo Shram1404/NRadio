@@ -4,13 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:behaviors="using:NRadio.Behaviors"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:helpers="using:NRadio.Helpers"
     xmlns:views="using:NRadio.Views"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
-
     mc:Ignorable="d">
 
     <i:Interaction.Behaviors>
@@ -19,37 +17,35 @@
         </ic:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
-    <winui:NavigationView
-    x:Name="navigationView"
-    IsBackButtonVisible="Visible"
-    IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
-    SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
-    IsSettingsVisible="True"
-    ExpandedModeThresholdWidth="1280"
-    Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+    <winui:NavigationView x:Name="navigationView"
+                          IsBackButtonVisible="Visible"
+                          IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
+                          SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
+                          IsSettingsVisible="True"
+                          ExpandedModeThresholdWidth="1280"
+                          Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
     <winui:NavigationView.MenuItems>
-        <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Document" helpers:NavHelper.NavigateTo="views:MainPage" />
-        <winui:NavigationViewItem x:Uid="Shell_Browse" Icon="Document" helpers:NavHelper.NavigateTo="views:BrowsePage" />
-        <winui:NavigationViewItem x:Uid="Shell_Search" Icon="Document" helpers:NavHelper.NavigateTo="views:SearchPage" />
-        </winui:NavigationView.MenuItems>
+        <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Home" helpers:NavHelper.NavigateTo="views:MainPage" />
+        <winui:NavigationViewItem x:Uid="Shell_Browse" Icon="Audio" helpers:NavHelper.NavigateTo="views:BrowsePage" />
+        <winui:NavigationViewItem x:Uid="Shell_Search" Icon="Find" helpers:NavHelper.NavigateTo="views:SearchPage" />
+    </winui:NavigationView.MenuItems>
+        
         <winui:NavigationView.PaneFooter>
-            <StackPanel>
-                <views:MiniPlayerPage>
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="Tapped">
-                            <ic:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToPlayerCommand}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </views:MiniPlayerPage>
-
-            </StackPanel>
+            <views:MiniPlayerPage>
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Tapped">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToPlayerCommand}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </views:MiniPlayerPage>
         </winui:NavigationView.PaneFooter>
-
+        
         <i:Interaction.Behaviors>
             <ic:EventTriggerBehavior EventName="ItemInvoked">
                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
             </ic:EventTriggerBehavior>
         </i:Interaction.Behaviors>
+        
         <Grid>
             <Frame x:Name="shellFrame" />
         </Grid>

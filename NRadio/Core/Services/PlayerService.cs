@@ -11,9 +11,6 @@ namespace NRadio.Core.Services
         private static MediaPlayer mediaPlayer = new MediaPlayer();
         private static string currentUrl;
 
-        public static event Action NextButtonPressed;
-        public static event Action PreviousButtonPressed;
-
         static PlayerService()
         {
             systemMediaControls = SystemMediaTransportControls.GetForCurrentView();
@@ -21,26 +18,36 @@ namespace NRadio.Core.Services
             mediaPlayer.CommandManager.IsEnabled = false;
         }
 
+        public static event Action NextButtonPressed;
+        public static event Action PreviousButtonPressed;
+
         public static void PlayRadioStream(string url)
         {
+            if(mediaPlayer is null || mediaPlayer.PlaybackSession is null)
+            {
+                mediaPlayer = new MediaPlayer();
+            }
+
             SetStation(url);
             mediaPlayer.Play();
 
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
             EnableSystemMediaControls();
-
         }
+
         public static void PauseRadioStream()
         {
             mediaPlayer.Pause();
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Paused;
         }
+
         public static void StopRadioStream()
         {
             mediaPlayer.Pause();
             mediaPlayer.Dispose();
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Stopped;
         }
+
         public static void SetStation(string url)
         {
             if (url != currentUrl || mediaPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.None)
@@ -48,11 +55,10 @@ namespace NRadio.Core.Services
                 currentUrl = url;
                 var mediaSource = MediaSource.CreateFromUri(new Uri(url));
                 mediaPlayer.Source = mediaSource;
-                mediaPlayer.Play();
             }
         }
-        public static void SetVolume(double volume) => mediaPlayer.Volume = volume;
 
+        public static void SetVolume(double volume) => mediaPlayer.Volume = volume;
 
         private static void EnableSystemMediaControls()
         {
@@ -62,6 +68,7 @@ namespace NRadio.Core.Services
             systemMediaControls.IsNextEnabled = true;
             systemMediaControls.IsPreviousEnabled = true;
         }
+
         private static void SystemMediaControls_ButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs args)
         {
             switch (args.Button)

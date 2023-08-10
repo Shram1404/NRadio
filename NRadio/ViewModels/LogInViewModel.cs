@@ -14,9 +14,7 @@ namespace NRadio.ViewModels
         private bool isBusy;
         private AsyncRelayCommand loginCommand;
 
-        public LogInViewModel()
-        {
-        }
+        public LogInViewModel() { }
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
 

@@ -12,39 +12,45 @@ using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels
 {
-    // TODO: Add other settings as necessary. For help see https://github.com/microsoft/TemplateStudio/blob/main/docs/UWP/pages/settings.md
     public class SettingsViewModel : ObservableObject
     {
+        private ElementTheme elementTheme = ThemeSelectorService.Theme;
+        private string versionDescription;
+        private UserViewModel user;
+        private ICommand switchThemeCommand;
+        private ICommand switchLanguageCommand;
+        private ICommand logoutCommand;
+        private ICommand updateStationsCommand;
+        private ICommand buyPremiumCommand;
+
+        public SettingsViewModel() { }
+
         private UserDataService UserDataService => Singleton<UserDataService>.Instance;
-
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
-
-        private ElementTheme _elementTheme = ThemeSelectorService.Theme;
 
         public ElementTheme ElementTheme
         {
-            get { return _elementTheme; }
-            set { SetProperty(ref _elementTheme, value); }
+            get => elementTheme; 
+            set => SetProperty(ref elementTheme, value);
         }
-
-        private string _versionDescription;
-
         public string VersionDescription
         {
-            get { return _versionDescription; }
-
-            set { SetProperty(ref _versionDescription, value); }
+            get => versionDescription;
+            set => SetProperty(ref versionDescription, value);
         }
-
-        private ICommand _switchThemeCommand;
+        public UserViewModel User
+        {
+            get => user;
+            set => SetProperty(ref user, value);
+        }
 
         public ICommand SwitchThemeCommand
         {
             get
             {
-                if (_switchThemeCommand == null)
+                if (switchThemeCommand == null)
                 {
-                    _switchThemeCommand = new RelayCommand<ElementTheme>(
+                    switchThemeCommand = new RelayCommand<ElementTheme>(
                         async (param) =>
                         {
                             ElementTheme = param;
@@ -52,48 +58,28 @@ namespace NRadio.ViewModels
                         });
                 }
 
-                return _switchThemeCommand;
+                return switchThemeCommand;
             }
         }
-
-        private ICommand _switchLanguageCommand;
-
         public ICommand SwitchLanguageCommand
         {
             get
             {
-                if (_switchLanguageCommand == null)
+                if (switchLanguageCommand == null)
                 {
-                    _switchLanguageCommand = new RelayCommand<string>(
+                    switchLanguageCommand = new RelayCommand<string>(
                         async (param) =>
                         {
                             await LanguageSelectorService.SetLanguageAsync(param);
                         });
                 }
 
-                return _switchLanguageCommand;
+                return switchLanguageCommand;
             }
         }
-
-        private ICommand _logoutCommand;
-
-        public ICommand LogoutCommand => _logoutCommand ?? (_logoutCommand = new RelayCommand(OnLogout));
-        private UserViewModel _user;
-        public UserViewModel User
-        {
-            get { return _user; }
-            set { SetProperty(ref _user, value); }
-        }
-
-        private ICommand _updateStationsCommand;
-        public ICommand UpdateStationsCommand => _updateStationsCommand ?? (_updateStationsCommand = new RelayCommand(UpdateStationsAsync));
-
-        private ICommand _buyPremiumCommand;
-        public ICommand BuyPremiumCommand => _buyPremiumCommand ?? (_buyPremiumCommand = new RelayCommand(async () => await BuyPremium()));
-
-        public SettingsViewModel()
-        {
-        }
+        public ICommand LogoutCommand => logoutCommand ?? (logoutCommand = new RelayCommand(OnLogout));
+        public ICommand UpdateStationsCommand => updateStationsCommand ?? (updateStationsCommand = new RelayCommand(UpdateStationsAsync));
+        public ICommand BuyPremiumCommand => buyPremiumCommand ?? (buyPremiumCommand = new RelayCommand(async () => await BuyPremium()));
 
         public async Task InitializeAsync()
         {
@@ -103,9 +89,15 @@ namespace NRadio.ViewModels
             User = await UserDataService.GetUserAsync();
         }
 
+        public void UnregisterEvents()
+        {
+            IdentityService.LoggedOut -= OnLoggedOut;
+            UserDataService.UserDataUpdated -= OnUserDataUpdated;
+        }
+
         private string GetVersionDescription()
         {
-            var appName = "AppDisplayName".GetLocalized();
+            string appName = "AppDisplayName".GetLocalized();
             var package = Package.Current;
             var packageId = package.Id;
             var version = packageId.Version;
@@ -113,16 +105,8 @@ namespace NRadio.ViewModels
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
 
-        private async Task BuyPremium()
-        {
-
-        }
-        public void UnregisterEvents()
-        {
-            IdentityService.LoggedOut -= OnLoggedOut;
-            UserDataService.UserDataUpdated -= OnUserDataUpdated;
-        }
-
+        private async Task BuyPremium() { } // TODO: Realize it when i will add purchase
+  
         private void OnUserDataUpdated(object sender, UserViewModel userData) => User = userData;
         private async void OnLogout() => await IdentityService.LogoutAsync();
         private void OnLoggedOut(object sender, EventArgs e) => UnregisterEvents();

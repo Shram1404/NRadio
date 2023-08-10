@@ -183,6 +183,7 @@
     <Compile Include="Behaviors\TreeViewCollapseBehavior.cs" />
     <Compile Include="Core\API\RadioBrowserAPI.cs" />
     <Compile Include="BackgroundTasks\UpdateRadioStationsTask.cs" />
+    <Compile Include="Core\Helpers\IncrementalPlaylist.cs" />
     <Compile Include="Core\Helpers\Json.cs" />
     <Compile Include="Core\Helpers\LoginResultType.cs" />
     <Compile Include="Core\Helpers\RadioStationsContainer.cs" />
@@ -193,15 +194,16 @@
     <Compile Include="Core\Models\RadioStation.cs" />
     <Compile Include="Core\Models\User.cs" />
     <Compile Include="Core\Services\ConfigService.cs" />
-    <Compile Include="Core\Services\HttpDataService.cs" />
     <Compile Include="Core\Services\IdentityService.cs" />
     <Compile Include="Core\Services\MicrosoftGraphService.cs" />
     <Compile Include="Core\Services\PlayerService.cs" />
     <Compile Include="Core\Services\RadioStationsLoader.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
+    <Compile Include="Helpers\Glyphs.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\ItemClickEventArgsConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
+    <Compile Include="Helpers\RadioStationListConverter.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\StringToEnumConverter.cs" />
     <Compile Include="Services\ActivationService.cs" />
@@ -364,6 +366,9 @@
     <None Include="NRadio_TemporaryKey.pfx" />
     <None Include="README.md" />
     <None Include="Settings.XamlStyler" />
+    <PRIResource Include="Strings\Glyphs\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
     <PRIResource Include="Strings\uk-UA\Resources.resw" />
   </ItemGroup>
   <ItemGroup>

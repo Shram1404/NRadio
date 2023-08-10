@@ -5,7 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    xmlns:helper="using:NRadio.Helpers">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <helper:Glyphs x:Key="GlyphCode"/>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid
         x:Name="ContentArea">
@@ -30,7 +37,8 @@
 
         <ScrollViewer
             x:Name="contentScroll"
-            IsTabStop="True">
+            IsTabStop="True"
+            Margin="{StaticResource LargeTopMargin}">
             <StackPanel
                 Margin="{StaticResource MediumLeftRightMargin}"
                 x:Name="contentPanel">
@@ -49,7 +57,7 @@
                         <Image
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Source="{x:Bind ViewModel.Item.Favicon}" />
+                            Source="{x:Bind ViewModel.CurrentStation.Favicon}" />
                     </Grid>
 
                     <TextBlock
@@ -58,29 +66,29 @@
                         RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.RightOf="itemHero"
                         Style="{ThemeResource TitleTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Item.Name, Mode=OneWay}" />
+                        Text="{x:Bind ViewModel.CurrentStation.Name, Mode=OneWay}" />
 
                     <StackPanel x:Name="propertiesGroup1" RelativePanel.Below="itemHero">
                         <StackPanel x:Name="statusGroup" Margin="{StaticResource SmallTopMargin}">
                             <TextBlock Style="{StaticResource DetailSubTitleStyle}" x:Uid="StationDetail_Country" />
-                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.Country}" />
+                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.CurrentStation.Country}" />
                         </StackPanel>
 
                         <StackPanel x:Name="orderDateGroup" Margin="{StaticResource SmallTopMargin}">
                             <TextBlock Style="{StaticResource DetailSubTitleStyle}" x:Uid="StationDetail_Language" />
-                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.Language}" />
+                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.CurrentStation.Language}" />
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel x:Name="propertiesGroup2" RelativePanel.Below="propertiesGroup1">
                         <StackPanel x:Name="shipToGroup" Margin="{StaticResource SmallTopMargin}">
                             <TextBlock Style="{StaticResource DetailSubTitleStyle}" x:Uid="StationDetail_CountryCode" />
-                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.CountryCode}" />
+                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.CurrentStation.CountryCode}" />
                         </StackPanel>
 
                         <StackPanel x:Name="orderTotalGroup" Margin="{StaticResource SmallTopMargin}">
                             <TextBlock Style="{StaticResource DetailSubTitleStyle}" x:Uid="StationDetail_Bitrate" />
-                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.Item.Bitrate}" />
+                            <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.CurrentStation.Bitrate}" />
                         </StackPanel>
                     </StackPanel>
 
@@ -105,7 +113,7 @@
                             Command="{x:Bind ViewModel.OpenPlayerCommand}">
                         <FontIcon
                                 FontFamily="Segoe MDL2 Assets"
-                                Glyph="" />
+                                Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Play_Glyph]}" />
                     </Button>
                 </RelativePanel>
 
