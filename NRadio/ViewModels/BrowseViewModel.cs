@@ -40,8 +40,15 @@ namespace NRadio.ViewModels
             switch (sortBy)
             {
                 case BrowseBy.Premium:
-                    if (true) Stations = new ObservableCollection<RadioStation>(RadioStationsContainer.PremiumStations); // TOD: Change to real premium check
-                    else await ShowPremiumDialog();
+                    if (true)  // TODO: Change to real premium check
+                    {
+                        Stations = new ObservableCollection<RadioStation>(RadioStationsContainer.PremiumStations);
+                    }
+                    else
+                    {
+                        await ShowPremiumDialog();
+                    }
+
                     break;
                 case BrowseBy.Local:
                     Stations = new ObservableCollection<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
@@ -78,9 +85,9 @@ namespace NRadio.ViewModels
         private async Task ShowPremiumDialog()
         {
             var loader = new ResourceLoader();
-            var title = loader.GetString("Premium_NotActive/Title");
-            var content = loader.GetString("Premium_NotActive/Content");
-            var closeButtonText = loader.GetString("Premium_NotActive/CloseButtonText");
+            string title = loader.GetString("Premium_NotActive/Title");
+            string content = loader.GetString("Premium_NotActive/Content");
+            string closeButtonText = loader.GetString("Premium_NotActive/CloseButtonText");
 
             var dialog = new ContentDialog
             {
@@ -88,6 +95,8 @@ namespace NRadio.ViewModels
                 Content = content,
                 CloseButtonText = closeButtonText
             };
+
+            await dialog.ShowAsync();
         }
 
         public enum BrowseBy
