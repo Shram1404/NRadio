@@ -5,17 +5,17 @@ namespace NRadio.ViewModels
 {
     public class ViewModelLocator
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider serviceProvider;
 
         public ViewModelLocator(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
+            this.serviceProvider = serviceProvider;
         }
 
-        public ShellViewModel ShellVM => _serviceProvider.GetService<ShellViewModel>();
-        public PlayerViewModel PlayerVM => _serviceProvider.GetService<PlayerViewModel>();
-        public StationDetailViewModel StationDetailVM => _serviceProvider.GetService<StationDetailViewModel>();
-        public StationsListViewModel StationsListVM => _serviceProvider.GetService<StationsListViewModel>();
-        public MainViewModel MainVM => _serviceProvider.GetService<MainViewModel>();
+        public ShellViewModel ShellVM => serviceProvider.GetService<ShellViewModel>();
+        public PlayerViewModel PlayerVM => serviceProvider.GetService<PlayerViewModel>();
+        public StationDetailViewModel StationDetailVM => serviceProvider.GetService<StationDetailViewModel>();
+        public StationsListViewModel StationsListVM => serviceProvider.GetService<StationsListViewModel>();
+        public MainViewModel MainVM => serviceProvider.GetService<MainViewModel>();
     }
 }

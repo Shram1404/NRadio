@@ -6,30 +6,28 @@ namespace NRadio.ViewModels
 {
     public class UserViewModel : ObservableObject
     {
-        private string _name;
-        private string _userPrincipalName;
-        private BitmapImage _photo;
-
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
-
-        public string UserPrincipalName
-        {
-            get => _userPrincipalName;
-            set => SetProperty(ref _userPrincipalName, value);
-        }
-
-        public BitmapImage Photo
-        {
-            get => _photo;
-            set => SetProperty(ref _photo, value);
-        }
+        private string name;
+        private string userPrincipalName;
+        private BitmapImage photo;
 
         public UserViewModel()
         {
+        }
+
+        public string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
+        public string UserPrincipalName
+        {
+            get => userPrincipalName;
+            set => SetProperty(ref userPrincipalName, value);
+        }
+        public BitmapImage Photo
+        {
+            get => photo;
+            set => SetProperty(ref photo, value);
         }
     }
 }

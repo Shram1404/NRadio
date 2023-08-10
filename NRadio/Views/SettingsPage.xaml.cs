@@ -12,6 +12,7 @@ namespace NRadio.Views
         {
             Debug.WriteLine("SettingsPage created");
             InitializeComponent();
+            DataContext = ViewModel;
         }
     }
 }

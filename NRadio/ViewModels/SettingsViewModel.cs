@@ -23,7 +23,7 @@ namespace NRadio.ViewModels
         private ICommand updateStationsCommand;
         private ICommand buyPremiumCommand;
 
-        public SettingsViewModel() { }
+        public SettingsViewModel() { InitializeAsync(); }
 
         private UserDataService UserDataService => Singleton<UserDataService>.Instance;
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
@@ -68,10 +68,7 @@ namespace NRadio.ViewModels
                 if (switchLanguageCommand == null)
                 {
                     switchLanguageCommand = new RelayCommand<string>(
-                        async (param) =>
-                        {
-                            await LanguageSelectorService.SetLanguageAsync(param);
-                        });
+                        async (param) => await LanguageSelectorService.SetLanguageAsync(param));
                 }
 
                 return switchLanguageCommand;
@@ -105,8 +102,12 @@ namespace NRadio.ViewModels
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
 
-        private async Task BuyPremium() { } // TODO: Realize it when i will add purchase
-  
+        private async Task BuyPremium() // TODO: Realize it when i will add purchase
+        {
+            var dialog = new Windows.UI.Popups.MessageDialog("There will be buy window");
+            await dialog.ShowAsync();
+        }
+
         private void OnUserDataUpdated(object sender, UserViewModel userData) => User = userData;
         private async void OnLogout() => await IdentityService.LogoutAsync();
         private void OnLoggedOut(object sender, EventArgs e) => UnregisterEvents();
