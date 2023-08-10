@@ -1,15 +1,15 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Services;
 using NRadio.Views;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -20,93 +20,80 @@ namespace NRadio.ViewModels
 {
     public class ShellViewModel : ObservableObject
     {
-        private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
-        private readonly KeyboardAccelerator _backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
+        private readonly KeyboardAccelerator altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
+        private readonly KeyboardAccelerator backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
 
-        private bool _isBackEnabled;
-        private IList<KeyboardAccelerator> _keyboardAccelerators;
-        private WinUI.NavigationView _navigationView;
-        private WinUI.NavigationViewItem _selected;
-        private ICommand _loadedCommand;
-        private ICommand _itemInvokedCommand;
-        private ICommand _userProfileCommand;
-        private ICommand _playerCommand;
-        private UserViewModel _user;
-
-        private IdentityService IdentityService => Singleton<IdentityService>.Instance;
-
-        private UserDataService UserDataService => Singleton<UserDataService>.Instance;
-
-        public bool IsBackEnabled
-        {
-            get { return _isBackEnabled; }
-            set { SetProperty(ref _isBackEnabled, value); }
-        }
-
-        public WinUI.NavigationViewItem Selected
-        {
-            get { return _selected; }
-            set { SetProperty(ref _selected, value); }
-        }
-
-        public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
-
-        public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
-
-        public ICommand UserProfileCommand => _userProfileCommand ?? (_userProfileCommand = new RelayCommand(OnUserProfile));
-
-        public UserViewModel User
-        {
-            get { return _user; }
-            set { SetProperty(ref _user, value); }
-        }
-
-        private UserControl _miniPlayer;
-        public UserControl MiniPlayer
-        {
-            get { return _miniPlayer; }
-            set { SetProperty(ref _miniPlayer, value); }
-        }
-
-
-        public ICommand NavigateToPlayerCommand => _playerCommand ?? (_playerCommand = new RelayCommand(OnNavigateToPlayer));
+        private bool isBackEnabled;
+        private IList<KeyboardAccelerator> keyboardAccelerators;
+        private WinUI.NavigationView navigationView;
+        private WinUI.NavigationViewItem selected;
+        private ICommand loadedCommand;
+        private ICommand itemInvokedCommand;
+        private ICommand userProfileCommand;
+        private ICommand playerCommand;
+        private UserViewModel user;
+        private UserControl miniPlayer;
 
         public ShellViewModel()
         {
             Debug.WriteLine("ShellVM created");
         }
 
+        private IdentityService IdentityService => Singleton<IdentityService>.Instance;
+        private UserDataService UserDataService => Singleton<UserDataService>.Instance;
+
+        public ICommand LoadedCommand => loadedCommand ?? (loadedCommand = new RelayCommand(OnLoaded));
+        public ICommand ItemInvokedCommand => itemInvokedCommand ?? (itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
+        public ICommand UserProfileCommand => userProfileCommand ?? (userProfileCommand = new RelayCommand(OnUserProfile));
+        public ICommand NavigateToPlayerCommand => playerCommand ?? (playerCommand = new RelayCommand(OnNavigateToPlayer));
+
+        public bool IsBackEnabled
+        {
+            get => isBackEnabled;
+            set => SetProperty(ref isBackEnabled, value);
+        }
+        public WinUI.NavigationViewItem Selected
+        {
+            get => selected;
+            set => SetProperty(ref selected, value);
+        }
+        public UserViewModel User
+        {
+            get => user;
+            set => SetProperty(ref user, value);
+        }
+        public UserControl MiniPlayer
+        {
+            get => miniPlayer;
+            set => SetProperty(ref miniPlayer, value);
+        }
+
         public void Initialize(Frame frame, WinUI.NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
         {
-            _navigationView = navigationView;
-            _keyboardAccelerators = keyboardAccelerators;
+            this.navigationView = navigationView;
+            this.keyboardAccelerators = keyboardAccelerators;
             NavigationService.Frame = frame;
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
-            _navigationView.BackRequested += OnBackRequested;
+            this.navigationView.BackRequested += OnBackRequested;
             IdentityService.LoggedOut += OnLoggedOut;
             UserDataService.UserDataUpdated += OnUserDataUpdated;
         }
 
         private async void OnLoaded()
         {
-            // Keyboard accelerators are added here to avoid showing 'Alt + left' tooltip on the page.
-            // More info on tracking issue https://github.com/Microsoft/microsoft-ui-xaml/issues/8
-            _keyboardAccelerators.Add(_altLeftKeyboardAccelerator);
-            _keyboardAccelerators.Add(_backKeyboardAccelerator);
+            keyboardAccelerators.Add(altLeftKeyboardAccelerator);
+            keyboardAccelerators.Add(backKeyboardAccelerator);
             User = await UserDataService.GetUserAsync();
         }
 
-        private void OnUserDataUpdated(object sender, UserViewModel userData)
-        {
-            User = userData;
-        }
+        private void OnUserDataUpdated(object sender, UserViewModel userData) => User = userData;
 
         private void OnLoggedOut(object sender, EventArgs e)
         {
             NavigationService.NavigationFailed -= Frame_NavigationFailed;
             NavigationService.Navigated -= Frame_Navigated;
-            _navigationView.BackRequested -= OnBackRequested;
+            navigationView.BackRequested -= OnBackRequested;
             UserDataService.UserDataUpdated -= OnUserDataUpdated;
             IdentityService.LoggedOut -= OnLoggedOut;
         }
@@ -149,11 +136,11 @@ namespace NRadio.ViewModels
             IsBackEnabled = NavigationService.CanGoBack;
             if (e.SourcePageType == typeof(SettingsPage))
             {
-                Selected = _navigationView.SettingsItem as WinUI.NavigationViewItem;
+                Selected = navigationView.SettingsItem as WinUI.NavigationViewItem;
                 return;
             }
 
-            var selectedItem = GetSelectedItem(_navigationView.MenuItems, e.SourcePageType);
+            var selectedItem = GetSelectedItem(navigationView.MenuItems, e.SourcePageType);
             if (selectedItem != null)
             {
                 Selected = selectedItem;

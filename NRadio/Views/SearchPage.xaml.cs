@@ -11,7 +11,7 @@ namespace NRadio.Views
         public SearchPage()
         {
             Debug.WriteLine("SearchPage created");
-            this.InitializeComponent();
+            InitializeComponent();
             DataContext = ViewModel;
         }
     }
