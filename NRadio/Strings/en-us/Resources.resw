@@ -341,4 +341,28 @@
   <data name="Setting_Language_Menu.Content" xml:space="preserve">
     <value>Choose Language</value>
   </data>
+  <data name="RadioStationLoader_UpdateStation.CloseButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RadioStationLoader_UpdateStation.Content" xml:space="preserve">
+    <value>We are updating the list of stations for the first time, it may take up to 1 minute.
+If you have any problems with the list of stations or want to update it, you can do it here:
+Settings -&gt; Update stations</value>
+  </data>
+  <data name="RadioStationLoader_UpdateStation.Title" xml:space="preserve">
+    <value>Looks like you need to update the station list</value>
+  </data>
+  <data name="Settings_UpdateStation.Content" xml:space="preserve">
+    <value>When you refresh, the list of your recent stations and favorites will also be updated.
+You will also need to wait about a minute</value>
+  </data>
+  <data name="Settings_UpdateStation.NoButtonText" xml:space="preserve">
+    <value>No, no, thank you</value>
+  </data>
+  <data name="Settings_UpdateStation.Title" xml:space="preserve">
+    <value>Do you really want to update the station list?</value>
+  </data>
+  <data name="Settings_UpdateStation.YesButtonText" xml:space="preserve">
+    <value>Yes, I agree</value>
+  </data>
 </root>

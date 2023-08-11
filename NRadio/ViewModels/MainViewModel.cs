@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
+using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.Views;
 using System;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 
@@ -38,7 +40,7 @@ namespace NRadio.ViewModels
             ScrollRightLocalCommand = new RelayCommand(() => LocalHorizontalOffset += MoveOffset);
             ItemClickCommand = new RelayCommand<(RadioStation station, List<RadioStation> stations)>(OnOpenStationDetail);
 
-            Initialize();
+            InitializeAsync();
         }
 
         public ICommand ScrollLeftRecentCommand { get; private set; }
@@ -92,13 +94,24 @@ namespace NRadio.ViewModels
             set => SetProperty(ref localStations, value);
         }
 
-        public void Initialize()
+        public async Task InitializeAsync()
         {
             Debug.WriteLine("MainViewModel initialized");
 
-            Recent = RadioStationsContainer.RecentStations;
-            Favorite = RadioStationsContainer.FavoriteStations;
-            Local = new List<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
+            try
+            {
+                Recent = RadioStationsContainer.RecentStations;
+                Favorite = RadioStationsContainer.FavoriteStations;
+                Local = new List<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
+            }
+            catch (NullReferenceException)
+            {
+                await Task.Run(async () =>
+                {
+                    await RadioStationsLoader.ShowUpdateStationsMessageAsync();
+                    await RadioStationsLoader.InitializeAsync();
+                });
+            }
         }
 
         private void OnOpenStationDetail((RadioStation clickedItem, List<RadioStation> source) args)

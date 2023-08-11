@@ -207,7 +207,7 @@ namespace NRadio.ViewModels
 
         private void SetVolume() => PlayerService.SetVolume(Volume / 100); // Volume in PlayerService is in range 0-1
 
-        private async Task UpdateAudioList() => await RadioStationsLoader.UpdateRadioStations();
+        private async Task UpdateAudioList() => await RadioStationsLoader.UpdateRadioStationsAsync();
 
         private void SetGlyphsFromResources()
         {

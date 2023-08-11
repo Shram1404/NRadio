@@ -30,7 +30,7 @@ namespace NRadio.Core.BackgroundTasks
 
         public override async Task RunAsyncInternal(IBackgroundTaskInstance taskInstance)
         {
-            await RadioStationsLoader.UpdateRadioStations();
+            await RadioStationsLoader.UpdateRadioStationsAsync();
             await Task.CompletedTask;
         }
         public override async void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)

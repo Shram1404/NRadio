@@ -79,7 +79,7 @@ namespace NRadio
                 await ActivationService.ActivateAsync(args);
             }
 
-            await RadioStationsLoader.Initialize();
+            await RadioStationsLoader.InitializeAsync();
 
             var backgroundTaskService = new BackgroundTaskService();
             await backgroundTaskService.RegisterBackgroundTasksAsync();
