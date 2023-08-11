@@ -19,7 +19,7 @@ namespace NRadio.Services
                     if (SystemInformation.Instance.IsFirstRun && !shown)
                     {
                         shown = true;
-                        var dialog = new FirstRunDialog();
+                        var dialog = new FirstRunDialogPage();
                         await dialog.ShowAsync();
                     }
                 });

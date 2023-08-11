@@ -7,10 +7,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
     xmlns:xaml="using:Windows.UI.Xaml"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core">
+    
     <Page.Resources>
         <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
     </Page.Resources>
+
+    <!--<interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="NavigatedTo">
+            <core:CallMethodAction TargetObject="ViewModel" MethodName="InitializeAsync"/>
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>-->
 
     <Grid Margin="{StaticResource MediumLeftRightMargin}">
         <StackPanel

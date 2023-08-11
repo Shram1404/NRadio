@@ -1,15 +1,14 @@
-﻿using NRadio.Core.API;
-using NRadio.Core.Helpers;
-using NRadio.Core.Models;
-using NRadio.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using NRadio.Core.API;
+using NRadio.Core.Helpers;
+using NRadio.Core.Models;
+using NRadio.Helpers;
 using Windows.Storage;
 
 namespace NRadio.Core.Services
@@ -19,14 +18,24 @@ namespace NRadio.Core.Services
         private const int MaxRecentStations = 20;
 
         private static readonly StorageFolder folder = ApplicationData.Current.LocalFolder;
+        private static readonly Filter stationFilter = new Filter
+        {
+            HasName = true,
+            HasUrl = true,
+            HasTag = false,
+            HasFavicon = true,
+            HasCountry = true,
+            HasLanguage = true,
+            MinBitrate = 64
+        };
 
-        public static ConfigService Cfg { get; private set; }
+        private static Config cfg { get; set; }
 
         public static async Task Initialize()
         {
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///config.json"));
             string configJson = await FileIO.ReadTextAsync(configFile);
-            Cfg = JsonSerializer.Deserialize<ConfigService>(configJson);
+            cfg = JsonSerializer.Deserialize<Config>(configJson);
 
             try
             {
@@ -40,17 +49,7 @@ namespace NRadio.Core.Services
 
         public static async Task UpdateRadioStations()
         {
-            var options = new Filter
-            {
-                HasName = true,
-                HasUrl = true,
-                HasTag = false,
-                HasFavicon = true,
-                HasCountry = true,
-                HasLanguage = true,
-                MinBitrate = 64
-            };
-            await SaveFilteredStationsFromApiToContainerAsync(options);
+            await SaveFilteredStationsFromApiToContainerAsync(stationFilter);
             await SavePremiumFromSomewhereToContainerASync();
             await SaveAllStationsToFile();
             await LoadAllFromFileToContainerAsync();
@@ -98,23 +97,22 @@ namespace NRadio.Core.Services
         }
 
         private static async Task SaveAllToFileAsync() =>
-            await folder.SaveAsync(Cfg.RadioStationsFileName, RadioStationsContainer.AllStations);
+            await folder.SaveAsync(cfg.RadioStationsFileName, RadioStationsContainer.AllStations);
         private static async Task SaveRecentToFileAsync() =>
-            await folder.SaveAsync(Cfg.RecentStationsFileName, RadioStationsContainer.RecentStations);
+            await folder.SaveAsync(cfg.RecentStationsFileName, RadioStationsContainer.RecentStations);
         private static async Task SaveFavoriteToFileAsync() =>
-            await folder.SaveAsync(Cfg.FavoriteStationsFileName, RadioStationsContainer.FavoriteStations);
+            await folder.SaveAsync(cfg.FavoriteStationsFileName, RadioStationsContainer.FavoriteStations);
         private static async Task SavePremiumToFileAsync() =>
-            await folder.SaveAsync(Cfg.PremiumStationsFileName, RadioStationsContainer.PremiumStations);
+            await folder.SaveAsync(cfg.PremiumStationsFileName, RadioStationsContainer.PremiumStations);
 
         private static async Task<List<RadioStation>> LoadAllFromFileAsync() =>
-            await folder.ReadAsync<List<RadioStation>>(Cfg.RadioStationsFileName);
+            await folder.ReadAsync<List<RadioStation>>(cfg.RadioStationsFileName);
         private static async Task<List<RadioStation>> LoadRecentFromFileAsync() =>
-            await folder.ReadAsync<List<RadioStation>>(Cfg.RecentStationsFileName);
+            await folder.ReadAsync<List<RadioStation>>(cfg.RecentStationsFileName);
         private static async Task<List<RadioStation>> LoadFavoriteFromFileAsync() =>
-            await folder.ReadAsync<List<RadioStation>>(Cfg.FavoriteStationsFileName);
+            await folder.ReadAsync<List<RadioStation>>(cfg.FavoriteStationsFileName);
         private static async Task<List<RadioStation>> LoadPremiumFromFileAsync() =>
-            await folder.ReadAsync<List<RadioStation>>(Cfg.PremiumStationsFileName);
-
+            await folder.ReadAsync<List<RadioStation>>(cfg.PremiumStationsFileName);
 
         private static async Task SaveFilteredStationsFromApiToContainerAsync(Filter options) =>
             RadioStationsContainer.AllStations = FilterStations(await LoadStationsFromApiByAllCountryAsync(), options);
@@ -180,7 +178,7 @@ namespace NRadio.Core.Services
             return new List<RadioStation> { premiumStation };
         }
 
-        private enum Countries
+        private enum Countries // TODO: Add all countries or change to file storage before release
         {
             Ukraine,
             Poland,
