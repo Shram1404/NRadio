@@ -9,11 +9,6 @@ namespace NRadio.Core.Services
 {
     public class MicrosoftGraphService
     {
-        //// For more information about Get-User Service, refer to the following documentation
-        //// https://docs.microsoft.com/graph/api/user-get?view=graph-rest-1.0
-        //// You can test calls to the Microsoft Graph with the Microsoft Graph Explorer
-        //// https://developer.microsoft.com/graph/graph-explorer
-
         private const string graphAPIEndpoint = "https://graph.microsoft.com/v1.0/";
         private const string apiServiceMe = "me/";
         private const string apiServiceMePhoto = "me/photo/$value";
