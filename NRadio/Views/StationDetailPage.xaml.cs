@@ -1,11 +1,7 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Animations;
-
-using NRadio.Services;
-using NRadio.ViewModels;
+﻿using NRadio.ViewModels;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace NRadio.Views
 {

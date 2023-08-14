@@ -139,7 +139,6 @@ namespace NRadio.Services
         {
             yield return Singleton<BackgroundTaskService>.Instance;
             yield return Singleton<SuspendAndResumeService>.Instance;
-            yield return Singleton<WebToAppLinkActivationHandler>.Instance;
         }
 
         private bool IsInteractive(object args)
