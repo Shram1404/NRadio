@@ -16,7 +16,7 @@ namespace NRadio.ViewModels
     {
         private ICommand itemClickCommand;
         private List<RadioStation> playlist = new List<RadioStation>();
-        private IncrementalLoadingCollection<IncrementalPlaylist, RadioStation> incrementalPlaylist; // Playlist with incremental loading on scroll
+        private IncrementalLoadingCollection<IncrementalPlaylist, RadioStation> incrementalPlaylist;
 
         public StationsListViewModel()
         {

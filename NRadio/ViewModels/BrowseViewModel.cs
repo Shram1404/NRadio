@@ -76,7 +76,6 @@ namespace NRadio.ViewModels
                 case BrowseBy.Podcasts:
                     Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("podcast")));
                     break;
-                    // TODO: Add subpage with different locations and languages
             }
 
             ((App)Application.Current).ViewModelLocator.StationsListVM.LoadData(Stations);

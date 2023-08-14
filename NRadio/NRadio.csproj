@@ -176,7 +176,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
-    <Compile Include="Activation\WebToAppLinkActivationHandler.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="Behaviors\ListViewOffsetBehavior.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderBehavior.cs" />
@@ -190,7 +189,6 @@
     <Compile Include="Core\Helpers\RadioStationsContainer.cs" />
     <Compile Include="Core\Helpers\Singleton.cs" />
     <Compile Include="Core\Helpers\StreamExtensions.cs" />
-    <Compile Include="Core\Helpers\TaskExtensions.cs" />
     <Compile Include="Core\Models\Filter.cs" />
     <Compile Include="Core\Models\RadioStation.cs" />
     <Compile Include="Core\Models\User.cs" />
