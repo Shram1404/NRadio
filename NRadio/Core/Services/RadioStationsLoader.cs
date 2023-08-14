@@ -5,11 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using NRadio.Core.API;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Helpers;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 
 namespace NRadio.Core.Services
 {
@@ -28,33 +31,36 @@ namespace NRadio.Core.Services
             HasLanguage = true,
             MinBitrate = 64
         };
+        private static bool isUpdating = false;
 
         private static Config cfg { get; set; }
 
-        public static async Task Initialize()
+        public static async Task InitializeAsync()
         {
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///config.json"));
             string configJson = await FileIO.ReadTextAsync(configFile);
             cfg = JsonSerializer.Deserialize<Config>(configJson);
 
-            try
-            {
-                await LoadAllFromFileToContainerAsync();
-            }
-            catch (FileNotFoundException)
-            {
-                await UpdateRadioStations();
-            }
+            await CheckFilesState();
         }
 
-        public static async Task UpdateRadioStations()
+        public static async Task UpdateRadioStationsAsync()
         {
-            await SaveFilteredStationsFromApiToContainerAsync(stationFilter);
-            await SavePremiumFromSomewhereToContainerASync();
-            await SaveAllStationsToFile();
-            await LoadAllFromFileToContainerAsync();
+            if (!isUpdating)
+            {
+                isUpdating = true;
+                await SaveFilteredStationsFromApiToContainerAsync(stationFilter);
+                await SavePremiumFromSomewhereToContainerASync();
+                await SaveAllStationsToFile();
+                await LoadAllFromFileToContainerAsync();
+                isUpdating = false;
 
-            Debug.WriteLine("RadioStations was updated");
+                Debug.WriteLine("RadioStations was updated");
+            }
+            else
+            {
+                Debug.WriteLine("RadioStations is already updating");
+            }
         }
 
         public static async Task AddToLastRecentAsync(RadioStation station)
@@ -86,6 +92,52 @@ namespace NRadio.Core.Services
             }
 
             await SaveFavoriteToFileAsync();
+        }
+
+        public static async Task ShowUpdateStationsMessageAsync()
+        {
+            if(!SystemInformation.Instance.IsFirstRun)
+            {
+                var loader = new ResourceLoader();
+                string title = loader.GetString("RadioStationLoader_UpdateStation/Title");
+                string content = loader.GetString("RadioStationLoader_UpdateStation/Content");
+                string closeButtonText = loader.GetString("RadioStationLoader_UpdateStation/CloseButtonText");
+
+                var dialog = new ContentDialog
+                {
+                    Title = title,
+                    Content = content,
+                    CloseButtonText = closeButtonText
+                };
+
+                await dialog.ShowAsync();
+            }
+          
+        }
+
+        private static async Task CheckFilesState()
+        {
+            bool isUpdated = false;
+            try
+            {
+                await LoadAllFromFileToContainerAsync();
+            }
+            catch (FileNotFoundException)
+            {
+                await ShowUpdateStationsMessageAsync();
+                await UpdateRadioStationsAsync();
+                isUpdated = true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            if (!isUpdated && (RadioStationsContainer.AllStations is null || RadioStationsContainer.AllStations.Count == 0))
+            {
+                await ShowUpdateStationsMessageAsync();
+                await UpdateRadioStationsAsync();
+            }
         }
 
         private static async Task SaveAllStationsToFile()

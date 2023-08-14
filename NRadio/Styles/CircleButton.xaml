@@ -8,7 +8,7 @@
                 <ControlTemplate TargetType="Button">
                     <Grid>
                         <Border x:Name="ButtonBorder" CornerRadius="100" Background="Transparent"
-                                BorderBrush="Black" BorderThickness="1">
+                                BorderBrush="{ThemeResource SystemAccentColorDark2}" BorderThickness="2">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <VisualStateManager.VisualStateGroups>

@@ -8,7 +8,9 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace NRadio.ViewModels
 {
@@ -23,14 +25,17 @@ namespace NRadio.ViewModels
         private ICommand updateStationsCommand;
         private ICommand buyPremiumCommand;
 
-        public SettingsViewModel() { InitializeAsync(); }
+        public SettingsViewModel()
+        {
+            InitializeAsync();
+        }
 
         private UserDataService UserDataService => Singleton<UserDataService>.Instance;
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
 
         public ElementTheme ElementTheme
         {
-            get => elementTheme; 
+            get => elementTheme;
             set => SetProperty(ref elementTheme, value);
         }
         public string VersionDescription
@@ -61,6 +66,7 @@ namespace NRadio.ViewModels
                 return switchThemeCommand;
             }
         }
+
         public ICommand SwitchLanguageCommand
         {
             get
@@ -75,8 +81,8 @@ namespace NRadio.ViewModels
             }
         }
         public ICommand LogoutCommand => logoutCommand ?? (logoutCommand = new RelayCommand(OnLogout));
-        public ICommand UpdateStationsCommand => updateStationsCommand ?? (updateStationsCommand = new RelayCommand(UpdateStationsAsync));
-        public ICommand BuyPremiumCommand => buyPremiumCommand ?? (buyPremiumCommand = new RelayCommand(async () => await BuyPremium()));
+        public ICommand UpdateStationsCommand => updateStationsCommand ?? (updateStationsCommand = new AsyncRelayCommand(ConfirmUpdateStationsAsync));
+        public ICommand BuyPremiumCommand => buyPremiumCommand ?? (buyPremiumCommand = new AsyncRelayCommand(async () => await BuyPremium()));
 
         public async Task InitializeAsync()
         {
@@ -112,6 +118,27 @@ namespace NRadio.ViewModels
         private async void OnLogout() => await IdentityService.LogoutAsync();
         private void OnLoggedOut(object sender, EventArgs e) => UnregisterEvents();
 
-        private async void UpdateStationsAsync() => await RadioStationsLoader.UpdateRadioStations();
+        private async Task ConfirmUpdateStationsAsync()
+        {
+            var loader = new ResourceLoader();
+            string title = loader.GetString("Settings_UpdateStation/Title");
+            string content = loader.GetString("Settings_UpdateStation/Content");
+            string yesButtonText = loader.GetString("Settings_UpdateStation/YesButtonText");
+            string noButtonText = loader.GetString("Settings_UpdateStation/NoButtonText");
+
+            var dialog = new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                PrimaryButtonText = yesButtonText,
+                CloseButtonText = noButtonText
+            };
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                await RadioStationsLoader.UpdateRadioStationsAsync();
+            }
+        }
     }
 }

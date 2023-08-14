@@ -15,22 +15,14 @@ namespace NRadio
     public sealed partial class App : Application
     {
         internal StoreContext context = null;
-
-        private IdentityService IdentityService => Singleton<IdentityService>.Instance;
-
-        private Lazy<ActivationService> activationService;
-
-        private ActivationService ActivationService
-        {
-            get { return activationService.Value; }
-        }
-
         private ServiceProvider serviceProvider;
-        public ViewModelLocator ViewModelLocator => serviceProvider.GetService<ViewModelLocator>();
+        private Lazy<ActivationService> activationService;
 
         public App()
         {
             InitializeComponent();
+
+            RadioStationsLoader.InitializeAsync();
 
             EnteredBackground += App_EnteredBackground;
             Resuming += App_Resuming;
@@ -44,16 +36,41 @@ namespace NRadio
 
         }
 
+        private IdentityService IdentityService => Singleton<IdentityService>.Instance;
+        private ActivationService ActivationService
+        {
+            get { return activationService.Value; }
+        }
+        public ViewModelLocator ViewModelLocator => serviceProvider.GetService<ViewModelLocator>();
+
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            if (!args.PrelaunchActivated)
+            {
+                await ActivationService.ActivateAsync(args);
+            }
+
+            var backgroundTaskService = new BackgroundTaskService();
+            await backgroundTaskService.RegisterBackgroundTasksAsync();
+        }
+
+        protected override async void OnActivated(IActivatedEventArgs args) => await ActivationService.ActivateAsync(args);
+
+        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            await ActivationService.ActivateAsync(args);
+        }
+
         private async Task InitializeLicense()
         {
             if (context == null)
             {
                 context = StoreContext.GetDefault();
             }
-            StoreProductResult result = await context.GetStoreProductForCurrentAppAsync();
+            var result = await context.GetStoreProductForCurrentAppAsync();
             if (result.ExtendedError == null)
             {
-                StoreProduct product = result.Product;
+                var product = result.Product;
             }
         }
 
@@ -70,24 +87,6 @@ namespace NRadio
             services.AddSingleton<StationsListViewModel>();
 
             serviceProvider = services.BuildServiceProvider();
-        }
-
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            if (!args.PrelaunchActivated)
-            {
-                await ActivationService.ActivateAsync(args);
-            }
-
-            await RadioStationsLoader.Initialize();
-
-            var backgroundTaskService = new BackgroundTaskService();
-            await backgroundTaskService.RegisterBackgroundTasksAsync();
-        }
-
-        protected override async void OnActivated(IActivatedEventArgs args)
-        {
-            await ActivationService.ActivateAsync(args);
         }
 
         private void OnAppUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -116,11 +115,6 @@ namespace NRadio
         private void App_Resuming(object sender, object e)
         {
             Singleton<SuspendAndResumeService>.Instance.ResumeApp();
-        }
-
-        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
-        {
-            await ActivationService.ActivateAsync(args);
         }
 
         private async void OnLoggedOut(object sender, EventArgs e)

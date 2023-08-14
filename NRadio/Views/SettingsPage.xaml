@@ -10,20 +10,30 @@
     mc:Ignorable="d"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core">
-    
+
     <Page.Resources>
         <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
     </Page.Resources>
 
-    <!--<interactivity:Interaction.Behaviors>
-        <core:EventTriggerBehavior EventName="NavigatedTo">
-            <core:CallMethodAction TargetObject="ViewModel" MethodName="InitializeAsync"/>
-        </core:EventTriggerBehavior>
-    </interactivity:Interaction.Behaviors>-->
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--641 is the default CompactModeThresholdWidth in NavigationView -->
+                        <AdaptiveTrigger MinWindowWidth="641" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ContentArea.Margin" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
-    <Grid Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid Margin="{StaticResource MediumLeftRightMargin}">
         <StackPanel
-            x:Name="ContentArea">
+            x:Name="ContentArea"
+            Margin="0,46,0,0">
             <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                 <TextBlock x:Uid="Settings_Theme" />
@@ -78,7 +88,7 @@
                 <DropDownButton.Flyout>
                     <MenuFlyout Placement="Bottom">
                         <MenuFlyoutItem Text="English" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="en-US"/>
-                        <MenuFlyoutItem Text="Ukrainian" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="uk-UA"/>
+                        <MenuFlyoutItem Text="Українська" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="uk-UA"/>
                     </MenuFlyout>
                 </DropDownButton.Flyout>
             </DropDownButton>
@@ -121,5 +131,6 @@
 
             </StackPanel>
         </StackPanel>
-    </Grid>    
+    </Grid>
+    </Grid>
 </Page>
