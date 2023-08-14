@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d"
     xmlns:helper="using:NRadio.Helpers">
 
@@ -52,7 +53,6 @@
                         Padding="{StaticResource XSmallLeftTopRightBottomMargin}"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
                         RelativePanel.AlignTopWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True">
                         <Image
@@ -123,7 +123,7 @@
                             HorizontalAlignment="Center"
                             MinWidth="200"
                             Margin="{StaticResource LargeTopMargin}"
-                            Background="{StaticResource SystemControlPageBackgroundChromeLowBrush}"
+                            Background="{ThemeResource SystemChromeAltHighColor }"
                             Padding="30">
                     <TextBlock x:Uid="StationDetail_Categories"
                                Grid.Row="0"

@@ -1,9 +1,12 @@
-﻿
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using NRadio.Core.Models;
+using NRadio.Services;
+using NRadio.Views;
+using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels
 {
@@ -13,14 +16,19 @@ namespace NRadio.ViewModels
         private const int MoveOffset = 200;
 
         private double horizontalOffset;
+        private List<RadioStation> playlsit;
 
-        public HorizontalItemScrollViewModel()
+        public HorizontalItemScrollViewModel() { }
+
+        public ICommand ScrollLeftCommand => new RelayCommand(() => HorizontalOffset -= MoveOffset);
+        public ICommand ScrollRightCommand => new RelayCommand(() => HorizontalOffset += MoveOffset);
+        public ICommand ItemClickCommand => new RelayCommand<(RadioStation station, List<RadioStation> stations)>(OnClickAtStation);
+
+        public List<RadioStation> Playlist
         {
-
+            get => playlsit;
+            set => SetProperty(ref playlsit, value);
         }
-
-        private ICommand ScrollLeftCommand => new RelayCommand(() => HorizontalOffset -= MoveOffset);
-
         public double HorizontalOffset
         {
             get => horizontalOffset;
@@ -29,6 +37,13 @@ namespace NRadio.ViewModels
                 value = Math.Max(MinOffset, value);
                 SetProperty(ref horizontalOffset, value);
             }
+        }
+
+        private void OnClickAtStation((RadioStation clickedItem, List<RadioStation> source) args)
+        {
+            var (clickedItem, source) = args;
+            NavigationService.Navigate<StationDetailPage>(clickedItem.Name);
+            ((App)Application.Current).ViewModelLocator.StationDetailVM.Initialize(source, clickedItem, source.IndexOf(clickedItem));
         }
     }
 }

@@ -220,6 +220,7 @@
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="Services\UserDataService.cs" />
     <Compile Include="ViewModels\BrowseViewModel.cs" />
+    <Compile Include="ViewModels\HorizontalItemScrollViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\StationDetailViewModel.cs" />
     <Compile Include="ViewModels\StationsListViewModel.cs" />
@@ -232,6 +233,9 @@
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\BrowsePage.xaml.cs">
       <DependentUpon>BrowsePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HorizontalItemScrollControl.xaml.cs">
+      <DependentUpon>HorizontalItemScrollControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StationDetailPage.xaml.cs">
       <DependentUpon>StationDetailPage.xaml</DependentUpon>
@@ -296,6 +300,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BrowsePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HorizontalItemScrollControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
