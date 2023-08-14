@@ -365,4 +365,7 @@ You will also need to wait about a minute</value>
   <data name="Settings_UpdateStation.YesButtonText" xml:space="preserve">
     <value>Yes, I agree</value>
   </data>
+  <data name="StationDetail_Categories.Text" xml:space="preserve">
+    <value>Categories</value>
+  </data>
 </root>

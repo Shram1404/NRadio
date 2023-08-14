@@ -43,11 +43,6 @@
                     <media:BackdropBlurBrush Amount="20" />
                 </Border.Background>
             </Border>
-            <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
-                <Border.Background>
-                    <SolidColorBrush Color="#000000" Opacity="0.5" />
-                </Border.Background>
-            </Border>
 
             <Button Grid.Row="0" Grid.Column="2"
                     Height="48" Width="48"

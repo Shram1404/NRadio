@@ -5,19 +5,40 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Style="{StaticResource PageStyle}">
 
-    <Grid>
+<Grid>
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup>
+            <VisualState>
+                <VisualState.StateTriggers>
+                    <!--641 is the default CompactModeThresholdWidth in NavigationView -->
+                    <AdaptiveTrigger MinWindowWidth="641" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="SearchArea.Margin" Value="0" />
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <Grid x:Name="SearchArea"
+          Margin="{StaticResource LargeTopMargin}">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
-        <TextBox PlaceholderText="Search" Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="8" />
+        <TextBox x:Name="SearchBox"
+                 PlaceholderText="Search"
+                 Text="{x:Bind ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="8" />
 
         <UserControl x:Name="StationsListControl"
                      Content="{Binding StationsListUserControl}"
-                     Grid.Row="1">
-        </UserControl>
+                     Grid.Row="1"/>
     </Grid>
+</Grid>
 </Page>

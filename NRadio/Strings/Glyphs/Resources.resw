@@ -135,4 +135,10 @@
   <data name="Previous_Glyph" xml:space="preserve">
     <value></value>
   </data>
+  <data name="Scroll_Left_Glyph" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Scroll_Right_Glyph" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

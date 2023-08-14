@@ -9,16 +9,32 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:helper="using:NRadio.Helpers"
     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+    Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
         <helper:ItemClickEventArgsConverter x:Key="Converter"/>
         <helper:RadioStationListConverter x:Key="StationConverter" />
+        <helper:Glyphs x:Key="GlyphCode"/>
     </Page.Resources>
-    
-    <Grid x:Name="ContentArea" Margin="{StaticResource LargeTopMargin}">
+    <Grid>
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup>
+            <VisualState>
+                <VisualState.StateTriggers>
+                    <!--641 is the default CompactModeThresholdWidth in NavigationView -->
+                    <AdaptiveTrigger MinWindowWidth="641" />
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="ContentArea.Margin" Value="0" />
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <Grid x:Name="ContentArea" Margin="0,46,0,0">
         <Grid
-            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -29,9 +45,21 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Left" Command="{x:Bind ViewModel.ScrollLeftRecentCommand}"/>
-                    <Button Content="Right" Command="{x:Bind ViewModel.ScrollRightRecentCommand}"/>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="{StaticResource SmallLeftTopRightBottomMargin}">
+                    <Button Command="{x:Bind ViewModel.ScrollLeftRecentCommand}"
+                            Style="{StaticResource CircleButtonStyle}"
+                            Width="36"
+                            Height="36">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Scroll_Left_Glyph]}"/>
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.ScrollRightRecentCommand}"
+                            Style="{StaticResource CircleButtonStyle}"
+                            Width="36"
+                            Height="36">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Scroll_Right_Glyph]}"/>
+                    </Button>
                 </StackPanel>
 
                 <ListView Grid.Row="1"
@@ -51,7 +79,7 @@
                         </core:EventTriggerBehavior>
                         <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.RecentHorizontalOffset, Mode=TwoWay}"/>
                     </Interactivity:Interaction.Behaviors>
-                    
+
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -73,12 +101,18 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <Button Content="Left" Command="{x:Bind ViewModel.ScrollLeftFavoriteCommand}"/>
-                    <Button Content="Right" Command="{x:Bind ViewModel.ScrollRightFavoriteCommand}"/>
-                </StackPanel>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Button Command="{x:Bind ViewModel.ScrollLeftFavoriteCommand}"
+                            Style="{StaticResource CircleButtonStyle}">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Scroll_Left_Glyph]}"/>
+                        </Button>
+                        <Button Command="{x:Bind ViewModel.ScrollRightFavoriteCommand}"
+                            Style="{StaticResource CircleButtonStyle}">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Scroll_Right_Glyph]}"/>
+                        </Button>
+                    </StackPanel>
 
-                <ListView Grid.Row="3"
+                    <ListView Grid.Row="3"
                           ItemsSource="{x:Bind ViewModel.Favorite}"
                           ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollMode="Enabled"
                           IsItemClickEnabled="True">
@@ -93,9 +127,8 @@
                                 </core:InvokeCommandAction.InputConverterParameter>
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
-                        <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.RecentHorizontalOffset, Mode=TwoWay}"/>
+                        <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.FavoriteHorizontalOffset, Mode=TwoWay}"/>
                     </Interactivity:Interaction.Behaviors>
-
 
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -119,9 +152,15 @@
                 </ListView>
 
                 <StackPanel Grid.Row="4" Orientation="Horizontal">
-                    <Button Content="Left" Command="{x:Bind ViewModel.ScrollLeftLocalCommand}"/>
-                    <Button Content="Right" Command="{x:Bind ViewModel.ScrollRightLocalCommand}"/>
-                </StackPanel>
+                        <Button Command="{x:Bind ViewModel.ScrollLeftLocalCommand}"
+                            Style="{StaticResource CircleButtonStyle}">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Scroll_Left_Glyph]}"/>
+                        </Button>
+                        <Button Command="{x:Bind ViewModel.ScrollRightLocalCommand}"
+                            Style="{StaticResource CircleButtonStyle}">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Scroll_Right_Glyph]}"/>
+                        </Button>
+                    </StackPanel>
 
                 <ListView Grid.Row="5"
                           ItemsSource="{x:Bind ViewModel.Local}"
@@ -139,7 +178,7 @@
                                 </core:InvokeCommandAction.InputConverterParameter>
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
-                        <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.RecentHorizontalOffset, Mode=TwoWay}"/>
+                        <b:ListViewOffsetBehavior HorizontalOffset="{x:Bind ViewModel.LocalHorizontalOffset, Mode=TwoWay}"/>
                     </Interactivity:Interaction.Behaviors>
 
                     <ListView.ItemsPanel>
@@ -164,5 +203,6 @@
                 </ListView>
             </Grid>
         </Grid>
+    </Grid>
     </Grid>
 </Page>

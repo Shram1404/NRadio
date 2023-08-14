@@ -1,17 +1,16 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.Views;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels
@@ -19,6 +18,8 @@ namespace NRadio.ViewModels
     public class MainViewModel : ObservableObject
     {
         private const int MoveOffset = 200;
+        private const int MaxStations = 20;
+        private const int MinOffset = 0;
 
         private double recentHorizontalOffset;
         private double favoriteHorizontalOffset;
@@ -32,10 +33,10 @@ namespace NRadio.ViewModels
         {
             Debug.WriteLine("MainViewModel created");
 
-            ScrollLeftFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset -= MoveOffset);
-            ScrollRightFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset += MoveOffset);
             ScrollLeftRecentCommand = new RelayCommand(() => RecentHorizontalOffset -= MoveOffset);
             ScrollRightRecentCommand = new RelayCommand(() => RecentHorizontalOffset += MoveOffset);
+            ScrollLeftFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset -= MoveOffset);
+            ScrollRightFavoriteCommand = new RelayCommand(() => FavoriteHorizontalOffset += MoveOffset);
             ScrollLeftLocalCommand = new RelayCommand(() => LocalHorizontalOffset -= MoveOffset);
             ScrollRightLocalCommand = new RelayCommand(() => LocalHorizontalOffset += MoveOffset);
             ItemClickCommand = new RelayCommand<(RadioStation station, List<RadioStation> stations)>(OnOpenStationDetail);
@@ -56,7 +57,7 @@ namespace NRadio.ViewModels
             get => recentHorizontalOffset;
             set
             {
-                value = Math.Max(0, value);
+                value = Math.Max(MinOffset, value);
                 SetProperty(ref recentHorizontalOffset, value);
             }
         }
@@ -65,7 +66,7 @@ namespace NRadio.ViewModels
             get => favoriteHorizontalOffset;
             set
             {
-                value = Math.Max(0, value);
+                value = Math.Max(MinOffset, value);
                 SetProperty(ref favoriteHorizontalOffset, value);
             }
         }
@@ -74,7 +75,7 @@ namespace NRadio.ViewModels
             get => localHorizontalOffset;
             set
             {
-                value = Math.Max(0, value);
+                value = Math.Max(MinOffset, value);
                 SetProperty(ref localHorizontalOffset, value);
             }
         }
@@ -100,9 +101,9 @@ namespace NRadio.ViewModels
 
             try
             {
-                Recent = RadioStationsContainer.RecentStations;
-                Favorite = RadioStationsContainer.FavoriteStations;
-                Local = new List<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
+                Recent = RadioStationsContainer.RecentStations.Take(MaxStations).ToList();
+                Favorite = RadioStationsContainer.FavoriteStations.Take(MaxStations).ToList();
+                Local = new List<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA").Take(MaxStations)); // TODO: Change to real locale
             }
             catch (NullReferenceException)
             {

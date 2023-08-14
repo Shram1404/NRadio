@@ -93,7 +93,7 @@ namespace NRadio.ViewModels
             set
             {
                 SetProperty(ref isPlaying, value);
-                IsPlayGlyphString();
+                SetPlayGlyphString();
             }
         }
 
@@ -227,7 +227,7 @@ namespace NRadio.ViewModels
             }
         }
 
-        private void IsPlayGlyphString()
+        private void SetPlayGlyphString()
         {
             if (IsPlaying)
             {
@@ -245,8 +245,8 @@ namespace NRadio.ViewModels
         {
             if (radioStations.Count == 0) 
             {
-                var LastStation = RadioStationsContainer.RecentStations.Last();
-                await RadioStationsLoader.ChangeIsFavoriteAsync(LastStation);
+                var lastStation = RadioStationsContainer.RecentStations.Last();
+                await RadioStationsLoader.ChangeIsFavoriteAsync(lastStation);
             }
 
             await RadioStationsLoader.ChangeIsFavoriteAsync(CurrentStation);
