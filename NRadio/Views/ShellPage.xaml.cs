@@ -12,9 +12,9 @@ namespace NRadio.Views
         public ShellPage()
         {
             Debug.WriteLine("ShellPage created");
-
             InitializeComponent();
             DataContext = ViewModel;
+            Debug.WriteLine("ShellPage DataContext - " + DataContext);
             ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);
         }
     }

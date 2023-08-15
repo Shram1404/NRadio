@@ -17,28 +17,57 @@ namespace NRadio.ViewModels
         private List<RadioStation> recentStations;
         private List<RadioStation> favoriteStations;
         private List<RadioStation> localStations;
+        private bool recentVisible;
+        private bool favoriteVisible;
+        private bool localVisible;
 
         public MainViewModel()
         {
             Debug.WriteLine("MainViewModel created");
-
             InitializeAsync();
         }
 
         public List<RadioStation> Recent
         {
             get => recentStations;
-            set => SetProperty(ref recentStations, value);
+            set
+            {
+                SetProperty(ref recentStations, value);
+                CheckVisibility();
+            }
         }
         public List<RadioStation> Favorite
         {
             get => favoriteStations;
-            set => SetProperty(ref favoriteStations, value);
+            set
+            {
+                SetProperty(ref favoriteStations, value);
+                CheckVisibility();
+            }
         }
         public List<RadioStation> Local
         {
             get => localStations;
-            set => SetProperty(ref localStations, value);
+            set
+            {
+                SetProperty(ref localStations, value);
+                CheckVisibility();
+            }
+        }
+        public bool RecentVisible
+        {
+            get => recentVisible;
+            set => SetProperty(ref recentVisible, value);
+        }
+        public bool FavoriteVisible
+        {
+            get => favoriteVisible;
+            set => SetProperty(ref favoriteVisible, value);
+        }
+        public bool LocalVisible
+        {
+            get => localVisible;
+            set => SetProperty(ref localVisible, value);
         }
 
         public async Task InitializeAsync()
@@ -59,6 +88,15 @@ namespace NRadio.ViewModels
                     await RadioStationsLoader.InitializeAsync();
                 });
             }
+
+            CheckVisibility();
+        }
+
+        private void CheckVisibility()
+        {
+            RecentVisible = Recent != null && Recent.Count > 0;
+            FavoriteVisible = Favorite != null && Favorite.Count > 0;
+            LocalVisible = Local != null && Local.Count > 0;
         }
     }
 }

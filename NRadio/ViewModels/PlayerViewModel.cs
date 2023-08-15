@@ -20,6 +20,8 @@ namespace NRadio.ViewModels
     {
         const double DefaultVolume = 50;
 
+        private bool isPlayerCreated = false;
+
         private int currentStationIndex;
         private RadioStation CurrentStation;
         private List<RadioStation> radioStations;
@@ -37,6 +39,8 @@ namespace NRadio.ViewModels
             System.Diagnostics.Debug.WriteLine("PlayerVM created");
         }
 
+        public event EventHandler IsPlayerCreatedChanged;
+    
         public ICommand PlayPauseCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
         public ICommand PlayNextCommand { get; private set; }
@@ -44,6 +48,18 @@ namespace NRadio.ViewModels
         public ICommand UpdateAudioListCommand { get; private set; }
         public ICommand ChangeFavoriteStateCommand { get; private set; }
 
+        public bool IsPlayerCreated
+        {
+            get => isPlayerCreated;
+            set
+            {
+                if (isPlayerCreated != value)
+                {
+                    isPlayerCreated = value;
+                    IsPlayerCreatedChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
         public string StationName
         {
             get => stationName;
@@ -125,8 +141,9 @@ namespace NRadio.ViewModels
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayPrevious);
 
             PlayerService.PlayRadioStream(StationUrl);
-        
+
             IsPlaying = true;
+            IsPlayerCreated = true;
         }
 
         public void ChangePlaylist(List<RadioStation> radioStations, int currentStationIndex)

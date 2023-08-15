@@ -9,8 +9,8 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     xmlns:helper="using:NRadio.Helpers"
+    x:Name="HorizontalControl"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
 
     <UserControl.Resources>
         <helper:ItemClickEventArgsConverter x:Key="Converter"/>
@@ -37,7 +37,7 @@
         </StackPanel>
 
         <ListView x:Name="ContentArea"
-                  ItemsSource="{x:Bind ViewModel.Playlist}"
+                  ItemsSource="{x:Bind ViewModel.Source}"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollMode="Enabled"
                   IsItemClickEnabled="True">
@@ -48,7 +48,7 @@
                             <StaticResource ResourceKey="StationConverter" />
                         </core:InvokeCommandAction.InputConverter>
                         <core:InvokeCommandAction.InputConverterParameter>
-                            <Binding Path="Recent" />
+                            <Binding Path="Source" ElementName="HorizontalControl"/>
                         </core:InvokeCommandAction.InputConverterParameter>
                     </core:InvokeCommandAction>
                 </core:EventTriggerBehavior>

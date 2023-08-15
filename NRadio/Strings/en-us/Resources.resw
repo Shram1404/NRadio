@@ -368,4 +368,13 @@ You will also need to wait about a minute</value>
   <data name="StationDetail_Categories.Text" xml:space="preserve">
     <value>Categories</value>
   </data>
+  <data name="Main_FavoriteStations.Text" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="Main_LocalStations.Text" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="Main_RecentStations.Text" xml:space="preserve">
+    <value>Recent</value>
+  </data>
 </root>

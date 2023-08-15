@@ -8,9 +8,24 @@
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
 
-    <ScrollViewer x:Name="ContentArea">
-        <Grid
-            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--641 is the default CompactModeThresholdWidth in NavigationView -->
+                        <AdaptiveTrigger MinWindowWidth="641" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ContentArea.Margin" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        <Grid x:Name="ContentArea"
+              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+              Margin="0,46,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -18,20 +33,29 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <local:HorizontalItemScrollControl
-                        Grid.Row="0"
+                <StackPanel Orientation="Vertical" 
+                            Visibility="{Binding RecentVisible}"
+                            Grid.Row="0">
+                    <local:HorizontalItemScrollControl
                         x:Name="RecentStationsScroll"
                         Source="{x:Bind ViewModel.Recent}"/>
+                </StackPanel>
 
-                <local:HorizontalItemScrollControl
-                        Grid.Row="1"
+                <StackPanel Orientation="Vertical" 
+                            Visibility="{Binding FavoriteVisible}"
+                            Grid.Row="1">
+                    <local:HorizontalItemScrollControl
                         x:Name="FavoriteStationsScroll"
                         Source="{x:Bind ViewModel.Favorite}"/>
+                </StackPanel>
 
-                <local:HorizontalItemScrollControl
-                        Grid.Row="2"
+                <StackPanel Orientation="Vertical" 
+                            Visibility="{Binding LocalVisible}"
+                            Grid.Row="2">
+                    <local:HorizontalItemScrollControl
                         x:Name="LocalStationsScroll"
                         Source="{x:Bind ViewModel.Local}"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </ScrollViewer>

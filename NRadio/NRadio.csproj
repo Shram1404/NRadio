@@ -189,6 +189,7 @@
     <Compile Include="Core\Helpers\RadioStationsContainer.cs" />
     <Compile Include="Core\Helpers\Singleton.cs" />
     <Compile Include="Core\Helpers\StreamExtensions.cs" />
+    <Compile Include="Core\Helpers\TaskExtensions.cs" />
     <Compile Include="Core\Models\Filter.cs" />
     <Compile Include="Core\Models\RadioStation.cs" />
     <Compile Include="Core\Models\User.cs" />

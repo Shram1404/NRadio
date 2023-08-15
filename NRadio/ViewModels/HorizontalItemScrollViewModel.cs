@@ -16,7 +16,7 @@ namespace NRadio.ViewModels
         private const int MoveOffset = 200;
 
         private double horizontalOffset;
-        private List<RadioStation> playlsit;
+        private List<RadioStation> source;
 
         public HorizontalItemScrollViewModel() { }
 
@@ -24,10 +24,10 @@ namespace NRadio.ViewModels
         public ICommand ScrollRightCommand => new RelayCommand(() => HorizontalOffset += MoveOffset);
         public ICommand ItemClickCommand => new RelayCommand<(RadioStation station, List<RadioStation> stations)>(OnClickAtStation);
 
-        public List<RadioStation> Playlist
+        public List<RadioStation> Source
         {
-            get => playlsit;
-            set => SetProperty(ref playlsit, value);
+            get => source;
+            set => SetProperty(ref source, value);
         }
         public double HorizontalOffset
         {
@@ -39,11 +39,11 @@ namespace NRadio.ViewModels
             }
         }
 
-        private void OnClickAtStation((RadioStation clickedItem, List<RadioStation> source) args)
+        private void OnClickAtStation((RadioStation clickedItem, List<RadioStation> thisSource) args)
         {
-            var (clickedItem, source) = args;
+            var (clickedItem, thisSource) = args;
             NavigationService.Navigate<StationDetailPage>(clickedItem.Name);
-            ((App)Application.Current).ViewModelLocator.StationDetailVM.Initialize(source, clickedItem, source.IndexOf(clickedItem));
+            ((App)Application.Current).ViewModelLocator.StationDetailVM.Initialize(thisSource, clickedItem, source.IndexOf(clickedItem));
         }
     }
 }

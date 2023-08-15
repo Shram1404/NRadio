@@ -81,7 +81,7 @@ namespace NRadio
             services.AddSingleton<ViewModelLocator>();
 
             services.AddTransient<MainViewModel>();
-            services.AddTransient<ShellViewModel>();
+            services.AddSingleton<ShellViewModel>();
             services.AddSingleton<PlayerViewModel>();
             services.AddSingleton<StationDetailViewModel>();
             services.AddSingleton<StationsListViewModel>();

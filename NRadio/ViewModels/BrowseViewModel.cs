@@ -1,15 +1,15 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using NRadio.Core.Helpers;
-using NRadio.Core.Models;
-using NRadio.Services;
-using NRadio.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using NRadio.Core.Helpers;
+using NRadio.Core.Models;
+using NRadio.Core.Services;
+using NRadio.Services;
+using NRadio.Views;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,48 +38,55 @@ namespace NRadio.ViewModels
 
         private async Task GoToSortedListPage(BrowseBy sortBy)
         {
-            switch (sortBy)
+            if(allStations != null && allStations.Count > 0)
             {
-                case BrowseBy.Premium:
-                    if (true)  // TODO: Change to real premium check
-                    {
-                        Stations = new List<RadioStation>(RadioStationsContainer.PremiumStations);
-                    }
-                    else
-                    {
-                        await ShowPremiumDialog();
-                    }
+                switch (sortBy)
+                {
+                    case BrowseBy.Premium:
+                        if (true)  // TODO: Change to real premium check
+                        {
+                            Stations = new List<RadioStation>(RadioStationsContainer.PremiumStations);
+                        }
+                        else
+                        {
+                            await ShowPremiumDialog();
+                        }
 
-                    break;
-                case BrowseBy.Local:
-                    Stations = new List<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
-                    break;
-                case BrowseBy.Recent:
-                    Stations = RadioStationsContainer.RecentStations;
-                    break;
-                case BrowseBy.Favorites:
-                    Stations = RadioStationsContainer.FavoriteStations;
-                    break;
-                case BrowseBy.Trending:
-                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("trending")));
-                    break;
-                case BrowseBy.Music:
-                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("music")));
-                    break;
-                case BrowseBy.Sports:
-                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("sport")));
-                    break;
-                case BrowseBy.NewsAndTalk:
-                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("news")
-                    || s.Tags.Contains("talk")));
-                    break;
-                case BrowseBy.Podcasts:
-                    Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("podcast")));
-                    break;
-            }
+                        break;
+                    case BrowseBy.Local:
+                        Stations = new List<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
+                        break;
+                    case BrowseBy.Recent:
+                        Stations = RadioStationsContainer.RecentStations;
+                        break;
+                    case BrowseBy.Favorites:
+                        Stations = RadioStationsContainer.FavoriteStations;
+                        break;
+                    case BrowseBy.Trending:
+                        Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("trending")));
+                        break;
+                    case BrowseBy.Music:
+                        Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("music")));
+                        break;
+                    case BrowseBy.Sports:
+                        Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("sport")));
+                        break;
+                    case BrowseBy.NewsAndTalk:
+                        Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("news")
+                        || s.Tags.Contains("talk")));
+                        break;
+                    case BrowseBy.Podcasts:
+                        Stations = new List<RadioStation>(allStations.Where(s => s.Tags.Contains("podcast")));
+                        break;
+                }
 
             ((App)Application.Current).ViewModelLocator.StationsListVM.LoadData(Stations);
-            NavigationService.Navigate<StationsListPage>();
+                NavigationService.Navigate<StationsListPage>();
+            }
+            else
+            {
+                await RadioStationsLoader.ShowUpdateStationsMessageAsync();
+            }
         }
 
         private async Task ShowPremiumDialog()

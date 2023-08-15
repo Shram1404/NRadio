@@ -11,6 +11,7 @@ using NRadio.Helpers;
 using NRadio.Services;
 using NRadio.Views;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -23,6 +24,7 @@ namespace NRadio.ViewModels
         private readonly KeyboardAccelerator altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
         private readonly KeyboardAccelerator backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
 
+        private bool isPlayerCreated;
         private bool isBackEnabled;
         private IList<KeyboardAccelerator> keyboardAccelerators;
         private WinUI.NavigationView navigationView;
@@ -47,6 +49,11 @@ namespace NRadio.ViewModels
         public ICommand UserProfileCommand => userProfileCommand ?? (userProfileCommand = new RelayCommand(OnUserProfile));
         public ICommand NavigateToPlayerCommand => playerCommand ?? (playerCommand = new RelayCommand(OnNavigateToPlayer));
 
+        public bool IsPlayerCreated
+        {
+            get => isPlayerCreated;
+            set => SetProperty(ref isPlayerCreated, value);
+        }
         public bool IsBackEnabled
         {
             get => isBackEnabled;
@@ -73,6 +80,7 @@ namespace NRadio.ViewModels
             this.navigationView = navigationView;
             this.keyboardAccelerators = keyboardAccelerators;
             NavigationService.Frame = frame;
+            ((App)App.Current).ViewModelLocator.PlayerVM.IsPlayerCreatedChanged += OnIsPlayerCreatedChanged;
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
             this.navigationView.BackRequested += OnBackRequested;
@@ -193,6 +201,12 @@ namespace NRadio.ViewModels
         private void OnNavigateToPlayer()
         {
             NavigationService.Navigate<PlayerPage>();
+        }
+
+        private void OnIsPlayerCreatedChanged(object sender, EventArgs e)
+        {
+            var playerViewModel = sender as PlayerViewModel;
+            IsPlayerCreated = playerViewModel.IsPlayerCreated;
         }
     }
 }

@@ -40,8 +40,6 @@ namespace NRadio.Services
         {
             if (!BackgroundTaskRegistration.AllTasks.Any(t => t.Value.Name == typeof(T).Name))
             {
-                // This condition should not be met. If it is it means the background task was not registered correctly.
-                // Please check CreateInstances to see if the background task was properly added to the BackgroundTasks property.
                 return null;
             }
 
@@ -54,8 +52,6 @@ namespace NRadio.Services
 
             if (task == null)
             {
-                // This condition should not be met. It is it it means the background task to start was not found in the background tasks managed by this service.
-                // Please check CreateInstances to see if the background task was properly added to the BackgroundTasks property.
                 return;
             }
 

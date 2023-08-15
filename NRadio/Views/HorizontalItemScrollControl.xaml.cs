@@ -24,7 +24,7 @@ namespace NRadio.Views
             set
             {
                 SetValue(SourceProperty, value);
-                ViewModel.Playlist = value;
+                ViewModel.Source = value;
             }
         }
     }

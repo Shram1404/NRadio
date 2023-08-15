@@ -26,7 +26,6 @@
                 </ImageBrush>
             </Grid.Background>
 
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="8*"/>
                 <RowDefinition Height="16*"/>
@@ -41,6 +40,11 @@
             <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
                 <Border.Background>
                     <media:BackdropBlurBrush Amount="20" />
+                </Border.Background>
+            </Border>
+            <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
+                <Border.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.5" />
                 </Border.Background>
             </Border>
 
@@ -62,12 +66,15 @@
                 <Image Source="{Binding StationImageUrl}" Stretch="Uniform"/>
             </Viewbox>
 
-            <StackPanel  Grid.Row="3" Grid.Column="1"
-                         Orientation="Horizontal"
-                         HorizontalAlignment="Center" VerticalAlignment="Top"
-                         Margin="{StaticResource LargeTopMargin}">
+            <RelativePanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">
+                <StackPanel x:Name="PlayerControls"
+                            RelativePanel.AlignHorizontalCenterWithPanel="True"
+                            Grid.Row="3" Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center" VerticalAlignment="Top"
+                            Margin="{StaticResource LargeTopMargin}">
 
-                <Button Style="{StaticResource CircleButtonStyle}"
+                    <Button Style="{StaticResource CircleButtonStyle}"
                         Height="48" Width="48"
                         Command="{Binding PlayPreviousCommand}"
                         Margin="{StaticResource SmallRightMargin}">
@@ -89,14 +96,16 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Next_Glyph]}"/>
                 </Button>
             </StackPanel>
-            <Slider Orientation="Vertical"
-                    Grid.Row="3" Grid.Column="1"
-                    x:Name="VolumeSlider"
-                    MinHeight="64"
-                    Minimum="0" Maximum="100"
-                    Value="{Binding Volume, Mode=TwoWay}"
-                    VerticalAlignment="Top" HorizontalAlignment="Right"
-                    Margin="0,32,30,0"/>
+                <Slider RelativePanel.RightOf="PlayerControls"
+                        RelativePanel.AlignVerticalCenterWith="PlayerControls"
+                        Orientation="Vertical"
+                        Grid.Row="2" Grid.Column="2"
+                        x:Name="VolumeSlider"
+                        MinHeight="64"
+                        Minimum="0" Maximum="100"
+                        Value="{Binding Volume, Mode=TwoWay}"
+                        Margin="0,24,0,0"/>
+            </RelativePanel>
         </Grid>
     </Grid>
 </Page>

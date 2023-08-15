@@ -31,7 +31,7 @@
     </winui:NavigationView.MenuItems>
         
         <winui:NavigationView.PaneFooter>
-            <views:MiniPlayerPage>
+            <views:MiniPlayerPage Visibility="{x:Bind ViewModel.IsPlayerCreated, Mode=OneWay}">
                 <i:Interaction.Behaviors>
                     <ic:EventTriggerBehavior EventName="Tapped">
                         <ic:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToPlayerCommand}" />

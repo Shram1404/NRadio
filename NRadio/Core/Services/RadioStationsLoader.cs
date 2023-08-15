@@ -96,23 +96,21 @@ namespace NRadio.Core.Services
 
         public static async Task ShowUpdateStationsMessageAsync()
         {
-            if(!SystemInformation.Instance.IsFirstRun)
+
+            var loader = new ResourceLoader();
+            string title = loader.GetString("RadioStationLoader_UpdateStation/Title");
+            string content = loader.GetString("RadioStationLoader_UpdateStation/Content");
+            string closeButtonText = loader.GetString("RadioStationLoader_UpdateStation/CloseButtonText");
+
+            var dialog = new ContentDialog
             {
-                var loader = new ResourceLoader();
-                string title = loader.GetString("RadioStationLoader_UpdateStation/Title");
-                string content = loader.GetString("RadioStationLoader_UpdateStation/Content");
-                string closeButtonText = loader.GetString("RadioStationLoader_UpdateStation/CloseButtonText");
+                Title = title,
+                Content = content,
+                CloseButtonText = closeButtonText
+            };
 
-                var dialog = new ContentDialog
-                {
-                    Title = title,
-                    Content = content,
-                    CloseButtonText = closeButtonText
-                };
+            await dialog.ShowAsync();
 
-                await dialog.ShowAsync();
-            }
-          
         }
 
         private static async Task CheckFilesState()
@@ -124,7 +122,11 @@ namespace NRadio.Core.Services
             }
             catch (FileNotFoundException)
             {
-                await ShowUpdateStationsMessageAsync();
+                if (!SystemInformation.Instance.IsFirstRun)
+                {
+                    await ShowUpdateStationsMessageAsync();
+                }
+
                 await UpdateRadioStationsAsync();
                 isUpdated = true;
             }
@@ -135,7 +137,11 @@ namespace NRadio.Core.Services
 
             if (!isUpdated && (RadioStationsContainer.AllStations is null || RadioStationsContainer.AllStations.Count == 0))
             {
-                await ShowUpdateStationsMessageAsync();
+                if (!SystemInformation.Instance.IsFirstRun)
+                {
+                    await ShowUpdateStationsMessageAsync();
+                }
+
                 await UpdateRadioStationsAsync();
             }
         }
@@ -214,7 +220,7 @@ namespace NRadio.Core.Services
 
         private static async Task<List<RadioStation>> LoadPremiumStationsFromSomewhereAsync()
         {
-            // TODO: Change to API or save in file before release
+            // TODO: Change to API before release
             var premiumStation = new RadioStation
             {
                 Name = "Anison",
