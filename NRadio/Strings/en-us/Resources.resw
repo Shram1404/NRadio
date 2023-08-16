@@ -137,18 +137,6 @@
     <value>ListDetails</value>
     <comment>Title for ListDetailsPage</comment>
   </data>
-  <data name="TreeViewTitle.Text" xml:space="preserve">
-    <value>TreeView</value>
-    <comment>Title for TreeViewPage</comment>
-  </data>
-  <data name="TreeView_CollapseAllButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Collapse all</value>
-    <comment>Tooltip for Collapse all button in TreeViewPages</comment>
-  </data>
-  <data name="TreeView_CollapseAllButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Collapse all</value>
-    <comment>Automation Name for Collapse all button in TreeViewPages</comment>
-  </data>
   <data name="Shell_Player.Content" xml:space="preserve">
     <value>Player</value>
     <comment>Navigation view item name for Player</comment>
@@ -174,7 +162,7 @@
     <comment>About this application title for Settings</comment>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>Settings page placeholder text.  Your app description goes here.</value>
+    <value>This is my first UWP app.</value>
     <comment>About this application description for Settings</comment>
   </data>
   <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
@@ -229,16 +217,9 @@
     <value>Something went wrong during the login, please try again.</value>
     <comment>Status message for login fails result</comment>
   </data>
-  <data name="Settings_User.Text" xml:space="preserve">
-    <value>User</value>
-    <comment>Settings section title for User</comment>
-  </data>
   <data name="Settings_LogOut.Content" xml:space="preserve">
     <value>Log out</value>
     <comment>Settings LogOut user content</comment>
-  </data>
-  <data name="Settings_UpdateStations.Content" xml:space="preserve">
-    <value>Update stations</value>
   </data>
   <data name="Settings_RadioListSettings.Text" xml:space="preserve">
     <value>Radio list settings</value>
@@ -277,34 +258,6 @@
   <data name="Browse_Trending_Button.Content" xml:space="preserve">
     <value>Trending</value>
   </data>
-  <data name="Premium_ErrorBuy.CloseButtonText" xml:space="preserve">
-    <value>Ok</value>
-  </data>
-  <data name="Premium_ErrorBuy.Content" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Premium_ErrorBuy.Title" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Premium_NotActive.CloseButtonText" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="Premium_NotActive.Content" xml:space="preserve">
-    <value>We're sorry, but you can't access premium stations because you don't have an active premium license. You can purchase a premium license in the "Settings"</value>
-  </data>
-  <data name="Premium_NotActive.Title" xml:space="preserve">
-    <value>Premium is not active</value>
-    <comment>Content dialog when user without premium try use premium feature</comment>
-  </data>
-  <data name="Premium_SucefullBuy.CloseButtonText" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="Premium_SucefullBuy.Content" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Premium_SucefullBuy.Title" xml:space="preserve">
-    <value />
-  </data>
   <data name="StationDetail_Bitrate.Text" xml:space="preserve">
     <value>Bitrate</value>
   </data>
@@ -341,30 +294,6 @@
   <data name="Setting_Language_Menu.Content" xml:space="preserve">
     <value>Choose Language</value>
   </data>
-  <data name="RadioStationLoader_UpdateStation.CloseButtonText" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="RadioStationLoader_UpdateStation.Content" xml:space="preserve">
-    <value>We are updating the list of stations for the first time, it may take up to 1 minute.
-If you have any problems with the list of stations or want to update it, you can do it here:
-Settings -&gt; Update stations</value>
-  </data>
-  <data name="RadioStationLoader_UpdateStation.Title" xml:space="preserve">
-    <value>Looks like you need to update the station list</value>
-  </data>
-  <data name="Settings_UpdateStation.Content" xml:space="preserve">
-    <value>When you refresh, the list of your recent stations and favorites will also be updated.
-You will also need to wait about a minute</value>
-  </data>
-  <data name="Settings_UpdateStation.NoButtonText" xml:space="preserve">
-    <value>No, no, thank you</value>
-  </data>
-  <data name="Settings_UpdateStation.Title" xml:space="preserve">
-    <value>Do you really want to update the station list?</value>
-  </data>
-  <data name="Settings_UpdateStation.YesButtonText" xml:space="preserve">
-    <value>Yes, I agree</value>
-  </data>
   <data name="StationDetail_Categories.Text" xml:space="preserve">
     <value>Categories</value>
   </data>
@@ -377,16 +306,76 @@ You will also need to wait about a minute</value>
   <data name="Main_RecentStations.Text" xml:space="preserve">
     <value>Recent</value>
   </data>
-  <data name="Premium_SimulatorBuyConfirm.Content" xml:space="preserve">
-    <value>Do you want to purchase {0}?</value>
+  <data name="Dialog_AlreadyPurchased.Content" xml:space="preserve">
+    <value>It looks like your subscription hasn't expired yet</value>
   </data>
-  <data name="Premium_SimulatorBuyConfirm.No" xml:space="preserve">
-    <value>No</value>
+  <data name="Dialog_AlreadyPurchased.Ok" xml:space="preserve">
+    <value>OK</value>
   </data>
-  <data name="Premium_SimulatorBuyConfirm.Ok" xml:space="preserve">
+  <data name="Dialog_AlreadyPurchased.Title" xml:space="preserve">
+    <value>You already have a subscription</value>
+  </data>
+  <data name="Dialog_NeedStationsUpdate.Content" xml:space="preserve">
+    <value>We are updating the list of stations for the first time, it may take up to 1 minute.
+If you have any problems with the list of stations or want to update it, you can do it here:
+Settings -&gt; Update stations</value>
+  </data>
+  <data name="Dialog_NeedStationsUpdate.Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Dialog_NeedStationsUpdate.Title" xml:space="preserve">
+    <value>Looks like you need to update the station list</value>
+  </data>
+  <data name="Dialog_PremiumNotActive.Content" xml:space="preserve">
+    <value>We're sorry, but you can't access premium stations because you don't have an active premium license. You can purchase a premium license in the "Settings"</value>
+  </data>
+  <data name="Dialog_PremiumNotActive.Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Dialog_PremiumNotActive.Title" xml:space="preserve">
+    <value>Premium is not active</value>
+  </data>
+  <data name="Dialog_PurchaseComplete.Content" xml:space="preserve">
+    <value>Thank you for purchasing a subscription!</value>
+  </data>
+  <data name="Dialog_PurchaseComplete.Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Dialog_PurchaseComplete.Title" xml:space="preserve">
+    <value>Successfully purchased</value>
+  </data>
+  <data name="Dialog_PurchaseConfirm.Content" xml:space="preserve">
+    <value>In this case, your subscription will expire in the following number of days - </value>
+  </data>
+  <data name="Dialog_PurchaseConfirm.No" xml:space="preserve">
+    <value>No, mayber later</value>
+  </data>
+  <data name="Dialog_PurchaseConfirm.Title" xml:space="preserve">
+    <value>Purchase of a subscription - </value>
+  </data>
+  <data name="Dialog_PurchaseConfirm.Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
-  <data name="Premium_SimulatorBuyConfirm.Title" xml:space="preserve">
-    <value>Confirmation of purchase</value>
+  <data name="Dialog_PurchaseFailed.Content" xml:space="preserve">
+    <value>Something seems went wrong, please try again later</value>
+  </data>
+  <data name="Dialog_PurchaseFailed.Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Dialog_PurchaseFailed.Title" xml:space="preserve">
+    <value>Unable to purchase a subscription</value>
+  </data>
+  <data name="Dialog_StationsUpdateConfirm.Content" xml:space="preserve">
+    <value>When you refresh, the list of your recent stations and favorites will also be updated.
+You will also need to wait about a minute</value>
+  </data>
+  <data name="Dialog_StationsUpdateConfirm.No" xml:space="preserve">
+    <value>No, no, thanks</value>
+  </data>
+  <data name="Dialog_StationsUpdateConfirm.Title" xml:space="preserve">
+    <value>Do you really want to update the station list?</value>
+  </data>
+  <data name="Dialog_StationsUpdateConfirm.Yes" xml:space="preserve">
+    <value>Yes, i agree</value>
   </data>
 </root>

@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.ViewModels;
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Services.Store;
@@ -51,7 +49,6 @@ namespace NRadio
 
             var backgroundTaskService = new BackgroundTaskService();
             await backgroundTaskService.RegisterBackgroundTasksAsync();
-            await InitializeLicense();
         }
 
         protected override async void OnActivated(IActivatedEventArgs args) => await ActivationService.ActivateAsync(args);
@@ -59,20 +56,6 @@ namespace NRadio
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             await ActivationService.ActivateAsync(args);
-        }
-
-        private async Task InitializeLicense()
-        {
-            if (context == null)
-            {
-                context = StoreContext.GetDefault();
-            }
-            var result = await context.GetStoreProductForCurrentAppAsync();
-            if (result.ExtendedError == null)
-            {
-                var product = result.Product;
-            }
-            Debug.WriteLine("License product: " + result.Product);
         }
 
         private void RegisterServices()

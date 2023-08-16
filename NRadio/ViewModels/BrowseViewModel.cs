@@ -44,14 +44,14 @@ namespace NRadio.ViewModels
                 switch (sortBy)
                 {
                     case BrowseBy.Premium:
-                        var purchaseProvider = new SimulatorProvider(); 
+                        IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider(); // TODO: Change to StoreContextProvider for release
                         if (await purchaseProvider.CheckIfUserHasPremiumAsync())
                         {
                             Stations = new List<RadioStation>(RadioStationsContainer.PremiumStations);
                         }
                         else
                         {
-                            await ShowPremiumDialog();
+                            await DialogService.PremiumNotActiveDialogAsync();
                         }
 
                         break;
@@ -89,23 +89,6 @@ namespace NRadio.ViewModels
             {
                 await RadioStationsLoader.ShowUpdateStationsMessageAsync();
             }
-        }
-
-        private async Task ShowPremiumDialog()
-        {
-            var loader = new ResourceLoader();
-            string title = loader.GetString("Premium_NotActive/Title");
-            string content = loader.GetString("Premium_NotActive/Content");
-            string closeButtonText = loader.GetString("Premium_NotActive/CloseButtonText");
-
-            var dialog = new ContentDialog
-            {
-                Title = title,
-                Content = content,
-                CloseButtonText = closeButtonText
-            };
-
-            await dialog.ShowAsync();
         }
 
         public enum BrowseBy

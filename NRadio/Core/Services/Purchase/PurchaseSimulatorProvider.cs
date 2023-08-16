@@ -9,15 +9,15 @@ using Windows.UI.Xaml.Controls;
 
 namespace NRadio.Core.Services.Purchase
 {
-    public class SimulatorProvider : IPurchaseProvider
+    public class PurchaseSimulatorProvider : IPurchaseProvider
     {
         private const int SubscribePeriodInDays = 30;
 
-        public SimulatorProvider() { }
+        public PurchaseSimulatorProvider() { }
 
         public async Task<PurchaseResult> PurchaseAsync(string productId)
         {
-            var result = await ConfirmDialog(productId);
+            var result = await DialogService.ConfirmPurchaseDialogAsync(productId, SubscribePeriodInDays);
             if (result == ContentDialogResult.Primary)
             {
                 if (await CheckIfUserHasPremiumAsync())
@@ -27,15 +27,7 @@ namespace NRadio.Core.Services.Purchase
 
                 try
                 {
-                    string email = await GetUserEmail();
-                    var expirationDate = DateTime.Now.AddDays(SubscribePeriodInDays);
-                    long expirationDateTicks = expirationDate.Ticks;
-
-                    ApplicationData.Current.LocalSettings.Values[productId] = true;
-                    ApplicationData.Current.LocalSettings.Values["Email"] = email;
-                    ApplicationData.Current.LocalSettings.Values[$"{productId}_ExpirationDate"] = expirationDateTicks;
-
-                    return new PurchaseResult(StorePurchaseStatus.Succeeded);
+                    return await StartPurchaseAsync(productId);
                 }
                 catch (Exception ex)
                 {
@@ -52,7 +44,7 @@ namespace NRadio.Core.Services.Purchase
         public async Task<bool> CheckIfUserHasPremiumAsync() // Async only for consistency with StoreContextProvider
         {
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey("Premium")
-                && (string)ApplicationData.Current.LocalSettings.Values["Email"] == await GetUserEmail())
+                && (string)ApplicationData.Current.LocalSettings.Values["Email"] == await GetUserEmailAsync())
             {
                 object expirationDateObject = ApplicationData.Current.LocalSettings.Values["Premium_ExpirationDate"];
                 if (expirationDateObject != null)
@@ -69,27 +61,20 @@ namespace NRadio.Core.Services.Purchase
             return false;
         }
 
-        private async Task<ContentDialogResult> ConfirmDialog(string productId)
+        private async Task<PurchaseResult> StartPurchaseAsync(string productId)
         {
-            var loader = new ResourceLoader();
-            string titleRes = loader.GetString($"Premium_SimulatorBuyConfirm/Title");
-            string title = string.Format(titleRes, productId);
-            string content = loader.GetString("Premium_SimulatorBuyConfirm/Content");
-            string yesButtonText = loader.GetString("Premium_SimulatorBuyConfirm/Ok");
-            string noButtonText = loader.GetString("Premium_SimulatorBuyConfirm/No");
+            string email = await GetUserEmailAsync();
+            var expirationDate = DateTime.Now.AddDays(SubscribePeriodInDays);
+            long expirationDateTicks = expirationDate.Ticks;
 
-            var dialog = new ContentDialog
-            {
-                Title = title,
-                Content = content,
-                PrimaryButtonText = yesButtonText,
-                CloseButtonText = noButtonText
-            };
+            ApplicationData.Current.LocalSettings.Values[productId] = true;
+            ApplicationData.Current.LocalSettings.Values["Email"] = email;
+            ApplicationData.Current.LocalSettings.Values[$"{productId}_ExpirationDate"] = expirationDateTicks;
 
-            return await dialog.ShowAsync();
+            return new PurchaseResult(StorePurchaseStatus.Succeeded);
         }
 
-        private async Task<string> GetUserEmail()
+        private async Task<string> GetUserEmailAsync()
         {
             var userData = new UserDataService();
             var user = await userData.GetUserAsync();

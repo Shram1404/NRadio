@@ -190,6 +190,7 @@
     <Compile Include="Core\Helpers\Singleton.cs" />
     <Compile Include="Core\Helpers\StreamExtensions.cs" />
     <Compile Include="Core\Helpers\TaskExtensions.cs" />
+    <Compile Include="Core\Models\Dialog.cs" />
     <Compile Include="Core\Models\Filter.cs" />
     <Compile Include="Core\Models\RadioStation.cs" />
     <Compile Include="Core\Models\User.cs" />
@@ -200,7 +201,7 @@
     <Compile Include="Core\Services\PlayerService.cs" />
     <Compile Include="Core\Services\Purchase\PurchaseResult.cs" />
     <Compile Include="Core\Services\Purchase\IPurchaseProvider.cs" />
-    <Compile Include="Core\Services\Purchase\SimulatorProvider.cs" />
+    <Compile Include="Core\Services\Purchase\PurchaseSimulatorProvider.cs" />
     <Compile Include="Core\Services\Purchase\StoreContextProvider.cs" />
     <Compile Include="Core\Services\RadioStationsLoader.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\LanguageSelectorService.cs" />
     <Compile Include="Services\NavigationService.cs" />

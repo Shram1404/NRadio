@@ -12,7 +12,6 @@ using NRadio.Services;
 using NRadio.Views;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace NRadio.ViewModels
 {
@@ -62,7 +61,7 @@ namespace NRadio.ViewModels
 
         private async Task OnOpenPlayer()
         {
-            var purchaseProvider = new SimulatorProvider();
+            IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider(); // TODO: Change to StoreContextProvider for release
             if (!IsPremiumStation(CurrentStation) || await purchaseProvider.CheckIfUserHasPremiumAsync())
             {
                 ((App)Application.Current).ViewModelLocator.PlayerVM.Initialize(Playlist, CurrentStationIndex);
@@ -70,19 +69,7 @@ namespace NRadio.ViewModels
             }
             else
             {
-                var loader = new ResourceLoader();
-                string title = loader.GetString("Premium_NotActive/Title");
-                string content = loader.GetString("Premium_NotActive/Content");
-                string closeButtonText = loader.GetString("Premium_NotActive/CloseButtonText");
-
-                var dialog = new ContentDialog
-                {
-                    Title = title,
-                    Content = content,
-                    CloseButtonText = closeButtonText
-                };
-
-                await dialog.ShowAsync();
+                await DialogService.PremiumNotActiveDialogAsync();
             }
         }
 
