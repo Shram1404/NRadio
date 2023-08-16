@@ -197,6 +197,7 @@
     <Compile Include="Core\Models\Config.cs" />
     <Compile Include="Core\Services\IdentityLogger.cs" />
     <Compile Include="Core\Services\IdentityService.cs" />
+    <Compile Include="Core\Services\LocationService.cs" />
     <Compile Include="Core\Services\MicrosoftGraphService.cs" />
     <Compile Include="Core\Services\PlayerService.cs" />
     <Compile Include="Core\Services\Purchase\PurchaseResult.cs" />

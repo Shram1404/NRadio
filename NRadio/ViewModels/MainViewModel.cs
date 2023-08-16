@@ -78,7 +78,9 @@ namespace NRadio.ViewModels
             {
                 Recent = RadioStationsContainer.RecentStations.Take(MaxStations).ToList();
                 Favorite = RadioStationsContainer.FavoriteStations.Take(MaxStations).ToList();
-                Local = new List<RadioStation>(RadioStationsContainer.AllStations.Where(s => s.CountryCode == "UA").Take(MaxStations)); // TODO: Change to real locale
+                Local = new List<RadioStation>(RadioStationsContainer.AllStations.Where(s =>
+                    s.CountryCode.ToUpper() == LocationService.GetCountryCode()).Take(MaxStations).ToList());
+
             }
             catch (NullReferenceException)
             {

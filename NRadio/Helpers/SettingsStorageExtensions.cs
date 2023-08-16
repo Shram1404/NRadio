@@ -19,7 +19,7 @@ namespace NRadio.Helpers
         public static async Task SaveAsync<T>(this StorageFolder folder, string name, T content)
         {
             var file = await folder.CreateFileAsync(GetFileName(name), CreationCollisionOption.ReplaceExisting);
-            var fileContent = await Json.StringifyAsync(content);
+            string fileContent = await Json.StringifyAsync(content);
 
             await FileIO.WriteTextAsync(file, fileContent);
         }
@@ -37,21 +37,15 @@ namespace NRadio.Helpers
             return await Json.ToObjectAsync<T>(fileContent);
         }
 
-        public static async Task SaveAsync<T>(this ApplicationDataContainer settings, string key, T value)
-        {
+        public static async Task SaveAsync<T>(this ApplicationDataContainer settings, string key, T value) =>
             settings.SaveString(key, await Json.StringifyAsync(value));
-        }
 
-        public static void SaveString(this ApplicationDataContainer settings, string key, string value)
-        {
+        public static void SaveString(this ApplicationDataContainer settings, string key, string value) =>
             settings.Values[key] = value;
-        }
 
         public static async Task<T> ReadAsync<T>(this ApplicationDataContainer settings, string key)
         {
-            object obj = null;
-
-            if (settings.Values.TryGetValue(key, out obj))
+            if (settings.Values.TryGetValue(key, out object obj))
             {
                 return await Json.ToObjectAsync<T>((string)obj);
             }

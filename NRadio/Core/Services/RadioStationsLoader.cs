@@ -200,7 +200,8 @@ namespace NRadio.Core.Services
             return new List<RadioStation>(allStations);
         }
 
-        private static async Task<List<RadioStation>> LoadPremiumStationsFromSomewhereAsync()
+        // Async only for using with API or file storage in future
+        private static async Task<List<RadioStation>> LoadPremiumStationsFromSomewhereAsync() 
         {
             // TODO: Change to API before release
             var premiumStation = new RadioStation
@@ -218,7 +219,7 @@ namespace NRadio.Core.Services
             return new List<RadioStation> { premiumStation };
         }
 
-        private enum Countries // TODO: Add all countries or change to file or config storage before release
+        private enum Countries
         {
             Ukraine,
             Poland,
@@ -230,6 +231,11 @@ namespace NRadio.Core.Services
             Spain,
             CzechRepublic,
             UnitedKingdom,
+            UnitedStates,
+            Canada,
+            Japan,
+            China,
+            SouthKorea,
         }
     }
 }

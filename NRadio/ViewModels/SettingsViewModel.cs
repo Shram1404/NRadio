@@ -5,7 +5,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
-using NRadio.Core.Services.Purchase;
 using NRadio.Helpers;
 using NRadio.Services;
 using Windows.ApplicationModel;
@@ -111,7 +110,7 @@ namespace NRadio.ViewModels
 
         private async Task BuyPremium()
         {
-            IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider(); // TODO: Change to StoreContextProvider for release
+            var purchaseProvider = ((App)Application.Current).purchaseProvider;
             var result = await purchaseProvider.PurchaseAsync("Premium");
 
             if (result.Status == StorePurchaseStatus.Succeeded)

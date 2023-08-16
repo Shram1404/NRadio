@@ -20,6 +20,11 @@ namespace NRadio.Core.Services.Purchase
 
         public async Task<PurchaseResult> PurchaseAsync(string productId)
         {
+            var storeConnectionResult = await storeContext.GetStoreProductForCurrentAppAsync();
+            if (storeConnectionResult.ExtendedError != null)
+            {
+                Debug.WriteLine($"Failed to connect to the Store: {storeConnectionResult.ExtendedError.Message}");
+            }
 
             var result = await DialogService.ConfirmPurchaseDialogAsync(productId, subscribePeriodInDays);
             if (result == ContentDialogResult.Primary)

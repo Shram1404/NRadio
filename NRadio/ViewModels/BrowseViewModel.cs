@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
-using NRadio.Core.Services.Purchase;
 using NRadio.Services;
 using NRadio.Views;
 using Windows.UI.Xaml;
@@ -26,7 +25,7 @@ namespace NRadio.ViewModels
         }
 
         public ICommand GoToCommand { get; private set; }
-        public Type EnumType { get => typeof(BrowseBy); }
+        public Type EnumType => typeof(BrowseBy);
         public string Name { get; set; }
 
         public List<RadioStation> Stations
@@ -42,7 +41,7 @@ namespace NRadio.ViewModels
                 switch (sortBy)
                 {
                     case BrowseBy.Premium:
-                        IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider(); // TODO: Change to StoreContextProvider for release
+                        var purchaseProvider = ((App)Application.Current).purchaseProvider;
                         if (await purchaseProvider.CheckIfUserHasPremiumAsync())
                         {
                             Stations = new List<RadioStation>(RadioStationsContainer.PremiumStations);
@@ -54,7 +53,7 @@ namespace NRadio.ViewModels
 
                         break;
                     case BrowseBy.Local:
-                        Stations = new List<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
+                        Stations = new List<RadioStation>(allStations.Where(s => s.CountryCode.ToUpper() == LocationService.GetCountryCode()));
                         break;
                     case BrowseBy.Recent:
                         Stations = RadioStationsContainer.RecentStations;
