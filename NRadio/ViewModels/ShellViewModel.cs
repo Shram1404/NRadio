@@ -11,7 +11,6 @@ using NRadio.Helpers;
 using NRadio.Services;
 using NRadio.Views;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;

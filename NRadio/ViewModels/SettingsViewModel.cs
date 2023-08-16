@@ -1,14 +1,14 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Services;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Resources;
+using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -108,10 +108,23 @@ namespace NRadio.ViewModels
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
 
-        private async Task BuyPremium() // TODO: Realize it when i will add purchase
+        private async Task BuyPremium()
         {
-            var dialog = new Windows.UI.Popups.MessageDialog("There will be buy window");
-            await dialog.ShowAsync();
+            var purchaseProvider = ((App)Application.Current).purchaseProvider;
+            var result = await purchaseProvider.PurchaseAsync("Premium");
+
+            if (result.Status == StorePurchaseStatus.Succeeded)
+            {
+                await DialogService.PurchaseCompleteDialogAsync();
+            }
+            else if (result.Status == StorePurchaseStatus.AlreadyPurchased)
+            {
+                await DialogService.AlreadyPurchasedDialogAsync();
+            }
+            else
+            {
+                await DialogService.PurchaseFailedDialogAsync();
+            }
         }
 
         private void OnUserDataUpdated(object sender, UserViewModel userData) => User = userData;
@@ -120,22 +133,7 @@ namespace NRadio.ViewModels
 
         private async Task ConfirmUpdateStationsAsync()
         {
-            var loader = new ResourceLoader();
-            string title = loader.GetString("Settings_UpdateStation/Title");
-            string content = loader.GetString("Settings_UpdateStation/Content");
-            string yesButtonText = loader.GetString("Settings_UpdateStation/YesButtonText");
-            string noButtonText = loader.GetString("Settings_UpdateStation/NoButtonText");
-
-            var dialog = new ContentDialog
-            {
-                Title = title,
-                Content = content,
-                PrimaryButtonText = yesButtonText,
-                CloseButtonText = noButtonText
-            };
-            var result = await dialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
+            if (await DialogService.ConfirmStationsUpdateDialogAsync() == ContentDialogResult.Primary)
             {
                 await RadioStationsLoader.UpdateRadioStationsAsync();
             }

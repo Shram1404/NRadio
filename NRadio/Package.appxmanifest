@@ -63,7 +63,6 @@
 		<uap3:Capability Name="backgroundMediaPlayback"/>
 		<Capability Name="privateNetworkClientServer"/>
 		<uap:Capability Name="enterpriseAuthentication"/>
-		<DeviceCapability Name="location"/>
 	</Capabilities>
 
   <genTemplate:Metadata>

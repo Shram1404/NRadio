@@ -1,14 +1,14 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.Views;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 
@@ -21,7 +21,7 @@ namespace NRadio.ViewModels
         private int currentSongIndex;
         private string favoriteGlyph;
 
-        public ICommand OpenPlayerCommand => new RelayCommand(OnOpenPlayer);
+        public ICommand OpenPlayerCommand => new AsyncRelayCommand(OnOpenPlayer);
         public ICommand ChangeFavoriteStateCommand => new RelayCommand(OnChangeFavoriteState);
 
         public StationDetailViewModel()
@@ -36,8 +36,8 @@ namespace NRadio.ViewModels
         }
         public List<RadioStation> Playlist
         {
-            get => source; 
-            set => SetProperty(ref source, value); 
+            get => source;
+            set => SetProperty(ref source, value);
         }
         public int CurrentStationIndex
         {
@@ -46,8 +46,8 @@ namespace NRadio.ViewModels
         }
         public string FavoriteGlyph
         {
-            get => favoriteGlyph; 
-            set => SetProperty(ref favoriteGlyph, value); 
+            get => favoriteGlyph;
+            set => SetProperty(ref favoriteGlyph, value);
         }
 
         public void Initialize(List<RadioStation> playlist, RadioStation currentStation, int currentStationIndex)
@@ -58,26 +58,31 @@ namespace NRadio.ViewModels
             SetFavoriteGlyph();
         }
 
-        private void OnOpenPlayer()
+        private async Task OnOpenPlayer()
         {
-            ((App)Application.Current).ViewModelLocator.PlayerVM.Initialize(Playlist, CurrentStationIndex);
-            NavigationService.Navigate<PlayerPage>();
+            var purchaseProvider = ((App)Application.Current).purchaseProvider;
+            if (!IsPremiumStation(CurrentStation) || await purchaseProvider.CheckIfUserHasPremiumAsync())
+            {
+                ((App)Application.Current).ViewModelLocator.PlayerVM.Initialize(Playlist, CurrentStationIndex);
+                NavigationService.Navigate<PlayerPage>();
+            }
+            else
+            {
+                await DialogService.PremiumNotActiveDialogAsync();
+            }
         }
+
         private async void OnChangeFavoriteState()
         {
             await RadioStationsLoader.ChangeIsFavoriteAsync(CurrentStation);
             SetFavoriteGlyph();
         }
-        private void SetFavoriteGlyph()
-        {
-            if (RadioStationsContainer.FavoriteStations.Contains(CurrentStation))
-            {
-                FavoriteGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Favorite_Glyph");
-            }
-            else
-            {
-                FavoriteGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Not_Favorite_Glyph");
-            }
-        }
+
+        private void SetFavoriteGlyph() =>
+            FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(CurrentStation)
+                ? ResourceLoader.GetForCurrentView("Resources").GetString("Favorite_Glyph")
+                : ResourceLoader.GetForCurrentView("Resources").GetString("Not_Favorite_Glyph");
+
+        private bool IsPremiumStation(RadioStation station) => RadioStationsContainer.PremiumStations.Contains(station);
     }
 }

@@ -10,9 +10,8 @@ using NRadio.Core.API;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Helpers;
-using Windows.ApplicationModel.Resources;
+using NRadio.Services;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
 
 namespace NRadio.Core.Services
 {
@@ -94,24 +93,7 @@ namespace NRadio.Core.Services
             await SaveFavoriteToFileAsync();
         }
 
-        public static async Task ShowUpdateStationsMessageAsync()
-        {
-
-            var loader = new ResourceLoader();
-            string title = loader.GetString("RadioStationLoader_UpdateStation/Title");
-            string content = loader.GetString("RadioStationLoader_UpdateStation/Content");
-            string closeButtonText = loader.GetString("RadioStationLoader_UpdateStation/CloseButtonText");
-
-            var dialog = new ContentDialog
-            {
-                Title = title,
-                Content = content,
-                CloseButtonText = closeButtonText
-            };
-
-            await dialog.ShowAsync();
-
-        }
+        public static async Task ShowUpdateStationsMessageAsync() => await DialogService.NeedStationsUpdateDialogAsync();
 
         private static async Task CheckFilesState()
         {
@@ -218,7 +200,8 @@ namespace NRadio.Core.Services
             return new List<RadioStation>(allStations);
         }
 
-        private static async Task<List<RadioStation>> LoadPremiumStationsFromSomewhereAsync()
+        // Async only for using with API or file storage in future
+        private static async Task<List<RadioStation>> LoadPremiumStationsFromSomewhereAsync() 
         {
             // TODO: Change to API before release
             var premiumStation = new RadioStation
@@ -236,7 +219,7 @@ namespace NRadio.Core.Services
             return new List<RadioStation> { premiumStation };
         }
 
-        private enum Countries // TODO: Add all countries or change to file storage before release
+        private enum Countries
         {
             Ukraine,
             Poland,
@@ -248,6 +231,11 @@ namespace NRadio.Core.Services
             Spain,
             CzechRepublic,
             UnitedKingdom,
+            UnitedStates,
+            Canada,
+            Japan,
+            China,
+            SouthKorea,
         }
     }
 }

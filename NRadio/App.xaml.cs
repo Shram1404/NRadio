@@ -1,22 +1,23 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
+using NRadio.Core.Services.Purchase;
 using NRadio.Services;
 using NRadio.ViewModels;
-using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Services.Store;
 using Windows.UI.Xaml;
 
 namespace NRadio
 {
     public sealed partial class App : Application
     {
-        internal StoreContext context = null;
+        // TODO: Change to StoreContextProvider when app wil be in Dev Center
+        public readonly IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider(); 
+
         private ServiceProvider serviceProvider;
-        private Lazy<ActivationService> activationService;
+        private readonly Lazy<ActivationService> activationService;
 
         public App()
         {
@@ -32,15 +33,10 @@ namespace NRadio
             IdentityService.LoggedOut += OnLoggedOut;
 
             RegisterServices();
-            //InitializeLicense(); // TODO: Uncomment
-
         }
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
-        private ActivationService ActivationService
-        {
-            get { return activationService.Value; }
-        }
+        private ActivationService ActivationService => activationService.Value;
         public ViewModelLocator ViewModelLocator => serviceProvider.GetService<ViewModelLocator>();
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
@@ -61,19 +57,6 @@ namespace NRadio
             await ActivationService.ActivateAsync(args);
         }
 
-        private async Task InitializeLicense()
-        {
-            if (context == null)
-            {
-                context = StoreContext.GetDefault();
-            }
-            var result = await context.GetStoreProductForCurrentAppAsync();
-            if (result.ExtendedError == null)
-            {
-                var product = result.Product;
-            }
-        }
-
         private void RegisterServices()
         {
             IServiceCollection services = new ServiceCollection();
@@ -81,7 +64,7 @@ namespace NRadio
             services.AddSingleton<ViewModelLocator>();
 
             services.AddTransient<MainViewModel>();
-            services.AddSingleton<ShellViewModel>();
+            services.AddTransient<ShellViewModel>();
             services.AddSingleton<PlayerViewModel>();
             services.AddSingleton<StationDetailViewModel>();
             services.AddSingleton<StationsListViewModel>();
@@ -95,15 +78,10 @@ namespace NRadio
             System.Diagnostics.Debug.WriteLine(e.Exception.StackTrace);
         }
 
-        private ActivationService CreateActivationService()
-        {
-            return new ActivationService(this, typeof(Views.MainPage), new Lazy<UIElement>(CreateShell));
-        }
+        private ActivationService CreateActivationService() =>
+            new ActivationService(this, typeof(Views.MainPage), new Lazy<UIElement>(CreateShell));
 
-        private UIElement CreateShell()
-        {
-            return new Views.ShellPage();
-        }
+        private UIElement CreateShell() => new Views.ShellPage();
 
         private async void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
         {

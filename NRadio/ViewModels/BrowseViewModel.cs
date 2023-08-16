@@ -10,9 +10,7 @@ using NRadio.Core.Models;
 using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.Views;
-using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace NRadio.ViewModels
 {
@@ -27,7 +25,7 @@ namespace NRadio.ViewModels
         }
 
         public ICommand GoToCommand { get; private set; }
-        public Type EnumType { get => typeof(BrowseBy); }
+        public Type EnumType => typeof(BrowseBy);
         public string Name { get; set; }
 
         public List<RadioStation> Stations
@@ -38,23 +36,24 @@ namespace NRadio.ViewModels
 
         private async Task GoToSortedListPage(BrowseBy sortBy)
         {
-            if(allStations != null && allStations.Count > 0)
+            if (allStations != null && allStations.Count > 0)
             {
                 switch (sortBy)
                 {
                     case BrowseBy.Premium:
-                        if (true)  // TODO: Change to real premium check
+                        var purchaseProvider = ((App)Application.Current).purchaseProvider;
+                        if (await purchaseProvider.CheckIfUserHasPremiumAsync())
                         {
                             Stations = new List<RadioStation>(RadioStationsContainer.PremiumStations);
                         }
                         else
                         {
-                            await ShowPremiumDialog();
+                            await DialogService.PremiumNotActiveDialogAsync();
                         }
 
                         break;
                     case BrowseBy.Local:
-                        Stations = new List<RadioStation>(allStations.Where(s => s.CountryCode == "UA")); // TODO: Change to real locale
+                        Stations = new List<RadioStation>(allStations.Where(s => s.CountryCode.ToUpper() == LocationService.GetCountryCode()));
                         break;
                     case BrowseBy.Recent:
                         Stations = RadioStationsContainer.RecentStations;
@@ -87,23 +86,6 @@ namespace NRadio.ViewModels
             {
                 await RadioStationsLoader.ShowUpdateStationsMessageAsync();
             }
-        }
-
-        private async Task ShowPremiumDialog()
-        {
-            var loader = new ResourceLoader();
-            string title = loader.GetString("Premium_NotActive/Title");
-            string content = loader.GetString("Premium_NotActive/Content");
-            string closeButtonText = loader.GetString("Premium_NotActive/CloseButtonText");
-
-            var dialog = new ContentDialog
-            {
-                Title = title,
-                Content = content,
-                CloseButtonText = closeButtonText
-            };
-
-            await dialog.ShowAsync();
         }
 
         public enum BrowseBy

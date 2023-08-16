@@ -19,14 +19,10 @@ namespace NRadio.Behaviors
 
         private static void OnHorizontalOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var behavior = d as ListViewOffsetBehavior;
-            if (behavior != null && behavior.AssociatedObject != null)
+            if (d is ListViewOffsetBehavior behavior && behavior.AssociatedObject != null)
             {
                 var scrollViewer = FindScrollViewer(behavior.AssociatedObject);
-                if (scrollViewer != null)
-                {
-                    scrollViewer.ChangeView((double)e.NewValue, null, null);
-                }
+                scrollViewer?.ChangeView((double)e.NewValue, null, null);
             }
         }
 

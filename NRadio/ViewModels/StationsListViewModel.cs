@@ -34,7 +34,7 @@ namespace NRadio.ViewModels
         {
             get => incrementalPlaylist;
             set => SetProperty(ref incrementalPlaylist, value);
-        } 
+        }
 
         public void LoadData(List<RadioStation> stations)
         {

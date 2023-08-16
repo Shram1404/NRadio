@@ -1,14 +1,13 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
@@ -40,7 +39,7 @@ namespace NRadio.ViewModels
         }
 
         public event EventHandler IsPlayerCreatedChanged;
-    
+
         public ICommand PlayPauseCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
         public ICommand PlayNextCommand { get; private set; }
@@ -91,8 +90,8 @@ namespace NRadio.ViewModels
         }
         public string FavoriteGlyph
         {
-            get => favoriteGlyph; 
-            set => SetProperty(ref favoriteGlyph, value); 
+            get => favoriteGlyph;
+            set => SetProperty(ref favoriteGlyph, value);
         }
         public double Volume
         {
@@ -126,7 +125,7 @@ namespace NRadio.ViewModels
 
             this.radioStations = radioStations;
             currentStationIndex = index;
-            
+
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey("Volume"))
             {
                 Volume = (double)ApplicationData.Current.LocalSettings.Values["Volume"];
@@ -198,14 +197,14 @@ namespace NRadio.ViewModels
             }
 
             SetCurrentStation();
-            SetFavoriteGlyph();    
+            SetFavoriteGlyph();
 
             if (IsPlaying)
             {
                 PlayerService.PlayRadioStream(StationUrl);
             }
         }
-     
+
         private void PlayPause()
         {
             if (!IsPlaying)
@@ -234,7 +233,7 @@ namespace NRadio.ViewModels
 
         private void SetFavoriteGlyph()
         {
-            if(RadioStationsContainer.FavoriteStations.Contains(CurrentStation))
+            if (RadioStationsContainer.FavoriteStations.Contains(CurrentStation))
             {
                 FavoriteGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Favorite_Glyph");
             }
@@ -260,7 +259,7 @@ namespace NRadio.ViewModels
 
         private async Task ChangeFavoriteState()
         {
-            if (radioStations.Count == 0) 
+            if (radioStations.Count == 0)
             {
                 var lastStation = RadioStationsContainer.RecentStations.Last();
                 await RadioStationsLoader.ChangeIsFavoriteAsync(lastStation);
