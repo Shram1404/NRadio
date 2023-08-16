@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using NRadio.Services;
-using Windows.ApplicationModel.Resources;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;

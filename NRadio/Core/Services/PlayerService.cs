@@ -23,7 +23,7 @@ namespace NRadio.Core.Services
 
         public static void PlayRadioStream(string url)
         {
-            if(mediaPlayer is null || mediaPlayer.PlaybackSession is null)
+            if (mediaPlayer is null || mediaPlayer.PlaybackSession is null)
             {
                 mediaPlayer = new MediaPlayer();
             }

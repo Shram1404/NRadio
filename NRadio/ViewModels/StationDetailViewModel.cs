@@ -61,7 +61,7 @@ namespace NRadio.ViewModels
 
         private async Task OnOpenPlayer()
         {
-            IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider(); // TODO: Change to StoreContextProvider for release
+            var purchaseProvider = ((App)Application.Current).purchaseProvider;
             if (!IsPremiumStation(CurrentStation) || await purchaseProvider.CheckIfUserHasPremiumAsync())
             {
                 ((App)Application.Current).ViewModelLocator.PlayerVM.Initialize(Playlist, CurrentStationIndex);

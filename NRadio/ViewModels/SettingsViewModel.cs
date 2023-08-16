@@ -1,15 +1,14 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Core.Services.Purchase;
 using NRadio.Helpers;
 using NRadio.Services;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Resources;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -115,7 +114,7 @@ namespace NRadio.ViewModels
             IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider(); // TODO: Change to StoreContextProvider for release
             var result = await purchaseProvider.PurchaseAsync("Premium");
 
-            if(result.Status == StorePurchaseStatus.Succeeded)
+            if (result.Status == StorePurchaseStatus.Succeeded)
             {
                 await DialogService.PurchaseCompleteDialogAsync();
             }
@@ -134,7 +133,7 @@ namespace NRadio.ViewModels
         private void OnLoggedOut(object sender, EventArgs e) => UnregisterEvents();
 
         private async Task ConfirmUpdateStationsAsync()
-        { 
+        {
             if (await DialogService.ConfirmStationsUpdateDialogAsync() == ContentDialogResult.Primary)
             {
                 await RadioStationsLoader.UpdateRadioStationsAsync();

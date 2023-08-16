@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
+using NRadio.Core.Services.Purchase;
 using NRadio.Services;
 using NRadio.ViewModels;
 using Windows.ApplicationModel;
@@ -13,10 +14,10 @@ namespace NRadio
 {
     public sealed partial class App : Application
     {
-        internal StoreContext context = null;
+        public readonly IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider();
+
         private ServiceProvider serviceProvider;
         private Lazy<ActivationService> activationService;
-
         public App()
         {
             InitializeComponent();

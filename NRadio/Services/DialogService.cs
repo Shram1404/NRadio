@@ -35,7 +35,7 @@ namespace NRadio.Services
             string resourceName = "Dialog_AlreadyPurchased";
             var dialog = SetOkDialog(resourceName);
 
-            await ShowOkDialog (dialog);
+            await ShowOkDialog(dialog);
         }
         public static async Task PurchaseFailedDialogAsync()
         {

@@ -11,9 +11,7 @@ using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Helpers;
 using NRadio.Services;
-using Windows.ApplicationModel.Resources;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
 
 namespace NRadio.Core.Services
 {

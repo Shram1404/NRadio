@@ -1,5 +1,5 @@
-﻿using NRadio.Core.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using NRadio.Core.Models;
 using NRadio.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

@@ -35,7 +35,7 @@ namespace NRadio.Core.Models
             {
                 return Name == other.Name && Url == other.Url;
             }
-          
+
             return false;
         }
     }

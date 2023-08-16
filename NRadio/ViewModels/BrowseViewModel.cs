@@ -11,9 +11,7 @@ using NRadio.Core.Services;
 using NRadio.Core.Services.Purchase;
 using NRadio.Services;
 using NRadio.Views;
-using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace NRadio.ViewModels
 {
@@ -39,7 +37,7 @@ namespace NRadio.ViewModels
 
         private async Task GoToSortedListPage(BrowseBy sortBy)
         {
-            if(allStations != null && allStations.Count > 0)
+            if (allStations != null && allStations.Count > 0)
             {
                 switch (sortBy)
                 {

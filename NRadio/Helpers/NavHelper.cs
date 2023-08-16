@@ -1,5 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using System;
+﻿using System;
+using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 
 namespace NRadio.Helpers
