@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
 using NRadio.Core.Services;
+using NRadio.Core.Services.Purchase;
 using NRadio.Services;
 using NRadio.Views;
 using Windows.ApplicationModel.Resources;
@@ -43,7 +44,8 @@ namespace NRadio.ViewModels
                 switch (sortBy)
                 {
                     case BrowseBy.Premium:
-                        if (true)  // TODO: Change to real premium check
+                        var purchaseProvider = new SimulatorProvider(); 
+                        if (await purchaseProvider.CheckIfUserHasPremiumAsync())
                         {
                             Stations = new List<RadioStation>(RadioStationsContainer.PremiumStations);
                         }

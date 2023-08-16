@@ -198,6 +198,10 @@
     <Compile Include="Core\Services\IdentityService.cs" />
     <Compile Include="Core\Services\MicrosoftGraphService.cs" />
     <Compile Include="Core\Services\PlayerService.cs" />
+    <Compile Include="Core\Services\Purchase\PurchaseResult.cs" />
+    <Compile Include="Core\Services\Purchase\IPurchaseProvider.cs" />
+    <Compile Include="Core\Services\Purchase\SimulatorProvider.cs" />
+    <Compile Include="Core\Services\Purchase\StoreContextProvider.cs" />
     <Compile Include="Core\Services\RadioStationsLoader.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Glyphs.cs" />

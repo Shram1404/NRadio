@@ -4,6 +4,7 @@ using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.ViewModels;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -32,8 +33,6 @@ namespace NRadio
             IdentityService.LoggedOut += OnLoggedOut;
 
             RegisterServices();
-            //InitializeLicense(); // TODO: Uncomment
-
         }
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
@@ -52,6 +51,7 @@ namespace NRadio
 
             var backgroundTaskService = new BackgroundTaskService();
             await backgroundTaskService.RegisterBackgroundTasksAsync();
+            await InitializeLicense();
         }
 
         protected override async void OnActivated(IActivatedEventArgs args) => await ActivationService.ActivateAsync(args);
@@ -72,6 +72,7 @@ namespace NRadio
             {
                 var product = result.Product;
             }
+            Debug.WriteLine("License product: " + result.Product);
         }
 
         private void RegisterServices()
@@ -81,7 +82,7 @@ namespace NRadio
             services.AddSingleton<ViewModelLocator>();
 
             services.AddTransient<MainViewModel>();
-            services.AddSingleton<ShellViewModel>();
+            services.AddTransient<ShellViewModel>();
             services.AddSingleton<PlayerViewModel>();
             services.AddSingleton<StationDetailViewModel>();
             services.AddSingleton<StationsListViewModel>();

@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
+using NRadio.Core.Services.Purchase;
 using NRadio.Helpers;
 using NRadio.Services;
 using System;
@@ -110,8 +111,8 @@ namespace NRadio.ViewModels
 
         private async Task BuyPremium() // TODO: Realize it when i will add purchase
         {
-            var dialog = new Windows.UI.Popups.MessageDialog("There will be buy window");
-            await dialog.ShowAsync();
+            var purchaseProvider = new SimulatorProvider();
+            await purchaseProvider.PurchaseAsync("Premium");
         }
 
         private void OnUserDataUpdated(object sender, UserViewModel userData) => User = userData;

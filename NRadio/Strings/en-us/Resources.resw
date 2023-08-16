@@ -377,4 +377,16 @@ You will also need to wait about a minute</value>
   <data name="Main_RecentStations.Text" xml:space="preserve">
     <value>Recent</value>
   </data>
+  <data name="Premium_SimulatorBuyConfirm.Content" xml:space="preserve">
+    <value>Do you want to purchase {0}?</value>
+  </data>
+  <data name="Premium_SimulatorBuyConfirm.No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Premium_SimulatorBuyConfirm.Ok" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Premium_SimulatorBuyConfirm.Title" xml:space="preserve">
+    <value>Confirmation of purchase</value>
+  </data>
 </root>
