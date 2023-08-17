@@ -4,17 +4,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media">
 
-    <Grid Height="56">
+    <Page.Resources>
+        <x:Int32 x:Key="CompactMinWidth">64</x:Int32>
+    </Page.Resources>
+
+    <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="{Binding StationImageUrl}" Stretch="UniformToFill"/>
         </Grid.Background>
+
         <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
+            <interactivity:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="PointerEntered">
+                    <core:ChangePropertyAction TargetObject="{Binding ElementName=BlurBrush}" PropertyName="Amount" Value="20"/>
+                </core:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
             <Border.Background>
-                <media:BackdropBlurBrush Amount="8" />
+                <media:BackdropBlurBrush x:Name="BlurBrush" Amount="8" />
             </Border.Background>
         </Border>
         <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
@@ -22,8 +36,14 @@
                 <SolidColorBrush Color="#000000" Opacity="0.5" />
             </Border.Background>
         </Border>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Foreground="White" Text="{Binding StationName}" VerticalAlignment="Center" Margin="0,0,10,0" />
-        </StackPanel>
+
+        <Border MaxHeight="42"
+                Width="50"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <muxc:AnimatedVisualPlayer x:Name="LottiePlayer" AutoPlay="{x:Bind ViewModel.IsPlaying, Mode=OneWay}" >
+                <lottie:LottieVisualSource x:Name="LottieJsonSource" UriSource="ms-appx:///Assets/EqualizerAnimation.json"/>
+            </muxc:AnimatedVisualPlayer>
+        </Border>
     </Grid>
 </Page>

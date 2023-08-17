@@ -35,11 +35,6 @@
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Favorites}"/>
-                <Button x:Uid="Browse_Trending_Button"
-                        HorizontalAlignment="Stretch"
-                        Height="100"
-                        Command="{x:Bind ViewModel.GoToCommand}"
-                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Trending}"/>
                 <Button x:Uid="Browse_Music_Button"
                         HorizontalAlignment="Stretch"
                         Height="100"
@@ -60,16 +55,6 @@
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
                          CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Podcasts}"/>
-                <Button x:Uid="Browse_ByLocation_Radio_Button"
-                        HorizontalAlignment="Stretch"
-                        Height="100"
-                        Command="{x:Bind ViewModel.GoToCommand}"
-                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Location}"/>
-                <Button x:Uid="Browse_ByLanguage_Radio_Button"
-                        HorizontalAlignment="Stretch"
-                        Height="100"
-                        Command="{x:Bind ViewModel.GoToCommand}"
-                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Language}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

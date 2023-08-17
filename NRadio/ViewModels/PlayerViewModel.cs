@@ -95,7 +95,7 @@ namespace NRadio.ViewModels
         }
         public double Volume
         {
-            get { return volume; }
+            get => volume;
             set
             {
                 SetProperty(ref volume, value);

@@ -30,7 +30,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid Margin="{StaticResource MediumLeftRightMargin}">
+        <ScrollViewer Margin="{StaticResource MediumLeftRightMargin}">
         <StackPanel
             x:Name="ContentArea"
             Margin="0,46,0,0">
@@ -131,6 +131,6 @@
 
             </StackPanel>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
     </Grid>
 </Page>
