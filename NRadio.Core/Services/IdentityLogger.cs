@@ -5,7 +5,7 @@ namespace NRadio.Core.Services
 {
     public class IdentityLogger : IIdentityLogger
     {
-        private readonly EventLogLevel minLogLevel = EventLogLevel.LogAlways;
+        private readonly EventLogLevel minLogLevel;
 
         public IdentityLogger(EventLogLevel minLogLevel = EventLogLevel.LogAlways)
         {

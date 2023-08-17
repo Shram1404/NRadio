@@ -1,6 +1,6 @@
 ﻿using Windows.Services.Store;
 
-namespace NRadio.Core.Services.Purchase
+namespace NRadio.Purchase
 {
     public class PurchaseResult
     {

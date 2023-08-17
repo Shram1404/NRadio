@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using NRadio.Helpers;
+using NRadio.Core.Helpers;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -14,10 +14,7 @@ namespace NRadio.Services
 
         public static ElementTheme Theme { get; set; } = ElementTheme.Default;
 
-        public static async Task InitializeAsync()
-        {
-            Theme = await LoadThemeFromSettingsAsync();
-        }
+        public static async Task InitializeAsync() => Theme = await LoadThemeFromSettingsAsync();
 
         public static async Task SetThemeAsync(ElementTheme theme)
         {
@@ -43,7 +40,7 @@ namespace NRadio.Services
 
         private static async Task<ElementTheme> LoadThemeFromSettingsAsync()
         {
-            ElementTheme cacheTheme = ElementTheme.Default;
+            var cacheTheme = ElementTheme.Default;
             string themeName = await ApplicationData.Current.LocalSettings.ReadAsync<string>(SettingsKey);
 
             if (!string.IsNullOrEmpty(themeName))
@@ -54,9 +51,7 @@ namespace NRadio.Services
             return cacheTheme;
         }
 
-        private static async Task SaveThemeInSettingsAsync(ElementTheme theme)
-        {
+        private static async Task SaveThemeInSettingsAsync(ElementTheme theme) =>
             await ApplicationData.Current.LocalSettings.SaveAsync(SettingsKey, theme.ToString());
-        }
     }
 }

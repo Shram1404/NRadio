@@ -9,8 +9,6 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using NRadio.Core.API;
 using NRadio.Core.Helpers;
 using NRadio.Core.Models;
-using NRadio.Helpers;
-using NRadio.Services;
 using Windows.Storage;
 
 namespace NRadio.Core.Services
@@ -18,6 +16,7 @@ namespace NRadio.Core.Services
     public static class RadioStationsLoader
     {
         private const int MaxRecentStations = 20;
+        private const string ConfigStorage = "ms-appx:///config.json";
 
         private static readonly StorageFolder folder = ApplicationData.Current.LocalFolder;
         private static readonly Filter stationFilter = new Filter
@@ -32,15 +31,19 @@ namespace NRadio.Core.Services
         };
         private static bool isUpdating = false;
 
-        private static Config cfg { get; set; }
+        private static Config Cfg { get; set; }
 
         public static async Task InitializeAsync()
         {
-            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///config.json"));
-            string configJson = await FileIO.ReadTextAsync(configFile);
-            cfg = JsonSerializer.Deserialize<Config>(configJson);
-
+            Cfg = await LoadConfigAsync();
             await CheckFilesState();
+        }
+
+        public static async Task<Config> LoadConfigAsync()
+        {
+            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(ConfigStorage));
+            string configJson = await FileIO.ReadTextAsync(configFile);
+            return JsonSerializer.Deserialize<Config>(configJson);
         }
 
         public static async Task UpdateRadioStationsAsync()
@@ -137,22 +140,22 @@ namespace NRadio.Core.Services
         }
 
         private static async Task SaveAllToFileAsync() =>
-            await folder.SaveAsync(cfg.RadioStationsFileName, RadioStationsContainer.AllStations);
+            await folder.SaveAsync(Cfg.RadioStationsFileName, RadioStationsContainer.AllStations);
         private static async Task SaveRecentToFileAsync() =>
-            await folder.SaveAsync(cfg.RecentStationsFileName, RadioStationsContainer.RecentStations);
+            await folder.SaveAsync(Cfg.RecentStationsFileName, RadioStationsContainer.RecentStations);
         private static async Task SaveFavoriteToFileAsync() =>
-            await folder.SaveAsync(cfg.FavoriteStationsFileName, RadioStationsContainer.FavoriteStations);
+            await folder.SaveAsync(Cfg.FavoriteStationsFileName, RadioStationsContainer.FavoriteStations);
         private static async Task SavePremiumToFileAsync() =>
-            await folder.SaveAsync(cfg.PremiumStationsFileName, RadioStationsContainer.PremiumStations);
+            await folder.SaveAsync(Cfg.PremiumStationsFileName, RadioStationsContainer.PremiumStations);
 
         private static async Task<List<RadioStation>> LoadAllFromFileAsync() =>
-            await folder.ReadAsync<List<RadioStation>>(cfg.RadioStationsFileName);
+            await folder.ReadAsync<List<RadioStation>>(Cfg.RadioStationsFileName);
         private static async Task<List<RadioStation>> LoadRecentFromFileAsync() =>
-            await folder.ReadAsync<List<RadioStation>>(cfg.RecentStationsFileName);
+            await folder.ReadAsync<List<RadioStation>>(Cfg.RecentStationsFileName);
         private static async Task<List<RadioStation>> LoadFavoriteFromFileAsync() =>
-            await folder.ReadAsync<List<RadioStation>>(cfg.FavoriteStationsFileName);
+            await folder.ReadAsync<List<RadioStation>>(Cfg.FavoriteStationsFileName);
         private static async Task<List<RadioStation>> LoadPremiumFromFileAsync() =>
-            await folder.ReadAsync<List<RadioStation>>(cfg.PremiumStationsFileName);
+            await folder.ReadAsync<List<RadioStation>>(Cfg.PremiumStationsFileName);
 
         private static async Task SaveFilteredStationsFromApiToContainerAsync(Filter options) =>
             RadioStationsContainer.AllStations = FilterStations(await LoadStationsFromApiByAllCountryAsync(), options);

@@ -4,7 +4,7 @@ using NRadio.Core.Models;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml.Controls;
 
-namespace NRadio.Services
+namespace NRadio.Core.Services
 {
     public static class DialogService
     {

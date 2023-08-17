@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NRadio.Activation;
-using NRadio.Helpers;
+using NRadio.Core.Helpers;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;

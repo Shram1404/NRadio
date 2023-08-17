@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using NRadio.Services;
 using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;
+using NRadio.Core.Services;
 
-namespace NRadio.Core.Services.Purchase
+namespace NRadio.Purchase
 {
     public class StoreContextProvider : IPurchaseProvider
     {

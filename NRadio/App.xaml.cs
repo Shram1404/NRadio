@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
-using NRadio.Core.Services.Purchase;
+using NRadio.Purchase;
 using NRadio.Services;
 using NRadio.ViewModels;
 using Windows.ApplicationModel;

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace NRadio.Core.Services.Purchase
+namespace NRadio.Purchase
 {
     public interface IPurchaseProvider
     {

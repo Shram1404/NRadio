@@ -5,7 +5,7 @@ using NRadio.Core.Helpers;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace NRadio.Helpers
+namespace NRadio.Core.Helpers
 {
     public static class SettingsStorageExtensions
     {
