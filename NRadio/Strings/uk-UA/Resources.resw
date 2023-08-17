@@ -322,6 +322,9 @@
     <value>Світла</value>
     <comment>Light theme text for Settings</comment>
   </data>
+  <data name="Settings_UpdateStations.Content" xml:space="preserve">
+    <value>Оновити список</value>
+  </data>
   <data name="Setting_Language_Button.Content" xml:space="preserve">
     <value>Мова</value>
   </data>

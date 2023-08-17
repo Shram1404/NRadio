@@ -378,4 +378,7 @@ You will also need to wait about a minute</value>
   <data name="Dialog_StationsUpdateConfirm.Yes" xml:space="preserve">
     <value>Yes, i agree</value>
   </data>
+  <data name="Settings_UpdateStations.Content" xml:space="preserve">
+    <value>Update list</value>
+  </data>
 </root>
