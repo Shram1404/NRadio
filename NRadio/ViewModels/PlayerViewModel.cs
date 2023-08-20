@@ -44,7 +44,7 @@ namespace NRadio.ViewModels
         public ICommand StopCommand { get; private set; }
         public ICommand PlayNextCommand { get; private set; }
         public ICommand PlayPreviousCommand { get; private set; }
-        public ICommand UpdateAudioListCommand { get; private set; }
+        public ICommand ToggleRecordingCommand { get; private set; }
         public ICommand ChangeFavoriteStateCommand { get; private set; }
 
         public bool IsPlayerCreated
@@ -120,7 +120,7 @@ namespace NRadio.ViewModels
             StopCommand = new RelayCommand(Stop);
             PlayNextCommand = new RelayCommand(PlayNext);
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
-            UpdateAudioListCommand = new AsyncRelayCommand(UpdateAudioList);
+            ToggleRecordingCommand = new AsyncRelayCommand(ToggleRecording);
             ChangeFavoriteStateCommand = new AsyncRelayCommand(ChangeFavoriteState);
 
             this.radioStations = radioStations;
@@ -223,7 +223,7 @@ namespace NRadio.ViewModels
 
         private void SetVolume() => PlayerService.SetVolume(Volume / 100); // Volume in PlayerService is in range 0-1
 
-        private async Task UpdateAudioList() => await RadioStationsLoader.UpdateRadioStationsAsync();
+        private async Task ToggleRecording() => await RadioRecorder.ToggleRecordingAsync(StationUrl, StationName, false);
 
         private void SetGlyphsFromResources()
         {

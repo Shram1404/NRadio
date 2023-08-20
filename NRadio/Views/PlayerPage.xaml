@@ -67,6 +67,11 @@
             </Viewbox>
 
             <RelativePanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">
+                <Button RelativePanel.LeftOf="PlayerControls"
+                        RelativePanel.AlignVerticalCenterWithPanel="True"
+                        Height="40" Width="40"
+                        Style="{StaticResource CircleButtonStyle}"
+                        Command="{Binding ToggleRecordingCommand}"/>
                 <StackPanel x:Name="PlayerControls"
                             RelativePanel.AlignHorizontalCenterWithPanel="True"
                             Grid.Row="3" Grid.Column="1"

@@ -63,6 +63,7 @@
 		<uap3:Capability Name="backgroundMediaPlayback"/>
 		<Capability Name="privateNetworkClientServer"/>
 		<uap:Capability Name="enterpriseAuthentication"/>
+		<uap:Capability Name="musicLibrary"/>
 	</Capabilities>
 
   <genTemplate:Metadata>

@@ -23,7 +23,7 @@ namespace NRadio.Core.BackgroundTasks
                 Name = taskName
             };
 
-            builder.SetTrigger(new TimeTrigger(60, false));
+            builder.SetTrigger(new TimeTrigger(360, false));
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
             builder.Register();
         }
