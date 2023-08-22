@@ -3,5 +3,6 @@
   "RecentStationsFileName": "recentStations",
   "FavoriteStationsFileName": "favoriteStations",
   "PremiumStationsFileName": "premiumStations",
+  "RecScheduledStationsFileName": "recSheduledStations",
   "ServerUrl": "https://de1.api.radio-browser.info/json"
 }

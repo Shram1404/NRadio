@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
@@ -7,6 +8,9 @@ using NRadio.Services;
 using NRadio.ViewModels;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.ExtendedExecution;
+using Windows.ApplicationModel.ExtendedExecution.Foreground;
 using Windows.UI.Xaml;
 
 namespace NRadio
@@ -14,7 +18,7 @@ namespace NRadio
     public sealed partial class App : Application
     {
         // TODO: Change to StoreContextProvider when app wil be in Dev Center
-        public readonly IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider(); 
+        public readonly IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider();
 
         private ServiceProvider serviceProvider;
         private readonly Lazy<ActivationService> activationService;
@@ -41,10 +45,14 @@ namespace NRadio
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+
             if (!args.PrelaunchActivated)
             {
                 await ActivationService.ActivateAsync(args);
             }
+            await RequestExtendedExecution();
+            var applicationTrigger = new ApplicationTrigger();
+            await applicationTrigger.RequestAsync();
 
             var backgroundTaskService = new BackgroundTaskService();
             await backgroundTaskService.RegisterBackgroundTasksAsync();
@@ -65,6 +73,7 @@ namespace NRadio
 
             services.AddTransient<MainViewModel>();
             services.AddTransient<ShellViewModel>();
+            services.AddSingleton<RecordingViewModel>();
             services.AddSingleton<PlayerViewModel>();
             services.AddSingleton<StationDetailViewModel>();
             services.AddSingleton<StationsListViewModel>();
@@ -99,6 +108,31 @@ namespace NRadio
         {
             ActivationService.SetShell(new Lazy<UIElement>(CreateShell));
             await ActivationService.RedirectLoginPageAsync();
+        }
+
+        private async Task RequestExtendedExecution()
+        {
+            var newSession = new ExtendedExecutionSession
+            {
+                Reason = ExtendedExecutionReason.Unspecified,
+                Description = "Long Running Radio Recorder"
+            };
+            newSession.Revoked += Session_Revoked;
+            var result = await newSession.RequestExtensionAsync();
+            switch (result)
+            {
+                case ExtendedExecutionResult.Allowed:
+                    Task.Run(async () => await BackgroundRecordingService.StartSchedulerAsync());
+                    break;
+
+                default:
+                case ExtendedExecutionResult.Denied:
+                    break;
+            }
+        }
+        private async void Session_Revoked(object sender, ExtendedExecutionRevokedEventArgs args)
+        {
+            await RadioRecorder.StopRecordingAsync(true);
         }
     }
 }

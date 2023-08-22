@@ -36,7 +36,7 @@ namespace NRadio.Core.Services
 
         public static void Cancel() => cts.Cancel();
 
-        private static async Task StartRecordingAsync(string url, string fileName)
+        public static async Task StartRecordingAsync(string url, string fileName)
         {
             var client = new HttpClient();
             var stream = await client.GetStreamAsync(url);
@@ -64,7 +64,7 @@ namespace NRadio.Core.Services
             }
         }
 
-        private static async Task StopRecordingAsync(bool isPathDefault)
+        public static async Task StopRecordingAsync(bool isPathDefault)
         {
             var endTime = DateTimeOffset.Now;
             var newFileName = $"{bufferFile.DisplayName}_{endTime:(HH-mm-ss)}";
@@ -88,7 +88,7 @@ namespace NRadio.Core.Services
         private static async Task<StorageFile> CreateRecordingFileAsync(string fileName)
         {
             DateTimeOffset startTime = DateTimeOffset.Now;
-            fileName = $"{fileName}_{startTime:MM-dd(HH-mm-ss)}";
+            fileName = $"{fileName}_{startTime:MM-dd(HH-mm-ss)}.mp3";
             var file = await CreateFileInMusicLibraryAsync(fileName);
             return file;
         }
