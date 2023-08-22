@@ -133,8 +133,10 @@
     <Compile Include="Models\Dialog.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\RadioStation.cs" />
+    <Compile Include="Models\RecordingStation.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BackgroudRecordingService.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IdentityLogger.cs" />
     <Compile Include="Services\IdentityService.cs" />

@@ -6,6 +6,7 @@
         public string RecentStationsFileName { get; set; }
         public string FavoriteStationsFileName { get; set; }
         public string PremiumStationsFileName { get; set; }
+        public string RecScheduledStationsFileName { get; set; }
         public string ServerUrl { get; set; }
     }
 }

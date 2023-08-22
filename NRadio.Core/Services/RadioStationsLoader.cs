@@ -98,6 +98,41 @@ namespace NRadio.Core.Services
 
         public static async Task ShowUpdateStationsMessageAsync() => await DialogService.NeedStationsUpdateDialogAsync();
 
+        public static async Task AddRecStationToFileASync(RecordingStation station)
+        {
+            var stationsList = await LoadRecStationsAsync();
+            if (stationsList == null)
+            {
+                stationsList = new List<RecordingStation>();
+            }
+            stationsList.Add(station);
+            await folder.SaveAsync(Cfg.RecScheduledStationsFileName, stationsList);
+        }  
+
+        public static async Task<List<RecordingStation>> LoadRecStationsAsync()
+        {
+            List<RecordingStation> stations = new List<RecordingStation>();
+            try
+            {
+                stations = await folder.ReadAsync<List<RecordingStation>>(Cfg.RecScheduledStationsFileName);
+            }
+            catch (FileNotFoundException)
+            {
+                await folder.CreateFileAsync(Cfg.RecScheduledStationsFileName);
+            }
+            return stations;
+        }
+
+        public static async Task RemoveRecStationFromFileASync(RecordingStation station)
+        {
+            var stations = await LoadRecStationsAsync();
+            if (stations != null && stations.Count > 0 && stations.Contains(station))
+            {
+                stations.Remove(station);
+                await folder.SaveAsync(Cfg.RecScheduledStationsFileName, stations);
+            }
+        }
+
         private static async Task CheckFilesState()
         {
             bool isUpdated = false;

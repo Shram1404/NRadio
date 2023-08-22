@@ -23,6 +23,7 @@ namespace NRadio.ViewModels
 
         public ICommand OpenPlayerCommand => new AsyncRelayCommand(OnOpenPlayer);
         public ICommand ChangeFavoriteStateCommand => new RelayCommand(OnChangeFavoriteState);
+        public ICommand OpenRecordingPageCommand => new AsyncRelayCommand(OnOpenRecordingPage);
 
         public StationDetailViewModel()
         {
@@ -76,6 +77,20 @@ namespace NRadio.ViewModels
         {
             await RadioStationsLoader.ChangeIsFavoriteAsync(CurrentStation);
             SetFavoriteGlyph();
+        }
+
+        private async Task OnOpenRecordingPage()
+        {
+            var purchaseProvider = ((App)Application.Current).purchaseProvider;
+            if (!IsPremiumStation(CurrentStation) || await purchaseProvider.CheckIfUserHasPremiumAsync())
+            {
+                ((App)Application.Current).ViewModelLocator.RecordingVM.Initialize(CurrentStation);
+                NavigationService.Navigate<RecordingPage>();
+            }
+            else
+            {
+                await DialogService.PremiumNotActiveDialogAsync();
+            }
         }
 
         private void SetFavoriteGlyph() =>
