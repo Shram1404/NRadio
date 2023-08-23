@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Xml.Linq;
 
-namespace NRadio.Core.Models
+namespace NRadio.Models
 {
     public class RecordingStation
     {

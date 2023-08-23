@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NRadio.Core.Models
+namespace NRadio.Models
 {
     public class User
     {

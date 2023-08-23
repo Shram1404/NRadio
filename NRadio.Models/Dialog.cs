@@ -1,4 +1,4 @@
-﻿namespace NRadio.Core.Models
+﻿namespace NRadio.Models
 {
     public class Dialog
     {

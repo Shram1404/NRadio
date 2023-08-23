@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace NRadio.Converters
+namespace NRadio.Helpers.Converters
 {
     public class StringToEnumConverter : IValueConverter
     {
