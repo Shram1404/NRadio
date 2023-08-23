@@ -13,6 +13,8 @@ namespace NRadio.Core.Services
 
         static PlayerService()
         {
+            mediaPlayer.RealTimePlayback = true;
+
             systemMediaControls = SystemMediaTransportControls.GetForCurrentView();
             systemMediaControls.ButtonPressed += SystemMediaControls_ButtonPressed;
             mediaPlayer.CommandManager.IsEnabled = false;
