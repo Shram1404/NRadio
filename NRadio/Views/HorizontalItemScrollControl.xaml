@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:b="using:NRadio.Behaviors"
+    xmlns:converter="using:NRadio.Converters"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     xmlns:helper="using:NRadio.Helpers"
@@ -13,8 +14,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <UserControl.Resources>
-        <helper:ItemClickEventArgsConverter x:Key="Converter"/>
-        <helper:RadioStationListConverter x:Key="StationConverter" />
+        <converter:ItemClickEventArgsConverter x:Key="Converter"/>
+        <converter:RadioStationListConverter x:Key="StationConverter" />
         <helper:Glyphs x:Key="GlyphCode"/>
     </UserControl.Resources>
 

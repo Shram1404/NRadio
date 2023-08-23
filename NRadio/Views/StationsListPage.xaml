@@ -7,12 +7,12 @@
     xmlns:models="using:NRadio.Core.Models"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:helper="using:NRadio.Helpers"
+    xmlns:converter="using:NRadio.Converters"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <helper:ItemClickEventArgsConverter x:Key="Converter"/>
+        <converter:ItemClickEventArgsConverter x:Key="Converter"/>
     </Page.Resources>
     <Grid>
         <VisualStateManager.VisualStateGroups>

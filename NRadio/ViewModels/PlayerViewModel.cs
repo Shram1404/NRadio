@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -22,7 +23,7 @@ namespace NRadio.ViewModels
         private bool isPlayerCreated = false;
 
         private int currentStationIndex;
-        private RadioStation CurrentStation;
+        private RadioStation currentStation;
         private List<RadioStation> radioStations;
         private string stationName;
         private string stationUrl;
@@ -30,8 +31,11 @@ namespace NRadio.ViewModels
         private string stationImageUrl;
         private string playGlyph;
         private string favoriteGlyph;
+        private string recordingGlyph;
         private double volume = DefaultVolume;
         private bool isPlaying;
+        private RadioRecorder recorder;
+        Dictionary<RadioStation, RadioRecorder> recorderDict = new Dictionary<RadioStation, RadioRecorder>();
 
         public PlayerViewModel()
         {
@@ -93,6 +97,11 @@ namespace NRadio.ViewModels
             get => favoriteGlyph;
             set => SetProperty(ref favoriteGlyph, value);
         }
+        public string RecordingGlyph
+        {
+            get => recordingGlyph;
+            set => SetProperty(ref recordingGlyph, value);
+        }
         public double Volume
         {
             get => volume;
@@ -108,7 +117,7 @@ namespace NRadio.ViewModels
             set
             {
                 SetProperty(ref isPlaying, value);
-                SetPlayGlyphString();
+                SetPlayGlyph();
             }
         }
 
@@ -150,7 +159,7 @@ namespace NRadio.ViewModels
             this.radioStations = radioStations;
             this.currentStationIndex = currentStationIndex;
 
-            if (StationName != CurrentStation.Name)
+            if (StationName != currentStation.Name)
             {
                 SetCurrentStation();
                 PlayerService.PlayRadioStream(StationUrl);
@@ -159,10 +168,10 @@ namespace NRadio.ViewModels
 
         private void SetCurrentStation()
         {
-            CurrentStation = radioStations[currentStationIndex];
-            StationName = CurrentStation.Name;
-            StationUrl = CurrentStation.Url;
-            StationImageUrl = CurrentStation.Favicon;
+            currentStation = radioStations[currentStationIndex];
+            StationName = currentStation.Name;
+            StationUrl = currentStation.Url;
+            StationImageUrl = currentStation.Favicon;
         }
 
         private void PlayNext()
@@ -223,39 +232,57 @@ namespace NRadio.ViewModels
 
         private void SetVolume() => PlayerService.SetVolume(Volume / 100); // Volume in PlayerService is in range 0-1
 
-        private async Task ToggleRecording() => await RadioRecorder.ToggleRecordingAsync(StationUrl, StationName, false);
+        private async Task ToggleRecording()
+        {
+            if (recorderDict.ContainsKey(currentStation))
+            {
+                recorder = recorderDict[currentStation];
+            }
+            else
+            {
+                recorder = new RadioRecorder();
+                recorderDict.Add(currentStation, recorder);
+            }
+
+            SwapRecordingGlyph();
+            await recorder.ToggleRecordingAsync(StationUrl, StationName, false);
+        }
 
         private void SetGlyphsFromResources()
         {
-            PlayGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Play_Glyph");
+            SetPlayGlyph();
             SetFavoriteGlyph();
+            SetRecordingGlyph();
         }
 
-        private void SetFavoriteGlyph()
+        private void SwapRecordingGlyph()
         {
-            if (RadioStationsContainer.FavoriteStations.Contains(CurrentStation))
+            if (RecordingGlyph == ResourceLoader.GetForCurrentView("Resources").GetString("Recording_Glyph"))
             {
-                FavoriteGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Favorite_Glyph");
+                RecordingGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Not_Recording_Glyph");
             }
             else
             {
-                FavoriteGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Not_Favorite_Glyph");
+                RecordingGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Recording_Glyph");
             }
         }
 
-        private void SetPlayGlyphString()
+        private void SetFavoriteGlyph() => FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(currentStation)
+                ? ResourceLoader.GetForCurrentView("Resources").GetString("Favorite_Glyph")
+                : ResourceLoader.GetForCurrentView("Resources").GetString("Not_Favorite_Glyph");
+
+        private void SetPlayGlyph() => PlayGlyph = IsPlaying
+                ? ResourceLoader.GetForCurrentView("Resources").GetString("Pause_Glyph")
+                : ResourceLoader.GetForCurrentView("Resources").GetString("Play_Glyph");
+
+        private void SetRecordingGlyph()
         {
-            if (IsPlaying)
-            {
-                PlayGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Pause_Glyph");
-            }
-            else
-            {
-                PlayGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Play_Glyph");
-            }
+            RecordingGlyph = recorder.IsStationRecording(currentStation.Name)
+                ? ResourceLoader.GetForCurrentView("Resources").GetString("Recording_Glyph")
+                : ResourceLoader.GetForCurrentView("Resources").GetString("Not_Recording_Glyph");
         }
 
-        private async Task AddToRecent() => await RadioStationsLoader.AddToLastRecentAsync(CurrentStation);
+        private async Task AddToRecent() => await RadioStationsLoader.AddToLastRecentAsync(currentStation);
 
         private async Task ChangeFavoriteState()
         {
@@ -265,7 +292,7 @@ namespace NRadio.ViewModels
                 await RadioStationsLoader.ChangeIsFavoriteAsync(lastStation);
             }
 
-            await RadioStationsLoader.ChangeIsFavoriteAsync(CurrentStation);
+            await RadioStationsLoader.ChangeIsFavoriteAsync(currentStation);
             SetFavoriteGlyph();
         }
     }

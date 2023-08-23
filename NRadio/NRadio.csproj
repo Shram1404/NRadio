@@ -195,13 +195,13 @@
     <Compile Include="Behaviors\NavigationViewHeaderBehavior.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderMode.cs" />
     <Compile Include="BackgroundTasks\UpdateRadioStationsTask.cs" />
-    <Compile Include="Helpers\EnumToBooleanConverter.cs" />
+    <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Glyphs.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Helpers\ItemClickEventArgsConverter.cs" />
+    <Compile Include="Converters\ItemClickEventArgsConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
-    <Compile Include="Helpers\RadioStationListConverter.cs" />
-    <Compile Include="Helpers\StringToEnumConverter.cs" />
+    <Compile Include="Converters\RadioStationListConverter.cs" />
+    <Compile Include="Converters\StringToEnumConverter.cs" />
     <Compile Include="Purchase\IPurchaseProvider.cs" />
     <Compile Include="Purchase\PurchaseResult.cs" />
     <Compile Include="Purchase\PurchaseSimulatorProvider.cs" />

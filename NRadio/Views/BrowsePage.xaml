@@ -3,13 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:NRadio.Helpers"
+    xmlns:converter="using:NRadio.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <helper:StringToEnumConverter x:Key="StringToEnumConverter" EnumType="{x:Bind ViewModel.EnumType}" />
+        <converter:StringToEnumConverter x:Key="StringToEnumConverter" EnumType="{x:Bind ViewModel.EnumType}" />
     </Page.Resources>
 
     <Grid>

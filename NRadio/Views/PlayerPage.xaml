@@ -68,39 +68,39 @@
 
             <RelativePanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">
                 <Button RelativePanel.LeftOf="PlayerControls"
-                        RelativePanel.AlignVerticalCenterWithPanel="True"
-                        Height="40" Width="40"
+                        RelativePanel.AlignVerticalCenterWith="PlayerControls"
+                        Height="38" Width="38"
                         Style="{StaticResource CircleButtonStyle}"
-                        Command="{Binding ToggleRecordingCommand}"/>
+                        Command="{Binding ToggleRecordingCommand}"
+                        Margin="0,36,12,0">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding RecordingGlyph}"/>
+                </Button>
                 <StackPanel x:Name="PlayerControls"
                             RelativePanel.AlignHorizontalCenterWithPanel="True"
                             Grid.Row="3" Grid.Column="1"
                             Orientation="Horizontal"
                             HorizontalAlignment="Center" VerticalAlignment="Top"
                             Margin="{StaticResource LargeTopMargin}">
-
                     <Button Style="{StaticResource CircleButtonStyle}"
-                        Height="48" Width="48"
-                        Command="{Binding PlayPreviousCommand}"
-                        Margin="{StaticResource SmallRightMargin}">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Previous_Glyph]}"/>
-                </Button>
-
-                <Button Style="{StaticResource CircleButtonStyle}"
-                        Height="64"
-                        Width="64"
-                        Command="{Binding PlayPauseCommand}">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding PlayGlyph}"/>
-                </Button>
-
-                <Button Style="{StaticResource CircleButtonStyle}"
-                        Height="48"
-                        Width="48"
-                        Command="{Binding PlayNextCommand}"
-                        Margin="{StaticResource SmallLeftMargin}">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Next_Glyph]}"/>
-                </Button>
-            </StackPanel>
+                            Height="48" Width="48"
+                            Command="{Binding PlayPreviousCommand}"
+                            Margin="{StaticResource SmallRightMargin}">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Previous_Glyph]}"/>
+                    </Button>
+                    <Button Style="{StaticResource CircleButtonStyle}"
+                            Height="64"
+                            Width="64"
+                            Command="{Binding PlayPauseCommand}">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding PlayGlyph}"/>
+                    </Button>
+                    <Button Style="{StaticResource CircleButtonStyle}"
+                            Height="48"
+                            Width="48"
+                            Command="{Binding PlayNextCommand}"
+                            Margin="{StaticResource SmallLeftMargin}">
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Next_Glyph]}"/>
+                    </Button>
+                </StackPanel>
                 <Slider RelativePanel.RightOf="PlayerControls"
                         RelativePanel.AlignVerticalCenterWith="PlayerControls"
                         Orientation="Vertical"

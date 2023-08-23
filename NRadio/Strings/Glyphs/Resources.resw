@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add_Glyph" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="Favorite_Glyph" xml:space="preserve">
     <value></value>
   </data>
@@ -126,6 +129,9 @@
   <data name="Not_Favorite_Glyph" xml:space="preserve">
     <value></value>
   </data>
+  <data name="Not_Recording_Glyph" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="Pause_Glyph" xml:space="preserve">
     <value></value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="Previous_Glyph" xml:space="preserve">
     <value></value>
+  </data>
+  <data name="Recording_Glyph" xml:space="preserve">
+    <value></value>
   </data>
   <data name="Scroll_Left_Glyph" xml:space="preserve">
     <value></value>
