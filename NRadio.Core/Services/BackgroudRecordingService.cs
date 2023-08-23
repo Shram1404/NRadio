@@ -8,11 +8,13 @@ namespace NRadio.Core.Services
 {
     public static class BackgroundRecordingService
     {
-        const int DelayInMillisecond = 5000;
+        const int DelayForCheck = 50000;
+        const int DelayAfterRecording = 200;
 
         private static List<RecordingStation> recStations = new List<RecordingStation>();
-        private static bool isListContainsStation = false;
+        private static Dictionary<RecordingStation, RadioRecorder> recorderDict = new Dictionary<RecordingStation, RadioRecorder>();
 
+        public static List<RadioRecorder> Recorders { get; private set; } = new List<RadioRecorder>();
         public static List<RecordingStation> RecStations
         {
             get => recStations;
@@ -21,19 +23,25 @@ namespace NRadio.Core.Services
 
         public static async Task StartSchedulerAsync()
         {
-            RecStations = await RadioStationsLoader.LoadRecStationsAsync();
-            if(RecStations == null)
-            {
-                RecStations = new List<RecordingStation>();
-            }
-            CheckIsListContainStationsAsync();
+            await RemoveExpiredStationsFromFileAsync();
+            RecStations = await RadioStationsLoader.LoadRecStationsAsync() ?? new List<RecordingStation>();
+
             Debug.WriteLine("BackgroundRecordingService: StartSchedulerAsync");
             while (true)
             {
-                Debug.WriteLine("BackgroundRecordingService: StartSchedulerAsync: CheckForStartRecording" + DateTime.Now.TimeOfDay);
-                await Task.Delay(DelayInMillisecond);
-                await CheckForStartRecording();
+                await Task.Delay(DelayForCheck);
+                Task.Run(() => StartRecordingScheduledStationsAsync());
             }
+        }
+
+        public static async Task StopSchedulerAsync()
+        {
+            Debug.WriteLine("BackgroundRecordingService: StopSchedulerAsync");
+            foreach (var recorder in Recorders)
+            {
+                await recorder.StopRecordingAsync(true);
+            }
+            Recorders.Clear();
         }
 
         public static async Task AddStationToSchedulerListAsync(RecordingStation station)
@@ -47,23 +55,12 @@ namespace NRadio.Core.Services
             RecStations.Remove(station);
         }
 
-        private static void CheckIsListContainStationsAsync()
+        private static async Task StartRecordingScheduledStationsAsync()
         {
-            if (RecStations.Count == 0)
+            Debug.WriteLine($"BackgroundRecordingService: StartRecordingScheduledStationsAsync check  {DateTime.Now.TimeOfDay}");
+            if (RecStations.Count > 0)
             {
-                isListContainsStation = false;
-            }
-            else
-            {
-                isListContainsStation = true;
-            }
-        }
-
-        private static async Task CheckForStartRecording()
-        {
-            if (isListContainsStation)
-            {
-                Debug.WriteLine("BackgroundRecordingService: CheckForStartRecording: List contains stations");
+                await Task.Delay(DelayAfterRecording);
                 try
                 {
                     foreach (var s in RecStations)
@@ -71,39 +68,78 @@ namespace NRadio.Core.Services
                         if (DateTime.Now >= s.StartTime && DateTime.Now < s.EndTime)
                         {
                             var station = s;
-
                             await RemoveStationFromSchedulerListAsync(s);
-                            Debug.WriteLine("BackgroundRecordingService: CheckForStartRecording: Start recording");
-                            Task start = Task.Run(() => RadioRecorder.StartRecordingAsync(station.Uri, station.Name));
-                            Task stopChecker = Task.Run(() => CheckForStopRecording(station));
+                            RecStations = await RadioStationsLoader.LoadRecStationsAsync();
+
+                            var recorder = GetOrCreateRecorderForStation(station);
+                            Recorders.Add(recorder);
+
+                            Debug.WriteLine("BackgroundRecordingService: StartRecordingScheduledStationsAsync: Start recording");
+                            Task start = Task.Run(() => recorder.StartRecordingAsync(station.Uri, station.Name));
+                            Task stopChecker = Task.Run(() => StopRecordingStationAsync(station));
                             await Task.WhenAll(start, stopChecker);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("BackgroundRecordingService: CheckForStartRecordingExc: " + ex.Message);
+                    Debug.WriteLine($"BackgroundRecordingService: CheckForStartRecordingExc: {ex.Message}");
                 }
             }
-            CheckIsListContainStationsAsync();
         }
 
-        private static async Task CheckForStopRecording(RecordingStation station)
+        private static async Task StopRecordingStationAsync(RecordingStation station)
         {
             try
             {
                 while (DateTime.Now <= station.EndTime)
                 {
-                    Debug.WriteLine("BackgroundRecordingService: CheckForStopRecording" + DateTime.Now.TimeOfDay);
-                    await Task.Delay(DelayInMillisecond);
+                    Debug.WriteLine($"BackgroundRecordingService: StopRecordingStationAsync check {station.Name} {DateTime.Now.TimeOfDay}");
+                    await Task.Delay(DelayForCheck);
                 }
-                await RadioRecorder.StopRecordingAsync(true);
-                Debug.WriteLine("BackgroundRecordingService: CheckForStopRecording: Stop recording" + DateTime.Now.TimeOfDay);
+
+                var recorder = recorderDict[station];
+                await recorder.StopRecordingAsync(true);
+                Debug.WriteLine($"BackgroundRecordingService: Stop recording {station.Name} {DateTime.Now.TimeOfDay}");
+
+                Recorders.Remove(recorder);
+                await RadioStationsLoader.RemoveRecStationFromFileASync(station);
+                Debug.WriteLine($"BackgroundRecordingService: StopRecordingStationAsync: Remove station from scheduler file {DateTime.Now.TimeOfDay}");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("CheckForStopRecording Exception: " + ex.Message);
+                Debug.WriteLine($"StopRecordingStationAsync Exception: {ex.Message}");
             }
+        }
+
+        private static async Task RemoveExpiredStationsFromFileAsync()
+        {
+            var stationsList = await RadioStationsLoader.LoadRecStationsAsync();
+            if (stationsList != null)
+            {
+                foreach (var s in stationsList)
+                {
+                    if (s.EndTime < DateTime.Now)
+                    {
+                        await RadioStationsLoader.RemoveRecStationFromFileASync(s);
+                    }
+                }
+            }
+        }
+
+        private static RadioRecorder GetOrCreateRecorderForStation(RecordingStation s)
+        {
+            RadioRecorder recorder;
+            if (recorderDict.ContainsKey(s))
+            {
+                recorder = recorderDict[s];
+            }
+            else
+            {
+                recorder = new RadioRecorder();
+                recorderDict.Add(s, recorder);
+            }
+            return recorder;
         }
     }
 }

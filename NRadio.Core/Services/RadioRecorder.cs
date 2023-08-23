@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NRadio.Core.Models;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -12,19 +13,18 @@ using Windows.Storage.Streams;
 
 namespace NRadio.Core.Services
 {
-    public static class RadioRecorder
+    public class RadioRecorder
     {
-        private static StorageFile bufferFile;
-        private static bool isRecording;
-        private static CancellationTokenSource cts;
+        private StorageFile bufferFile;
+        private CancellationTokenSource cts;
 
         /// <summary>
         /// This static static method is used to toggle recording and save media file. url is source, fileName is the name of the file to be saved, 
         /// isPathDefault is used to determine if the default path should be used or if the user should be prompted to choose a path.
         /// </summary>
-        public static async Task ToggleRecordingAsync(string url, string fileName, bool isPathDefault)
+        public async Task ToggleRecordingAsync(string url, string fileName, bool isPathDefault)
         {
-            if (isRecording)
+            if (IsStationRecording(fileName))
             {
                 await StopRecordingAsync(isPathDefault);
             }
@@ -34,9 +34,9 @@ namespace NRadio.Core.Services
             }
         }
 
-        public static void Cancel() => cts.Cancel();
+        public void Cancel() => cts.Cancel();
 
-        public static async Task StartRecordingAsync(string url, string fileName)
+        public async Task StartRecordingAsync(string url, string fileName)
         {
             var client = new HttpClient();
             var stream = await client.GetStreamAsync(url);
@@ -45,7 +45,6 @@ namespace NRadio.Core.Services
             {
                 var output = await file.OpenAsync(FileAccessMode.ReadWrite);
                 bufferFile = file;
-                isRecording = true;
                 cts = new CancellationTokenSource();
                 try
                 {
@@ -64,7 +63,7 @@ namespace NRadio.Core.Services
             }
         }
 
-        public static async Task StopRecordingAsync(bool isPathDefault)
+        public async Task StopRecordingAsync(bool isPathDefault)
         {
             var endTime = DateTimeOffset.Now;
             var newFileName = $"{bufferFile.DisplayName}_{endTime:(HH-mm-ss)}";
@@ -74,47 +73,47 @@ namespace NRadio.Core.Services
             StorageFile transcodedFile;
             if (isPathDefault)
             {
-                transcodedFile = await CreateFileInMusicLibraryAsync(newFileName);
+                transcodedFile = await CreateTranscodedFileInMusicLibraryAsync(newFileName);
             }
             else
             {
                 transcodedFile = await CreateTranscodedFileAsync(newFileName);
             }
             await TranscodeToMp3Async(transcodedFile);
-
-            isRecording = false;
         }
 
-        private static async Task<StorageFile> CreateRecordingFileAsync(string fileName)
+        public bool IsStationRecording(string name) => bufferFile != null && bufferFile.DisplayName.Contains(name);
+
+        private async Task<StorageFile> CreateRecordingFileAsync(string fileName)
         {
             DateTimeOffset startTime = DateTimeOffset.Now;
             fileName = $"{fileName}_{startTime:MM-dd(HH-mm-ss)}.mp3";
-            var file = await CreateFileInMusicLibraryAsync(fileName);
+            var file = await CreateTranscodedFileInMusicLibraryAsync(fileName);
             return file;
         }
-        private static async Task<StorageFile> CreateTranscodedFileAsync(string fileName)
+        private async Task<StorageFile> CreateTranscodedFileAsync(string fileName)
         {
-            StorageFile file;
             var savePicker = new FileSavePicker
             {
                 SuggestedStartLocation = PickerLocationId.MusicLibrary,
                 SuggestedFileName = fileName
             };
-
             savePicker.FileTypeChoices.Add("MP3 Audio", new[] { ".mp3" });
-            file = await savePicker.PickSaveFileAsync();
 
+            StorageFile file = await savePicker.PickSaveFileAsync() ?? await CreateTranscodedFileInMusicLibraryAsync(fileName);
             return file;
         }
-        private static async Task<StorageFile> CreateFileInMusicLibraryAsync(string fileName)
+
+        private async Task<StorageFile> CreateTranscodedFileInMusicLibraryAsync(string fileName)
         {
+            fileName = $"{fileName}.mp3";
             var musicLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
             var folder = musicLibrary.SaveFolder;
             var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
             return file;
         }
 
-        private static async Task TranscodeToMp3Async(StorageFile outputFile)
+        private async Task TranscodeToMp3Async(StorageFile outputFile)
         {
             var transcoder = new MediaTranscoder();
             var profile = MediaEncodingProfile.CreateMp3(AudioEncodingQuality.High);
@@ -147,7 +146,7 @@ namespace NRadio.Core.Services
             }
         }
 
-        private static async void DelBufferOnTranscodingCompleteAsync(double percent)
+        private async void DelBufferOnTranscodingCompleteAsync(double percent)
         {
             Debug.WriteLine($"Transcoding progress:  {percent.ToString().Split('.')[0]}%");
 
@@ -160,6 +159,7 @@ namespace NRadio.Core.Services
                 {
                     await bufferFile.DeleteAsync();
                     Debug.WriteLine($"Buffer file {bufferFile.DisplayName} was deleted");
+                    bufferFile = null;
                 }
                 catch (Exception ex)
                 {
@@ -168,12 +168,12 @@ namespace NRadio.Core.Services
             }
         }
 
-        private static async Task<IRandomAccessStream> GetStreamFromFileAsync()
+        private async Task<IRandomAccessStream> GetStreamFromFileAsync()
         {
             IRandomAccessStream readStream = await bufferFile.OpenAsync(FileAccessMode.Read);
             return readStream;
         }
-        private static async Task SaveStreamToFileAsync(IRandomAccessStream transcodedStream, StorageFile outputFile)
+        private async Task SaveStreamToFileAsync(IRandomAccessStream transcodedStream, StorageFile outputFile)
         {
             using (var outputStream = await outputFile.OpenAsync(FileAccessMode.ReadWrite))
             {
@@ -185,6 +185,6 @@ namespace NRadio.Core.Services
                 await dataWriter.StoreAsync();
                 await outputStream.FlushAsync();
             }
-        }  
+        }
     }
 }

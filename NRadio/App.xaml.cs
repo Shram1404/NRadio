@@ -50,7 +50,7 @@ namespace NRadio
             {
                 await ActivationService.ActivateAsync(args);
             }
-            await RequestExtendedExecution();
+            await RequestBackgroundRecording();
             var applicationTrigger = new ApplicationTrigger();
             await applicationTrigger.RequestAsync();
 
@@ -110,7 +110,7 @@ namespace NRadio
             await ActivationService.RedirectLoginPageAsync();
         }
 
-        private async Task RequestExtendedExecution()
+        private async Task RequestBackgroundRecording()
         {
             var newSession = new ExtendedExecutionSession
             {
@@ -122,7 +122,7 @@ namespace NRadio
             switch (result)
             {
                 case ExtendedExecutionResult.Allowed:
-                    Task.Run(async () => await BackgroundRecordingService.StartSchedulerAsync());
+                    _ = Task.Run(async () => await BackgroundRecordingService.StartSchedulerAsync());
                     break;
 
                 default:
@@ -130,9 +130,8 @@ namespace NRadio
                     break;
             }
         }
-        private async void Session_Revoked(object sender, ExtendedExecutionRevokedEventArgs args)
-        {
-            await RadioRecorder.StopRecordingAsync(true);
-        }
+
+        private async void Session_Revoked(object sender, ExtendedExecutionRevokedEventArgs args) =>
+            await BackgroundRecordingService.StopSchedulerAsync();
     }
 }
