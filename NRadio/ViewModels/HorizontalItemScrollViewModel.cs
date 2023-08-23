@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using NRadio.Core.Models;
+using NRadio.Models;
 using NRadio.Services;
 using NRadio.Views;
 using Windows.UI.Xaml;

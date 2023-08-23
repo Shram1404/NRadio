@@ -51,8 +51,6 @@ namespace NRadio
                 await ActivationService.ActivateAsync(args);
             }
             await RequestBackgroundRecording();
-            var applicationTrigger = new ApplicationTrigger();
-            await applicationTrigger.RequestAsync();
 
             var backgroundTaskService = new BackgroundTaskService();
             await backgroundTaskService.RegisterBackgroundTasksAsync();

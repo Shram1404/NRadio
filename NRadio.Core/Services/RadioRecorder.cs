@@ -1,5 +1,4 @@
-﻿using NRadio.Core.Models;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -87,7 +86,7 @@ namespace NRadio.Core.Services
         private async Task<StorageFile> CreateRecordingFileAsync(string fileName)
         {
             DateTimeOffset startTime = DateTimeOffset.Now;
-            fileName = $"{fileName}_{startTime:MM-dd(HH-mm-ss)}.mp3";
+            fileName = $"{fileName}_{startTime:MM-dd(HH-mm-ss)}";
             var file = await CreateTranscodedFileInMusicLibraryAsync(fileName);
             return file;
         }

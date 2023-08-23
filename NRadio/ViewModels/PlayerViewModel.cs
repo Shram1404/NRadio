@@ -7,7 +7,7 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
-using NRadio.Core.Models;
+using NRadio.Models;
 using NRadio.Core.Services;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
@@ -134,6 +134,7 @@ namespace NRadio.ViewModels
 
             this.radioStations = radioStations;
             currentStationIndex = index;
+            recorder = new RadioRecorder();
 
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey("Volume"))
             {

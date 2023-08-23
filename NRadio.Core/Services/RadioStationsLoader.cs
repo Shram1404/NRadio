@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using NRadio.Core.API;
 using NRadio.Core.Helpers;
-using NRadio.Core.Models;
+using NRadio.Models;
 using Windows.Storage;
 
 namespace NRadio.Core.Services

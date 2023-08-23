@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using NRadio.Core.Helpers;
-using NRadio.Core.Models;
+using NRadio.Models;
 using NRadio.Views;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

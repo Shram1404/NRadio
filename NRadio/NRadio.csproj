@@ -401,6 +401,10 @@
       <Project>{6232d0c7-2804-4b07-88ea-98e39584e2f2}</Project>
       <Name>NRadio.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NRadio.Models\NRadio.Models.csproj">
+      <Project>{1c7ce1fc-e9e2-488e-affb-e0fd3c4cceef}</Project>
+      <Name>NRadio.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

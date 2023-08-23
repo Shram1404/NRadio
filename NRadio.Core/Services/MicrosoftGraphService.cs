@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using NRadio.Core.Helpers;
-using NRadio.Core.Models;
+using NRadio.Models;
 
 namespace NRadio.Core.Services
 {

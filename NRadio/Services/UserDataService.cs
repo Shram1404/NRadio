@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NRadio.Core.Helpers;
-using NRadio.Core.Models;
+using NRadio.Models;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.ViewModels;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NRadio.Core.Models;
+using NRadio.Models;
 
 namespace NRadio.Core.Helpers
 {

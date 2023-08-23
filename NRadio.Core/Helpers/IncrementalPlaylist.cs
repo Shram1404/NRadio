@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Collections;
-using NRadio.Core.Models;
+using NRadio.Models;
 
 namespace NRadio.Core.Helpers
 {

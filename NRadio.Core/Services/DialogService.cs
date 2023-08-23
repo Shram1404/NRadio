@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using NRadio.Core.Models;
+using NRadio.Models;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml.Controls;
 

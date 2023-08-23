@@ -1,4 +1,4 @@
-﻿using NRadio.Core.Models;
+﻿using NRadio.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

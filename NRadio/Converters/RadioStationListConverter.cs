@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using NRadio.Core.Models;
+using NRadio.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 

@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Helpers;
-using NRadio.Core.Models;
+using NRadio.Models;
 using NRadio.Core.Services;
 using NRadio.Services;
 using NRadio.Views;
