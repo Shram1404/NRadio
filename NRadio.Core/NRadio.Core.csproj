@@ -120,11 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Activation\ActivationHandler.cs" />
-    <Compile Include="Activation\DefaultActivationHandler.cs" />
     <Compile Include="API\RadioBrowserAPI.cs" />
-    <Compile Include="BackgroundTasks\BackgroundTask.cs" />
-    <Compile Include="BackgroundTasks\UpdateRadioStationsTask.cs" />
     <Compile Include="Helpers\IncrementalPlaylist.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\LoginResultType.cs" />
@@ -133,30 +129,22 @@
     <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="Helpers\StreamExtensions.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
+    <Compile Include="Models\Config.cs" />
+    <Compile Include="Models\Dialog.cs" />
+    <Compile Include="Models\Filter.cs" />
+    <Compile Include="Models\RadioStation.cs" />
+    <Compile Include="Models\RecordingStation.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Purchase\IPurchaseProvider.cs" />
-    <Compile Include="Purchase\PurchaseResult.cs" />
-    <Compile Include="Purchase\PurchaseSimulatorProvider.cs" />
-    <Compile Include="Purchase\StoreContextProvider.cs" />
-    <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\BackgroudRecordingService.cs" />
-    <Compile Include="Services\BackgroundTaskService.cs" />
     <Compile Include="Services\DialogService.cs" />
-    <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\IdentityLogger.cs" />
     <Compile Include="Services\IdentityService.cs" />
-    <Compile Include="Services\LanguageSelectorService.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\MicrosoftGraphService.cs" />
-    <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RadioRecorder.cs" />
     <Compile Include="Services\RadioStationsLoader.cs" />
-    <Compile Include="Services\SuspendAndResumeArgs.cs" />
-    <Compile Include="Services\SuspendAndResumeServices.cs" />
-    <Compile Include="Services\SuspensionState.cs" />
-    <Compile Include="Services\ThemeSelectorService.cs" />
-    <Compile Include="Services\UserDataService.cs" />
     <EmbeddedResource Include="Properties\NRadio.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>

@@ -186,12 +186,50 @@
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activation\ActivationHandler.cs" />
     <Content Include="Assets\EqualizerAnimation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Compile Include="BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="Behaviors\ListViewOffsetBehavior.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderBehavior.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderMode.cs" />
+    <Compile Include="BackgroundTasks\UpdateRadioStationsTask.cs" />
+    <Compile Include="Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="Helpers\Glyphs.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Converters\ItemClickEventArgsConverter.cs" />
+    <Compile Include="Helpers\NavHelper.cs" />
+    <Compile Include="Converters\RadioStationListConverter.cs" />
+    <Compile Include="Converters\StringToEnumConverter.cs" />
+    <Compile Include="Purchase\IPurchaseProvider.cs" />
+    <Compile Include="Purchase\PurchaseResult.cs" />
+    <Compile Include="Purchase\PurchaseSimulatorProvider.cs" />
+    <Compile Include="Purchase\StoreContextProvider.cs" />
+    <Compile Include="Services\ActivationService.cs" />
+    <Compile Include="Activation\DefaultActivationHandler.cs" />
+    <Compile Include="Services\BackgroundTaskService.cs" />
+    <Compile Include="Services\FirstRunDisplayService.cs" />
+    <Compile Include="Services\LanguageSelectorService.cs" />
+    <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\SuspendAndResumeArgs.cs" />
+    <Compile Include="Services\SuspendAndResumeServices.cs" />
+    <Compile Include="Services\SuspensionState.cs" />
+    <Compile Include="Services\ThemeSelectorService.cs" />
+    <Compile Include="Services\UserDataService.cs" />
+    <Compile Include="ViewModels\BrowseViewModel.cs" />
+    <Compile Include="ViewModels\HorizontalItemScrollViewModel.cs" />
+    <Compile Include="ViewModels\RecordingViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel.cs" />
+    <Compile Include="ViewModels\StationDetailViewModel.cs" />
+    <Compile Include="ViewModels\StationsListViewModel.cs" />
+    <Compile Include="ViewModels\LogInViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PlayerViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\BrowsePage.xaml.cs">
       <DependentUpon>BrowsePage.xaml</DependentUpon>
     </Compile>
@@ -322,6 +360,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ResourceExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Assets\DefaultIcon.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -359,18 +400,6 @@
     <ProjectReference Include="..\NRadio.Core\NRadio.Core.csproj">
       <Project>{6232d0c7-2804-4b07-88ea-98e39584e2f2}</Project>
       <Name>NRadio.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NRadio.Helpers\NRadio.Helpers.csproj">
-      <Project>{2b4936c4-e4a4-43cf-ba67-fc8251ce8f66}</Project>
-      <Name>NRadio.Helpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NRadio.Models\NRadio.Models.csproj">
-      <Project>{a63b8b80-076f-4a4c-8ab8-7f87009f2acb}</Project>
-      <Name>NRadio.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NRadio.ViewModels\NRadio.ViewModels.csproj">
-      <Project>{8f838e60-7d40-4319-8d4e-111b9bf7affd}</Project>
-      <Name>NRadio.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
