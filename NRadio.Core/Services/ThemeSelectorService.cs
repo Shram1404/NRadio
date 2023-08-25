@@ -6,7 +6,7 @@ using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
-namespace NRadio.Services
+namespace NRadio.Core.Services
 {
     public static class ThemeSelectorService
     {

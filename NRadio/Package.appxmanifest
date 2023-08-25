@@ -67,6 +67,7 @@
 		<rescap:Capability Name="extendedBackgroundTaskTime"/>
 		<uap:Capability Name="enterpriseAuthentication"/>
 		<uap:Capability Name="musicLibrary"/>
+		<DeviceCapability Name="microphone"/>
 	</Capabilities>
 
   <genTemplate:Metadata>

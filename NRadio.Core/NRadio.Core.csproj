@@ -121,10 +121,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="API\RadioBrowserAPI.cs" />
+    <Compile Include="Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="Converters\ItemClickEventArgsConverter.cs" />
+    <Compile Include="Converters\RadioStationListConverter.cs" />
+    <Compile Include="Converters\StringToEnumConverter.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\IncrementalPlaylist.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\LoginResultType.cs" />
     <Compile Include="Helpers\RadioStationsContainer.cs" />
+    <Compile Include="Helpers\RequestMicrophonePermission.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="Helpers\StreamExtensions.cs" />
@@ -134,11 +140,13 @@
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IdentityLogger.cs" />
     <Compile Include="Services\IdentityService.cs" />
+    <Compile Include="Services\LanguageSelectorService.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\MicrosoftGraphService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RadioRecorder.cs" />
     <Compile Include="Services\RadioStationsLoader.cs" />
+    <Compile Include="Services\ThemeSelectorService.cs" />
     <EmbeddedResource Include="Properties\NRadio.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>

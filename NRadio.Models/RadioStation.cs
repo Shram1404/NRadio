@@ -6,7 +6,7 @@ namespace NRadio.Models
     public class RadioStation
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
-        [Key]
+        [Required]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; } = default;

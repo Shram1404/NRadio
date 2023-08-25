@@ -381,4 +381,34 @@ You will also need to wait about a minute</value>
   <data name="Settings_UpdateStations.Content" xml:space="preserve">
     <value>Update list</value>
   </data>
+  <data name="Settings_VoiceControll.Text" xml:space="preserve">
+    <value>Voice control settings</value>
+  </data>
+  <data name="Settings_VoiceControll_Button.Content" xml:space="preserve">
+    <value>Enable voice control</value>
+  </data>
+  <data name="Dialog_SpeechComponentError.Title" xml:space="preserve">
+    <value>There is an error with your Speech Recognition drivers</value>
+  </data>
+  <data name="Dialog_ShowVoiceCommandsList.Content" xml:space="preserve">
+    <value>You can do this by saying "Radio" and then hearing a voice response - say one of these commands:
+"Play" | "Pause" to pause or resume playback;
+"Next" | "Previous" - to switch between stations;
+"Mute" | "Unmute" to mute and unmute the sound;
+If your command is not recognized, you will hear a double beep.</value>
+  </data>
+  <data name="Dialog_ShowVoiceCommandsList.Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Dialog_ShowVoiceCommandsList.Title" xml:space="preserve">
+    <value>You can control the player with your voice.</value>
+  </data>
+  <data name="Dialog_SpeechComponentError.Content" xml:space="preserve">
+    <value>It's possible that the voice recognition component on your device is damaged or you don't have a language pack. 
+To fix this problem, go to Windows Settings, then Time &amp; language - Add languages - English (United States).
+You may also need to turn on voice recognition using this path. Accessibility - Speech - Windows Speech Recognition.</value>
+  </data>
+  <data name="Dialog_SpeechComponentError.Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
 </root>

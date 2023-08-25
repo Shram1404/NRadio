@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Purchase;
+using NRadio.Activation;
 using NRadio.Services;
 using NRadio.ViewModels;
 using Windows.ApplicationModel;
@@ -45,23 +46,22 @@ namespace NRadio
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-
             if (!args.PrelaunchActivated)
             {
                 await ActivationService.ActivateAsync(args);
             }
-            await RequestBackgroundRecording();
 
+            await RequestBackgroundRecordingAsync();
             var backgroundTaskService = new BackgroundTaskService();
             await backgroundTaskService.RegisterBackgroundTasksAsync();
+
+            await RequestVoiceControlAsync();
         }
 
         protected override async void OnActivated(IActivatedEventArgs args) => await ActivationService.ActivateAsync(args);
 
-        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
-        {
+        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args) =>
             await ActivationService.ActivateAsync(args);
-        }
 
         private void RegisterServices()
         {
@@ -108,7 +108,7 @@ namespace NRadio
             await ActivationService.RedirectLoginPageAsync();
         }
 
-        private async Task RequestBackgroundRecording()
+        private async Task RequestBackgroundRecordingAsync()
         {
             var newSession = new ExtendedExecutionSession
             {
@@ -131,5 +131,26 @@ namespace NRadio
 
         private async void Session_Revoked(object sender, ExtendedExecutionRevokedEventArgs args) =>
             await BackgroundRecordingService.StopSchedulerAsync();
+
+        private async Task RequestVoiceControlAsync()
+        {
+            await AudioCapturePermissions.RequestMicrophonePermissionAsync();
+
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if (localSettings.Values.ContainsKey("VoiceControlAllowed") && (bool)localSettings.Values["VoiceControlAllowed"])
+            {
+                var voiceControl = new VoiceControlService();
+
+                try
+                {
+                    await voiceControl.InitializeAsync();
+                    _ = Task.Run(async () => await voiceControl.StartListeningAsync());
+                }
+                catch (InvalidOperationException)
+                {
+                    voiceControl.Dispose();
+                }
+            }
+        }
     }
 }

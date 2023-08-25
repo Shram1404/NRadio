@@ -65,6 +65,20 @@ namespace NRadio.Core.Services
 
             await ShowOkDialog(dialog);
         }
+        public static async Task SpeechComponentErrorDialogAsync()
+        {
+            string resourceName = "Dialog_SpeechComponentError";
+            var dialog = SetOkDialog(resourceName);
+
+            await ShowOkDialog(dialog);
+        }
+        public static async Task ShowVoiceCommandsListDialogAsync()
+        {
+            string resourceName = "Dialog_ShowVoiceCommandsList";
+            var dialog = SetOkDialog(resourceName);
+
+            await ShowOkDialog(dialog);
+        }
 
         private static Dialog SetConfirmDialog(string resourceName)
         {

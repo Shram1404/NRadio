@@ -29,8 +29,10 @@ namespace NRadio.Core.Services
             {
                 mediaPlayer = new MediaPlayer();
             }
-
-            SetStation(url);
+            if(currentUrl is null || currentUrl != url)
+            {
+                SetStation(url);
+            }
             mediaPlayer.Play();
 
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;

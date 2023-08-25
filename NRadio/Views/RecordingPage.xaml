@@ -25,7 +25,8 @@
                         <AdaptiveTrigger MinWindowWidth="641" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="timePanel.(RelativePanel.RightOf)" Value="itemHero" />
+                        <Setter Target="timePanel.(RelativePanel.RightOf)" Value="itemHero"/>
+                        <Setter Target="timePanel.(RelativePanel.AlignTopWithPanel" Value="True"/>
                         <Setter Target="timePanel.(RelativePanel.AlignLeftWithPanel)" Value="False" />
                         <Setter Target="contentScroll.Margin" Value="0" />
                     </VisualState.Setters>
@@ -73,7 +74,7 @@
                             Command="{x:Bind ViewModel.AddToScheduler}">
                         <FontIcon
                                 FontFamily="Segoe MDL2 Assets"
-                                Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Play_Glyph]}" />
+                                Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Add_Glyph]}" />
                     </Button>
 
                     <StackPanel Orientation="Vertical"

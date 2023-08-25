@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace NRadio.Views
+namespace NRadio.Controls
 {
     public sealed partial class MiniPlayerPage : Page
     {

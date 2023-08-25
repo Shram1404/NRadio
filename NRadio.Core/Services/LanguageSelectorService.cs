@@ -5,7 +5,7 @@ using Windows.Storage;
 using Windows.UI.Core;
 using NRadio.Core.Helpers;
 
-namespace NRadio.Services
+namespace NRadio.Core.Services
 {
     public static class LanguageSelectorService
     {

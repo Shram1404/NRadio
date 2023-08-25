@@ -209,6 +209,12 @@ namespace NRadio.Core.Services
                 (station.Bitrate >= filter.MinBitrate)
             );
 
+            int id = 0;
+            foreach (var station in filteredStations)
+            {
+                station.Id = id++;
+            }
+
             return new List<RadioStation>(filteredStations);
         }
 

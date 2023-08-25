@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace NRadio.Helpers
+namespace NRadio.Core.Helpers
 {
     public static class ImageHelper
     {

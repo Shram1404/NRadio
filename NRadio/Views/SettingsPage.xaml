@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
     xmlns:xaml="using:Windows.UI.Xaml"
-    xmlns:converter="using:NRadio.Converters"
+    xmlns:converter="using:NRadio.Core.Converters"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -71,7 +71,17 @@
                 </StackPanel>
             </StackPanel>
 
-            <TextBlock x:Uid="Settings_RadioListSettings" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <StackPanel>
+                    <TextBlock x:Uid="Settings_VoiceControll" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    <RadioButton x:Uid="Settings_VoiceControll_Button"
+                                Command="{x:Bind ViewModel.SwitchVoiceControlCommand}"
+                                CommandParameter=""
+                                IsChecked="{x:Bind ViewModel.VoiceControlAllowed, Mode=OneWay}"
+                                FontSize="15"
+                                Margin="{StaticResource SmallTopBottomMargin}"/>
+                </StackPanel>
+
+            <TextBlock x:Uid="Settings_RadioListSettings" Style="{ThemeResource SubtitleTextBlockStyle}"  />
             <Button x:Uid="Settings_UpdateStations"
                     Command="{x:Bind ViewModel.UpdateStationsCommand}"
                     Margin="{StaticResource SmallTopBottomMargin}"/>

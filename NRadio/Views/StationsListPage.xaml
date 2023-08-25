@@ -7,7 +7,7 @@
     xmlns:models="using:NRadio.Models"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:converter="using:NRadio.Converters"
+    xmlns:converter="using:NRadio.Core.Converters"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
 
@@ -30,10 +30,12 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid x:Name="ContentArea"
-              Margin="0,46,0,0">
+                    Margin="0,46,0,0">
+
             <ListView IsItemClickEnabled="True"
                       ItemsSource="{x:Bind ViewModel.IncrementalPlaylist, Mode=OneWay}"
-                      SelectionMode="None">
+                      SelectionMode="None"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling">
 
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="ItemClick">

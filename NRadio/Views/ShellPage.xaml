@@ -7,6 +7,7 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:helpers="using:NRadio.Helpers"
     xmlns:views="using:NRadio.Views"
+    xmlns:controls="using:NRadio.Controls"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
@@ -31,13 +32,13 @@
     </winui:NavigationView.MenuItems>
         
         <winui:NavigationView.PaneFooter>
-            <views:MiniPlayerPage Visibility="{x:Bind ViewModel.IsPlayerCreated, Mode=OneWay}">
+            <controls:MiniPlayerPage Visibility="{x:Bind ViewModel.IsPlayerCreated, Mode=OneWay}">
                 <i:Interaction.Behaviors>
                     <ic:EventTriggerBehavior EventName="Tapped">
                         <ic:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToPlayerCommand}" />
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
-            </views:MiniPlayerPage>
+            </controls:MiniPlayerPage>
         </winui:NavigationView.PaneFooter>
         
         <i:Interaction.Behaviors>

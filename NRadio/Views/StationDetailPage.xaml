@@ -128,7 +128,7 @@
                             Command="{x:Bind ViewModel.OpenRecordingPageCommand}">
                         <FontIcon
                                 FontFamily="Segoe MDL2 Assets"
-                                Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Play_Glyph]}" />
+                                Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Not_Recording_Glyph]}" />
                     </Button>
                 </RelativePanel>
 

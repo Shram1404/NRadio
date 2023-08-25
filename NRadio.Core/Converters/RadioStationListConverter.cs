@@ -4,7 +4,7 @@ using NRadio.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
-namespace NRadio.Converters
+namespace NRadio.Core.Converters
 {
     public class RadioStationListConverter : IValueConverter
     {

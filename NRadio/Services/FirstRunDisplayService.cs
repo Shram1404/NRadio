@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using NRadio.Views;
+using NRadio.Controls;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 

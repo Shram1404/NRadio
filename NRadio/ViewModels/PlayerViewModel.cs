@@ -167,15 +167,7 @@ namespace NRadio.ViewModels
             }
         }
 
-        private void SetCurrentStation()
-        {
-            currentStation = radioStations[currentStationIndex];
-            StationName = currentStation.Name;
-            StationUrl = currentStation.Url;
-            StationImageUrl = currentStation.Favicon;
-        }
-
-        private void PlayNext()
+        public void PlayNext()
         {
             if (currentStationIndex < radioStations.Count - 1)
             {
@@ -195,7 +187,7 @@ namespace NRadio.ViewModels
             }
         }
 
-        private void PlayPrevious()
+        public void PlayPrevious()
         {
             if (currentStationIndex > 0)
             {
@@ -215,7 +207,7 @@ namespace NRadio.ViewModels
             }
         }
 
-        private void PlayPause()
+        public void PlayPause()
         {
             if (!IsPlaying)
             {
@@ -229,9 +221,17 @@ namespace NRadio.ViewModels
             }
         }
 
-        private void Stop() => PlayerService.StopRadioStream();
+        public void SetVolume() => PlayerService.SetVolume(Volume / 100); // Volume in PlayerService is in range 0-1
 
-        private void SetVolume() => PlayerService.SetVolume(Volume / 100); // Volume in PlayerService is in range 0-1
+        private void SetCurrentStation()
+        {
+            currentStation = radioStations[currentStationIndex];
+            StationName = currentStation.Name;
+            StationUrl = currentStation.Url;
+            StationImageUrl = currentStation.Favicon;
+        }
+
+        private void Stop() => PlayerService.StopRadioStream();
 
         private async Task ToggleRecording()
         {

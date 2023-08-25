@@ -7,6 +7,7 @@ using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Services;
+using NRadio.Views;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
@@ -18,12 +19,14 @@ namespace NRadio.ViewModels
     {
         private ElementTheme elementTheme = ThemeSelectorService.Theme;
         private string versionDescription;
+        private bool voiceControlAllowed;
         private UserViewModel user;
         private ICommand switchThemeCommand;
         private ICommand switchLanguageCommand;
         private ICommand logoutCommand;
         private ICommand updateStationsCommand;
         private ICommand buyPremiumCommand;
+        private ICommand switchVoiceControlCommand;
 
         public SettingsViewModel()
         {
@@ -43,11 +46,17 @@ namespace NRadio.ViewModels
             get => versionDescription;
             set => SetProperty(ref versionDescription, value);
         }
+        public bool VoiceControlAllowed
+        {
+            get => voiceControlAllowed;
+            set => SetProperty(ref voiceControlAllowed, value);
+        }
         public UserViewModel User
         {
             get => user;
             set => SetProperty(ref user, value);
         }
+        public bool VoiceControlParameter => VoiceControlAllowed;
 
         public ICommand SwitchThemeCommand
         {
@@ -75,6 +84,7 @@ namespace NRadio.ViewModels
                 {
                     switchLanguageCommand = new RelayCommand<string>(
                         async (param) => await LanguageSelectorService.SetLanguageAsync(param));
+                    NavigationService.Navigate<SettingsPage>();
                 }
 
                 return switchLanguageCommand;
@@ -83,6 +93,7 @@ namespace NRadio.ViewModels
         public ICommand LogoutCommand => logoutCommand ?? (logoutCommand = new RelayCommand(OnLogout));
         public ICommand UpdateStationsCommand => updateStationsCommand ?? (updateStationsCommand = new AsyncRelayCommand(ConfirmUpdateStationsAsync));
         public ICommand BuyPremiumCommand => buyPremiumCommand ?? (buyPremiumCommand = new AsyncRelayCommand(async () => await BuyPremium()));
+        public ICommand SwitchVoiceControlCommand => switchVoiceControlCommand ?? (switchVoiceControlCommand = new AsyncRelayCommand(OnSwitchVoiceControl));
 
         public async Task InitializeAsync()
         {
@@ -90,6 +101,8 @@ namespace NRadio.ViewModels
             IdentityService.LoggedOut += OnLoggedOut;
             UserDataService.UserDataUpdated += OnUserDataUpdated;
             User = await UserDataService.GetUserAsync();
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            VoiceControlAllowed = localSettings.Values.ContainsKey("VoiceControlAllowed") && (bool)localSettings.Values["VoiceControlAllowed"];
         }
 
         public void UnregisterEvents()
@@ -136,6 +149,29 @@ namespace NRadio.ViewModels
             if (await DialogService.ConfirmStationsUpdateDialogAsync() == ContentDialogResult.Primary)
             {
                 await RadioStationsLoader.UpdateRadioStationsAsync();
+            }
+        }
+
+        private async Task OnSwitchVoiceControl()
+        {
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            VoiceControlAllowed = !VoiceControlAllowed;
+            localSettings.Values["VoiceControlAllowed"] = VoiceControlAllowed;
+
+            if (VoiceControlAllowed)
+            {
+                await DialogService.ShowVoiceCommandsListDialogAsync();
+                var voiceControl = new VoiceControlService();
+
+                try
+                {
+                    await voiceControl.InitializeAsync();
+                    _ = Task.Run(async () => await voiceControl.StartListeningAsync());
+                }
+                catch (InvalidOperationException)
+                {
+                    voiceControl.Dispose();
+                }
             }
         }
     }

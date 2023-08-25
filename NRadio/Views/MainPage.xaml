@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="using:NRadio.Views"
+    xmlns:controls="using:NRadio.Controls"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
 
@@ -36,7 +36,7 @@
                 <StackPanel Orientation="Vertical" 
                             Visibility="{Binding RecentVisible}"
                             Grid.Row="0">
-                    <local:HorizontalItemScrollControl
+                    <controls:HorizontalItemScrollControl
                         x:Name="RecentStationsScroll"
                         Source="{x:Bind ViewModel.Recent}"/>
                 </StackPanel>
@@ -44,7 +44,7 @@
                 <StackPanel Orientation="Vertical" 
                             Visibility="{Binding FavoriteVisible}"
                             Grid.Row="1">
-                    <local:HorizontalItemScrollControl
+                    <controls:HorizontalItemScrollControl
                         x:Name="FavoriteStationsScroll"
                         Source="{x:Bind ViewModel.Favorite}"/>
                 </StackPanel>
@@ -52,7 +52,7 @@
                 <StackPanel Orientation="Vertical" 
                             Visibility="{Binding LocalVisible}"
                             Grid.Row="2">
-                    <local:HorizontalItemScrollControl
+                    <controls:HorizontalItemScrollControl
                         x:Name="LocalStationsScroll"
                         Source="{x:Bind ViewModel.Local}"/>
                 </StackPanel>
