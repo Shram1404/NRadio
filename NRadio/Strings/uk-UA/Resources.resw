@@ -358,9 +358,6 @@
   <data name="Setting_Language_Button.Content" xml:space="preserve">
     <value>Мова</value>
   </data>
-  <data name="Setting_Language_Menu.Content" xml:space="preserve">
-    <value>Виберіть мову</value>
-  </data>
   <data name="Shell_Browse.Content" xml:space="preserve">
     <value>Огляд</value>
   </data>

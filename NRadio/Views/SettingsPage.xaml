@@ -14,6 +14,7 @@
         <converter:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
     </Page.Resources>
 
+
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -93,7 +94,9 @@
                     Margin="{StaticResource SmallTopBottomMargin}"/>
 
             <TextBlock x:Uid="Settings_Language" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <DropDownButton x:Uid="Setting_Language_Menu" Margin="{StaticResource SmallTopBottomMargin}">
+                <DropDownButton x:Uid="Setting_Language_Menu"
+                                Content="{Binding CurrentLanguage, Mode=TwoWay}"
+                                Margin="{StaticResource SmallTopBottomMargin}">
                 <DropDownButton.Flyout>
                     <MenuFlyout Placement="Bottom">
                         <MenuFlyoutItem Text="English" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="en-US"/>

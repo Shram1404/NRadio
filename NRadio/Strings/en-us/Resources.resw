@@ -291,9 +291,6 @@
   <data name="Settings_Premium_Button.Content" xml:space="preserve">
     <value>Buy premium</value>
   </data>
-  <data name="Setting_Language_Menu.Content" xml:space="preserve">
-    <value>Choose Language</value>
-  </data>
   <data name="StationDetail_Categories.Text" xml:space="preserve">
     <value>Categories</value>
   </data>

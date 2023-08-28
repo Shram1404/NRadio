@@ -4,6 +4,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
 using NRadio.Core.Helpers;
+using System.Collections.Generic;
 
 namespace NRadio.Core.Services
 {
@@ -11,7 +12,23 @@ namespace NRadio.Core.Services
     {
         private const string SettingsKey = "AppLanguage";
 
+        private static readonly Dictionary<string, string> LanguageNames = new Dictionary<string, string>
+        {
+            { "en-US", "English" },
+            { "uk-UA", "Українська" }
+        };
+
         public static string Language { get; set; } = "en-US";
+
+        public static string GetCurrentLanguageName()
+        {
+            if (LanguageNames.TryGetValue(Language, out string name))
+            {
+                return name;
+            }
+
+            return Language;
+        }
 
         public static async Task InitializeAsync()
         {

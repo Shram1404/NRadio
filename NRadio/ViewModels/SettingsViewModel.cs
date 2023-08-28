@@ -7,7 +7,6 @@ using NRadio.Core.Helpers;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Services;
-using NRadio.Views;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
@@ -21,6 +20,7 @@ namespace NRadio.ViewModels
         private string versionDescription;
         private bool voiceControlAllowed;
         private UserViewModel user;
+        private string currentLanguage;
         private ICommand switchThemeCommand;
         private ICommand switchLanguageCommand;
         private ICommand logoutCommand;
@@ -56,6 +56,15 @@ namespace NRadio.ViewModels
             get => user;
             set => SetProperty(ref user, value);
         }
+        public string CurrentLanguage
+        {
+            get
+            {
+                currentLanguage = LanguageSelectorService.GetCurrentLanguageName();
+                return currentLanguage;
+            }
+            set => SetProperty(ref currentLanguage, value);
+        }
         public bool VoiceControlParameter => VoiceControlAllowed;
 
         public ICommand SwitchThemeCommand
@@ -76,24 +85,20 @@ namespace NRadio.ViewModels
             }
         }
 
-        public ICommand SwitchLanguageCommand
-        {
-            get
-            {
-                if (switchLanguageCommand == null)
-                {
-                    switchLanguageCommand = new RelayCommand<string>(
-                        async (param) => await LanguageSelectorService.SetLanguageAsync(param));
-                    NavigationService.Navigate<SettingsPage>();
-                }
+        public ICommand SwitchLanguageCommand => switchLanguageCommand ?? (switchLanguageCommand
+            = new AsyncRelayCommand<string>(OnLanguageChangeAsync));
 
-                return switchLanguageCommand;
-            }
-        }
-        public ICommand LogoutCommand => logoutCommand ?? (logoutCommand = new RelayCommand(OnLogout));
-        public ICommand UpdateStationsCommand => updateStationsCommand ?? (updateStationsCommand = new AsyncRelayCommand(ConfirmUpdateStationsAsync));
-        public ICommand BuyPremiumCommand => buyPremiumCommand ?? (buyPremiumCommand = new AsyncRelayCommand(async () => await BuyPremium()));
-        public ICommand SwitchVoiceControlCommand => switchVoiceControlCommand ?? (switchVoiceControlCommand = new AsyncRelayCommand(OnSwitchVoiceControl));
+        public ICommand LogoutCommand => logoutCommand ?? (logoutCommand
+            = new RelayCommand(OnLogout));
+
+        public ICommand UpdateStationsCommand => updateStationsCommand ?? (updateStationsCommand
+            = new AsyncRelayCommand(ConfirmUpdateStationsAsync));
+
+        public ICommand BuyPremiumCommand => buyPremiumCommand ?? (buyPremiumCommand = new AsyncRelayCommand(async ()
+            => await BuyPremium()));
+
+        public ICommand SwitchVoiceControlCommand => switchVoiceControlCommand ?? (switchVoiceControlCommand
+            = new AsyncRelayCommand(OnSwitchVoiceControl));
 
         public async Task InitializeAsync()
         {
@@ -140,6 +145,18 @@ namespace NRadio.ViewModels
             }
         }
 
+        private async Task OnLanguageChangeAsync(string langCode)
+        {
+            if (langCode != null)
+            {
+                await LanguageSelectorService.SetLanguageAsync(langCode);
+                CurrentLanguage = LanguageSelectorService.GetCurrentLanguageName();
+                //NavigationService.Refresh();
+                //NavigationService.RefreshShellPage(); // RefreshShellPage is not working
+                await RestartApp();
+            }
+        }
+
         private void OnUserDataUpdated(object sender, UserViewModel userData) => User = userData;
         private async void OnLogout() => await IdentityService.LogoutAsync();
         private void OnLoggedOut(object sender, EventArgs e) => UnregisterEvents();
@@ -174,5 +191,7 @@ namespace NRadio.ViewModels
                 }
             }
         }
+
+        private async Task RestartApp() => await Windows.ApplicationModel.Core.CoreApplication.RequestRestartAsync(string.Empty);
     }
 }

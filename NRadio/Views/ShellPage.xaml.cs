@@ -17,6 +17,5 @@ namespace NRadio.Views
             Debug.WriteLine("ShellPage DataContext - " + DataContext);
             ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);
         }
-
     }
 }

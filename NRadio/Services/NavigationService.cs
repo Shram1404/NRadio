@@ -1,5 +1,5 @@
 ﻿using System;
-
+using NRadio.Views;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -13,8 +13,15 @@ namespace NRadio.Services
 
         public static event NavigationFailedEventHandler NavigationFailed;
 
+        private static Page shellPage;
         private static Frame frame;
         private static object lastParamUsed;
+
+        public static Page ShellPage
+        {
+            get => shellPage ?? Window.Current.Content as Page;
+            set => shellPage = value;
+        }
 
         public static Frame Frame
         {
@@ -64,7 +71,7 @@ namespace NRadio.Services
             // Don't open the same page multiple times
             if (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(lastParamUsed)))
             {
-                var navigationResult = Frame.Navigate(pageType, parameter, infoOverride);
+                bool navigationResult = Frame.Navigate(pageType, parameter, infoOverride);
                 if (navigationResult)
                 {
                     lastParamUsed = parameter;
@@ -81,6 +88,28 @@ namespace NRadio.Services
         public static bool Navigate<T>(object parameter = null, NavigationTransitionInfo infoOverride = null)
             where T : Page
             => Navigate(typeof(T), parameter, infoOverride);
+
+        public static void Refresh()
+        {
+            var currentPageType = Frame.CurrentSourcePageType;
+            var currentPageParameter = Frame.CurrentSourcePageType;
+
+            bool navigationResult = Frame.Navigate(currentPageType, currentPageParameter);
+            if (navigationResult)
+            {
+                lastParamUsed = currentPageParameter;
+            }
+        }
+
+        // RefreshShellPage() - Black screen
+        public static void RefreshShellPage()
+        {
+            var currentPageType = ShellPage.Content.GetType();
+
+            ShellPage.Content = null;
+            ShellPage.Content = Activator.CreateInstance(currentPageType) as Page;
+            Navigate (currentPageType);
+        }
 
         private static void RegisterFrameEvents()
         {

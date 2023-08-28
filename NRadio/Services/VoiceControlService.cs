@@ -100,9 +100,8 @@ namespace NRadio.Services
                     pvm.Volume = lastVolume;
                     break;
                 default:
-                    //sound beep
                     Console.Beep(4000, 50);
-                    Thread.Sleep(200);
+                    Thread.Sleep(150);
                     Console.Beep(4000, 50);
 
                     break;
