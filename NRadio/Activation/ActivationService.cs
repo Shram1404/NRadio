@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NRadio.Services;
-using NRadio.Core.Helpers;
+using NRadio.Helpers;
 using NRadio.Core.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;

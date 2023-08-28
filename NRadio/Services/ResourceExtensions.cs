@@ -1,6 +1,6 @@
 ﻿using Windows.ApplicationModel.Resources;
 
-namespace NRadio.Helpers
+namespace NRadio.Services
 {
     internal static class ResourceExtensions
     {

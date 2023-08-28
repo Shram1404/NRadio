@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace NRadio.Core.Helpers
+namespace NRadio.Helpers
 {
     public static class StreamExtensions
     {

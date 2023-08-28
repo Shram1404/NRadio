@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Collections;
 using NRadio.Models;
 
-namespace NRadio.Core.Helpers
+namespace NRadio.Helpers
 {
 
     public class IncrementalPlaylist : IIncrementalSource<RadioStation>

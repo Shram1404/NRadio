@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace NRadio.Core.Helpers
+namespace NRadio.Helpers
 {
     public static class Singleton<T>
         where T : new()

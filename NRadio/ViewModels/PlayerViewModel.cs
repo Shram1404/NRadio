@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using NRadio.Core.Helpers;
+using NRadio.Helpers;
 using NRadio.Models;
 using NRadio.Core.Services;
 using Windows.ApplicationModel.Core;

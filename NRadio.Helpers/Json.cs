@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace NRadio.Core.Helpers
+namespace NRadio.Helpers
 {
     public static class Json
     {

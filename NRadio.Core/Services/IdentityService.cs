@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Abstractions;
-using NRadio.Core.Helpers;
+using NRadio.Helpers;
 using Windows.UI.Popups;
 
 namespace NRadio.Core.Services

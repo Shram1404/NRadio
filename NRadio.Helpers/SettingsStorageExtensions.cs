@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using NRadio.Core.Helpers;
+using NRadio.Helpers;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace NRadio.Core.Helpers
+namespace NRadio.Helpers
 {
     public static class SettingsStorageExtensions
     {

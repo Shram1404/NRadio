@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using NRadio.Core.Helpers;
-using NRadio.Core.Services;
 using NRadio.Helpers;
+using NRadio.Core.Services;
+using NRadio.Services;
 
 namespace NRadio.ViewModels
 {

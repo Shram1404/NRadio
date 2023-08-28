@@ -4,7 +4,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Animations;
-using NRadio.Core.Helpers;
+using NRadio.Helpers;
 using NRadio.Models;
 using NRadio.Services;
 using NRadio.Views;

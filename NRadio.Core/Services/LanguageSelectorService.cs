@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
-using NRadio.Core.Helpers;
+using NRadio.Helpers;
 using System.Collections.Generic;
 
 namespace NRadio.Core.Services

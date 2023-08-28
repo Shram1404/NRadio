@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using NRadio.Core.Helpers;
+using NRadio.Helpers;
 using NRadio.Models;
 using NRadio.Core.Services;
 

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Windows.Media.Capture;
 
-namespace NRadio.Core.Helpers
+namespace NRadio.Helpers
 {
     public class AudioCapturePermissions
     {

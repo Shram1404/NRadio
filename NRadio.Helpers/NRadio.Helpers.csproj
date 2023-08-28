@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6232D0C7-2804-4B07-88EA-98E39584E2F2}</ProjectGuid>
+    <ProjectGuid>{50CDDD32-9FAE-4871-8AFD-C3BFDBDD30E9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NRadio.Core</RootNamespace>
-    <AssemblyName>NRadio.Core</AssemblyName>
+    <RootNamespace>NRadio.Helpers</RootNamespace>
+    <AssemblyName>NRadio.Helpers</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22621.0</TargetPlatformVersion>
@@ -120,59 +120,47 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="API\RadioBrowserAPI.cs" />
-    <Compile Include="Converters\EnumToBooleanConverter.cs" />
-    <Compile Include="Converters\ItemClickEventArgsConverter.cs" />
-    <Compile Include="Converters\RadioStationListConverter.cs" />
-    <Compile Include="Converters\StringToEnumConverter.cs" />
+    <Compile Include="Glyphs.cs" />
+    <Compile Include="ImageHelper.cs" />
+    <Compile Include="IncrementalPlaylist.cs" />
+    <Compile Include="Json.cs" />
+    <Compile Include="LoginResultType.cs" />
+    <Compile Include="NavHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BackgroudRecordingService.cs" />
-    <Compile Include="Services\DialogService.cs" />
-    <Compile Include="Services\IdentityLogger.cs" />
-    <Compile Include="Services\IdentityService.cs" />
-    <Compile Include="Services\LanguageSelectorService.cs" />
-    <Compile Include="Services\LocationService.cs" />
-    <Compile Include="Services\MicrosoftGraphService.cs" />
-    <Compile Include="Services\PlayerService.cs" />
-    <Compile Include="Services\RadioRecorder.cs" />
-    <Compile Include="Services\RadioStationsLoader.cs" />
-    <Compile Include="Services\ThemeSelectorService.cs" />
-    <EmbeddedResource Include="Properties\NRadio.Core.rd.xml" />
+    <Compile Include="RadioStationsContainer.cs" />
+    <Compile Include="RequestMicrophonePermission.cs" />
+    <Compile Include="SettingsStorageExtensions.cs" />
+    <Compile Include="Singleton.cs" />
+    <Compile Include="StreamExtensions.cs" />
+    <Compile Include="TaskExtensions.cs" />
+    <EmbeddedResource Include="Properties\NRadio.Helpers.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>8.2.1</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Identity.Client">
-      <Version>4.55.0</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Mvvm">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp">
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>7.1.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.8.5</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit">
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
     </PackageReference>
-    <PackageReference Include="System.Text.Json">
-      <Version>5.0.2</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NRadio.Helpers\NRadio.Helpers.csproj">
-      <Project>{50cddd32-9fae-4871-8afd-c3bfdbdd30e9}</Project>
-      <Name>NRadio.Helpers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NRadio.Models\NRadio.Models.csproj">
       <Project>{1c7ce1fc-e9e2-488e-affb-e0fd3c4cceef}</Project>
       <Name>NRadio.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

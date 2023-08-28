@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using NRadio.Activation;
 using NRadio.BackgroundTasks;
 using NRadio.Core.BackgroundTasks;
-using NRadio.Core.Helpers;
+using NRadio.Helpers;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 

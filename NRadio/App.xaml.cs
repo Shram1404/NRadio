@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using NRadio.Core.Helpers;
+using NRadio.Helpers;
 using NRadio.Core.Services;
 using NRadio.Purchase;
 using NRadio.Activation;

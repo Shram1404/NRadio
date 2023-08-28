@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NRadio.Models;
 
-namespace NRadio.Core.Helpers
+namespace NRadio.Helpers
 {
     public static class RadioStationsContainer
     {

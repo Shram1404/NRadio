@@ -1,4 +1,4 @@
-﻿namespace NRadio.Core.Helpers
+﻿namespace NRadio.Helpers
 {
     public enum LoginResultType
     {
