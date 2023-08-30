@@ -16,7 +16,7 @@
   <Identity
     Name="88af324e-e679-458b-926b-1542cf33d1cb"
     Publisher="CN=shram"
-    Version="1.0.2.0" />
+    Version="1.0.6.0" />
 
   <mp:PhoneIdentity PhoneProductId="88af324e-e679-458b-926b-1542cf33d1cb" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

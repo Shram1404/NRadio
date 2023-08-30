@@ -6,6 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:helper="using:NRadio.Helpers">
 
@@ -32,9 +34,9 @@
                 <RowDefinition Height="10*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
 
             <Border Grid.RowSpan="3" Grid.ColumnSpan="3">
@@ -48,16 +50,41 @@
                 </Border.Background>
             </Border>
 
-            <Button Grid.Row="0" Grid.Column="2"
-                    Height="48" Width="48"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    Command="{x:Bind ViewModel.ChangeFavoriteStateCommand}"
-                    Margin="0,15,15,0">
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding FavoriteGlyph}"/>
-            </Button>
+            <StackPanel Margin="15,45,0,0"
+                        Orientation="Horizontal">
+                <ComboBox ItemsSource="{Binding AudioOutputDevicesNames}"
+                          x:Name="DevicesComboBox"       
+                          MaxHeight="48"
+                          SelectedItem="{Binding CurrentDeviceName}">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="SelectionChanged">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.OnDeviceChangedCommand}"
+                                                      CommandParameter="{Binding SelectedItem, ElementName=DevicesComboBox}"/>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding Source={StaticResource GlyphCode}, Path=[Device_Glyph]}"/>
+                                <TextBlock Text="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,15,15,0">
+                <Button Height="48" Width="48"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Command="{x:Bind ViewModel.ChangeFavoriteStateCommand}">
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{Binding FavoriteGlyph}"/>
+                </Button>
+            </StackPanel>
+            
 
             <StackPanel Grid.Row="2" Grid.ColumnSpan="3">
                 <TextBlock Text="{Binding StationName}" FontSize="24" FontWeight="Bold" TextAlignment="Center"/>

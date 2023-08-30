@@ -64,7 +64,7 @@ namespace NRadio.ViewModels
             var purchaseProvider = ((App)Application.Current).purchaseProvider;
             if (!IsPremiumStation(CurrentStation) || await purchaseProvider.CheckIfUserHasPremiumAsync())
             {
-                ((App)Application.Current).ViewModelLocator.PlayerVM.Initialize(Playlist, CurrentStationIndex);
+                await ((App)Application.Current).ViewModelLocator.PlayerVM.Initialize(Playlist, CurrentStationIndex);
                 NavigationService.Navigate<PlayerPage>();
             }
             else

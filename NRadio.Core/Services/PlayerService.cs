@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.Devices.Enumeration;
 using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -29,7 +30,7 @@ namespace NRadio.Core.Services
             {
                 mediaPlayer = new MediaPlayer();
             }
-            if(currentUrl is null || currentUrl != url)
+            if (currentUrl is null || currentUrl != url)
             {
                 SetStation(url);
             }
@@ -38,13 +39,11 @@ namespace NRadio.Core.Services
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
             EnableSystemMediaControls();
         }
-
         public static void PauseRadioStream()
         {
             mediaPlayer.Pause();
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Paused;
         }
-
         public static void StopRadioStream()
         {
             mediaPlayer.Pause();
@@ -64,6 +63,8 @@ namespace NRadio.Core.Services
 
         public static void SetVolume(double volume) => mediaPlayer.Volume = volume;
 
+        public static void SetDeviceForMediaPlayer(DeviceInformation device) => mediaPlayer.AudioDevice = device;
+
         private static void EnableSystemMediaControls()
         {
             systemMediaControls.IsPlayEnabled = true;
@@ -73,7 +74,8 @@ namespace NRadio.Core.Services
             systemMediaControls.IsPreviousEnabled = true;
         }
 
-        private static void SystemMediaControls_ButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs args)
+        private static void SystemMediaControls_ButtonPressed(SystemMediaTransportControls sender,
+                                                              SystemMediaTransportControlsButtonPressedEventArgs args)
         {
             switch (args.Button)
             {

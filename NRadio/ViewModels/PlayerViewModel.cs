@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
-using NRadio.Core.Services;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
+using Windows.Devices.Enumeration;
 using Windows.Storage;
 using Windows.UI.Core;
 
@@ -20,22 +20,25 @@ namespace NRadio.ViewModels
     {
         const double DefaultVolume = 50;
 
-        private bool isPlayerCreated = false;
-
-        private int currentStationIndex;
-        private RadioStation currentStation;
-        private List<RadioStation> radioStations;
-        private string stationName;
-        private string stationUrl;
-        private string stationDescription;
-        private string stationImageUrl;
-        private string playGlyph;
-        private string favoriteGlyph;
-        private string recordingGlyph;
-        private double volume = DefaultVolume;
-        private bool isPlaying;
-        private RadioRecorder recorder;
-        Dictionary<RadioStation, RadioRecorder> recorderDict = new Dictionary<RadioStation, RadioRecorder>();
+        bool isPlayerCreated = false;
+        int currentStationIndex;
+        RadioStation currentStation;
+        List<RadioStation> radioStations;
+        string stationName;
+        string stationUrl;
+        string stationDescription;
+        string stationImageUrl;
+        string playGlyph;
+        string favoriteGlyph;
+        string recordingGlyph;
+        double volume = DefaultVolume;
+        bool isPlaying;
+        RadioRecorder recorder;
+        readonly Dictionary<RadioStation, RadioRecorder> recorderDict = new Dictionary<RadioStation, RadioRecorder>();
+        List<DeviceInformation> audioOutputDevices;
+        List<string> audioOutputDevicesNames = new List<string>();
+        AudioDeviceService audioDeviceService;
+        string currentDeviceName;
 
         public PlayerViewModel()
         {
@@ -50,6 +53,7 @@ namespace NRadio.ViewModels
         public ICommand PlayPreviousCommand { get; private set; }
         public ICommand ToggleRecordingCommand { get; private set; }
         public ICommand ChangeFavoriteStateCommand { get; private set; }
+        public ICommand OnDeviceChangedCommand { get; private set; }
 
         public bool IsPlayerCreated
         {
@@ -120,37 +124,45 @@ namespace NRadio.ViewModels
                 SetPlayGlyph();
             }
         }
+        public List<DeviceInformation> AudioOutputDevices
+        {
+            get => audioOutputDevices;
+            set => SetProperty(ref audioOutputDevices, value);
+        }
+        public List<string> AudioOutputDevicesNames
+        {
+            get => audioOutputDevicesNames;
+            set => SetProperty(ref audioOutputDevicesNames, value);
+        }
+        public string CurrentDeviceName
+        {
+            get => currentDeviceName;
+            set => SetProperty(ref currentDeviceName, value);
+        }
 
-        public void Initialize(List<RadioStation> radioStations, int index)
+        public async Task Initialize(List<RadioStation> radioStations, int index)
         {
             System.Diagnostics.Debug.WriteLine("PlayerVM initialized");
-
-            PlayPauseCommand = new RelayCommand(PlayPause);
-            StopCommand = new RelayCommand(Stop);
-            PlayNextCommand = new RelayCommand(PlayNext);
-            PlayPreviousCommand = new RelayCommand(PlayPrevious);
-            ToggleRecordingCommand = new AsyncRelayCommand(ToggleRecording);
-            ChangeFavoriteStateCommand = new AsyncRelayCommand(ChangeFavoriteState);
 
             this.radioStations = radioStations;
             currentStationIndex = index;
             recorder = new RadioRecorder();
-
+            audioDeviceService = new AudioDeviceService();
+            var defaultDevice = await audioDeviceService.GetDefaultDeviceAsync();
+            CurrentDeviceName = defaultDevice.Name;
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey("Volume"))
             {
                 Volume = (double)ApplicationData.Current.LocalSettings.Values["Volume"];
             }
 
+            InitializeCommands();
+            InitializeEvents();
+
             SetCurrentStation();
             SetGlyphsFromResources();
-
-            PlayerService.NextButtonPressed += async () =>
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayNext);
-            PlayerService.PreviousButtonPressed += async () =>
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayPrevious);
+            await SetAudioOutputDevicesListAsync();
 
             PlayerService.PlayRadioStream(StationUrl);
-
             IsPlaying = true;
             IsPlayerCreated = true;
         }
@@ -186,7 +198,6 @@ namespace NRadio.ViewModels
                 PlayerService.PlayRadioStream(StationUrl);
             }
         }
-
         public void PlayPrevious()
         {
             if (currentStationIndex > 0)
@@ -206,7 +217,6 @@ namespace NRadio.ViewModels
                 PlayerService.PlayRadioStream(StationUrl);
             }
         }
-
         public void PlayPause()
         {
             if (!IsPlaying)
@@ -220,8 +230,40 @@ namespace NRadio.ViewModels
                 IsPlaying = false;
             }
         }
+        public void SetVolume()
+        {
+            PlayerService.SetVolume(Volume / 100); // Volume in PlayerService is in range 0-1
 
-        public void SetVolume() => PlayerService.SetVolume(Volume / 100); // Volume in PlayerService is in range 0-1
+            if(ApplicationData.Current.LocalSettings.Values.ContainsKey("Volume"))
+            {
+                ApplicationData.Current.LocalSettings.Values["Volume"] = Volume;
+            }
+            else
+            {
+                ApplicationData.Current.LocalSettings.Values.Add("Volume", Volume);
+            }
+        }
+        public void Stop() => PlayerService.StopRadioStream();
+
+        private void InitializeCommands()
+        {
+            PlayPauseCommand = new RelayCommand(PlayPause);
+            StopCommand = new RelayCommand(Stop);
+            PlayNextCommand = new RelayCommand(PlayNext);
+            PlayPreviousCommand = new RelayCommand(PlayPrevious);
+            ToggleRecordingCommand = new AsyncRelayCommand(ToggleRecording);
+            ChangeFavoriteStateCommand = new AsyncRelayCommand(ChangeFavoriteState);
+            OnDeviceChangedCommand = new RelayCommand<string>(OnDeviceChanged);
+        }
+        private void InitializeEvents()
+        {
+            PlayerService.NextButtonPressed += async () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayNext);
+            PlayerService.PreviousButtonPressed += async () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, PlayPrevious);
+
+            audioDeviceService.StartWatchingAudioDevices();
+        }
 
         private void SetCurrentStation()
         {
@@ -230,8 +272,6 @@ namespace NRadio.ViewModels
             StationUrl = currentStation.Url;
             StationImageUrl = currentStation.Favicon;
         }
-
-        private void Stop() => PlayerService.StopRadioStream();
 
         private async Task ToggleRecording()
         {
@@ -255,7 +295,6 @@ namespace NRadio.ViewModels
             SetFavoriteGlyph();
             SetRecordingGlyph();
         }
-
         private void SwapRecordingGlyph()
         {
             if (RecordingGlyph == ResourceLoader.GetForCurrentView("Resources").GetString("Recording_Glyph"))
@@ -267,15 +306,12 @@ namespace NRadio.ViewModels
                 RecordingGlyph = ResourceLoader.GetForCurrentView("Resources").GetString("Recording_Glyph");
             }
         }
-
         private void SetFavoriteGlyph() => FavoriteGlyph = RadioStationsContainer.FavoriteStations.Contains(currentStation)
                 ? ResourceLoader.GetForCurrentView("Resources").GetString("Favorite_Glyph")
                 : ResourceLoader.GetForCurrentView("Resources").GetString("Not_Favorite_Glyph");
-
         private void SetPlayGlyph() => PlayGlyph = IsPlaying
                 ? ResourceLoader.GetForCurrentView("Resources").GetString("Pause_Glyph")
                 : ResourceLoader.GetForCurrentView("Resources").GetString("Play_Glyph");
-
         private void SetRecordingGlyph()
         {
             RecordingGlyph = recorder.IsStationRecording(currentStation.Name)
@@ -295,6 +331,32 @@ namespace NRadio.ViewModels
 
             await RadioStationsLoader.ChangeIsFavoriteAsync(currentStation);
             SetFavoriteGlyph();
+        }
+
+        private async Task SetAudioOutputDevicesListAsync()
+        {
+            AudioOutputDevices = await audioDeviceService.GetAudioDevicesAsync();
+            foreach (var device in AudioOutputDevices)
+            {
+                AudioOutputDevicesNames.Add(device.Name);
+            }
+
+            if (AudioOutputDevices.Count <= 0)
+            {
+                throw new InvalidOperationException("No audio output devices found");
+            }
+        }
+
+        private void OnDeviceChanged(string deviceName)
+        {
+            foreach (var device in AudioOutputDevices)
+            {
+                if (device.Name == deviceName)
+                {
+                    PlayerService.SetDeviceForMediaPlayer(device);
+                    CurrentDeviceName = deviceName;
+                }
+            }
         }
     }
 }

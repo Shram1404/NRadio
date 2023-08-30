@@ -50,21 +50,21 @@
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:RadioStation">
                         <Grid x:Name="StationThumbnail"
-                          Padding="{StaticResource XSmallLeftTopRightBottomMargin}"
-                          Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                              Padding="{StaticResource XSmallLeftTopRightBottomMargin}"
+                              Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
                             <StackPanel HorizontalAlignment="Left"
-                                      VerticalAlignment="Center"
-                                      Orientation="Horizontal"
-                                      Height="144">
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Height="144">
                                 <Image Source="{x:Bind Favicon}"
-                                     Height="140"
-                                     Width="140"
-                                     Stretch="Uniform"/>
+                                       Height="140"
+                                       Width="140"
+                                       Stretch="Uniform"/>
                                 <TextBlock Margin="{StaticResource SmallLeftMargin}"
-                                         VerticalAlignment="Center"
-                                         Style="{ThemeResource SubtitleTextBlockStyle}"
-                                         Text="{x:Bind Name}"
-                                         TextWrapping="Wrap"/>
+                                           VerticalAlignment="Center"
+                                           Style="{ThemeResource SubtitleTextBlockStyle}"
+                                           Text="{x:Bind Name}"
+                                           TextWrapping="Wrap"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
