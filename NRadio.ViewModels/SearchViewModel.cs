@@ -1,26 +1,29 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using NRadio.Helpers;
+using NRadio.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using NRadio.Helpers;
-using NRadio.Models;
-using NRadio.Views;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace NRadio.ViewModels
 {
     public class SearchViewModel : ObservableObject
     {
+        private readonly ViewModelLocator vml;
+
         private string searchText;
         private UserControl stationsListUserControl;
 
-        public SearchViewModel()
+        public SearchViewModel(IServiceProvider serviceProvider)
         {
             System.Diagnostics.Debug.WriteLine("SearchViewModel created");
             PropertyChanged += OnSearchTextPropertyChanged;
+
+            vml = serviceProvider.GetService<ViewModelLocator>();
         }
 
         public string SearchText
@@ -53,10 +56,10 @@ namespace NRadio.ViewModels
 
             if (StationsListUserControl == null)
             {
-                StationsListUserControl = new StationsListPage();
+                StationsListUserControl = SearchHelper.SearchPage;
             }
 
-            ((App)Application.Current).ViewModelLocator.StationsListVM.LoadData(new List<RadioStation>(stations));
+            vml.StationsListVM.LoadData(new List<RadioStation>(stations));
         }
     }
 }

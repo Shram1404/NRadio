@@ -5,17 +5,18 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Helpers;
 using NRadio.Core.Services;
-using NRadio.Helpers;
 using NRadio.Services;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using NRadio.Core.Purchase;
 
 namespace NRadio.ViewModels
 {
     public class SettingsViewModel : ObservableObject
     {
+        private readonly IServiceProvider serviceProvider;
         private ElementTheme elementTheme = ThemeSelectorService.Theme;
         private string versionDescription;
         private bool voiceControlAllowed;
@@ -28,9 +29,10 @@ namespace NRadio.ViewModels
         private ICommand buyPremiumCommand;
         private ICommand switchVoiceControlCommand;
 
-        public SettingsViewModel()
+        public SettingsViewModel(IServiceProvider serviceProvider)
         {
             InitializeAsync();
+            this.serviceProvider = serviceProvider;
         }
 
         private UserDataService UserDataService => Singleton<UserDataService>.Instance;
@@ -128,7 +130,7 @@ namespace NRadio.ViewModels
 
         private async Task BuyPremium()
         {
-            var purchaseProvider = ((App)Application.Current).purchaseProvider;
+            var purchaseProvider = PurchaseService.PurchaseProvider;
             var result = await purchaseProvider.PurchaseAsync("Premium");
 
             if (result.Status == StorePurchaseStatus.Succeeded)
@@ -151,8 +153,8 @@ namespace NRadio.ViewModels
             {
                 await LanguageSelectorService.SetLanguageAsync(langCode);
                 CurrentLanguage = LanguageSelectorService.GetCurrentLanguageName();
-                //NavigationService.Refresh();
-                //NavigationService.RefreshShellPage(); // RefreshShellPage is not working
+                //navService.Refresh();
+                //navService.RefreshShellPage(); // RefreshShellPage is not working
                 await RestartApp();
             }
         }

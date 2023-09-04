@@ -4,16 +4,21 @@ using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Helpers;
 using NRadio.Core.Services;
 using NRadio.Services;
+using System;
 
 namespace NRadio.ViewModels
 {
     public class LogInViewModel : ObservableObject
     {
+        private readonly IServiceProvider serviceProvider;
         private string statusMessage;
         private bool isBusy;
         private AsyncRelayCommand loginCommand;
 
-        public LogInViewModel() { }
+        public LogInViewModel(IServiceProvider serviceProvider) 
+        {
+            this.serviceProvider = serviceProvider;
+        }
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
 

@@ -6,19 +6,19 @@ using NRadio.Core.Services;
 using NRadio.ViewModels;
 using Windows.Storage;
 
-namespace NRadio.Services
+namespace NRadio.Core.Services
 {
     public class UserDataService
     {
         private const string userSettingsKey = "IdentityUser";
 
-        private UserViewModel user;
+        private object user;
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
 
         private MicrosoftGraphService MicrosoftGraphService => Singleton<MicrosoftGraphService>.Instance;
 
-        public event EventHandler<UserViewModel> UserDataUpdated;
+        public event EventHandler<object> UserDataUpdated;
 
         public UserDataService()
         {
@@ -30,7 +30,7 @@ namespace NRadio.Services
             IdentityService.LoggedOut += OnLoggedOut;
         }
 
-        public async Task<UserViewModel> GetUserAsync()
+        public async Task<object> GetUserAsync()
         {
             if (user == null)
             {
@@ -56,13 +56,13 @@ namespace NRadio.Services
             await ApplicationData.Current.LocalFolder.SaveAsync<User>(userSettingsKey, null);
         }
 
-        private async Task<UserViewModel> GetUserFromCacheAsync()
+        private async Task<object> GetUserFromCacheAsync()
         {
             var cacheData = await ApplicationData.Current.LocalFolder.ReadAsync<User>(userSettingsKey);
             return await GetUserViewModelFromData(cacheData);
         }
 
-        private async Task<UserViewModel> GetUserFromGraphApiAsync()
+        private async Task<object> GetUserFromGraphApiAsync()
         {
             var accessToken = await IdentityService.GetAccessTokenForGraphAsync();
             if (string.IsNullOrEmpty(accessToken))
@@ -80,7 +80,7 @@ namespace NRadio.Services
             return await GetUserViewModelFromData(userData);
         }
 
-        private async Task<UserViewModel> GetUserViewModelFromData(User userData)
+        private async Task<object> GetUserViewModelFromData(User userData)
         {
             if (userData == null)
             {

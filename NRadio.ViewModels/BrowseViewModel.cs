@@ -9,19 +9,23 @@ using NRadio.Helpers;
 using NRadio.Models;
 using NRadio.Core.Services;
 using NRadio.Services;
-using NRadio.Views;
 using Windows.UI.Xaml;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NRadio.ViewModels
 {
     public class BrowseViewModel : ObservableObject
     {
+        private readonly ViewModelLocator vml;
+
         private readonly List<RadioStation> allStations = RadioStationsContainer.AllStations;
         private List<RadioStation> stations;
 
-        public BrowseViewModel()
+        public BrowseViewModel(IServiceProvider serviceProvider)
         {
             GoToCommand = new AsyncRelayCommand<BrowseBy>(GoToSortedListPage);
+
+            vml = serviceProvider.GetService<ViewModelLocator>();
         }
 
         public ICommand GoToCommand { get; private set; }
@@ -41,7 +45,7 @@ namespace NRadio.ViewModels
                 switch (sortBy)
                 {
                     case BrowseBy.Premium:
-                        var purchaseProvider = ((App)Application.Current).purchaseProvider;
+                        var purchaseProvider = PurchaseService.PurchaseProvider;
                         if (await purchaseProvider.CheckIfUserHasPremiumAsync())
                         {
                             Stations = new List<RadioStation>(RadioStationsContainer.PremiumStations);
@@ -79,8 +83,8 @@ namespace NRadio.ViewModels
                         break;
                 }
 
-            ((App)Application.Current).ViewModelLocator.StationsListVM.LoadData(Stations);
-                NavigationService.Navigate<StationsListPage>();
+                vml.StationsListVM.LoadData(Stations);
+                NavigationService.Navigate(NavigationTarget.Target.StationsListPage);
             }
             else
             {

@@ -10,13 +10,15 @@ namespace NRadio.ViewModels
 {
     public class RecordingViewModel : ObservableObject
     {
+        private readonly IServiceProvider serviceProvider;
         private RadioStation currentStation;
         private TimeSpan startTime = DateTime.Now.TimeOfDay;
         private TimeSpan endTime = DateTime.Now.TimeOfDay;
 
-        public RecordingViewModel()
+        public RecordingViewModel(IServiceProvider serviceProvider)
         {
             System.Diagnostics.Debug.WriteLine("RecordingViewModel created");
+            this.serviceProvider = serviceProvider;
         }
 
         public ICommand AddToScheduler { get; private set; }

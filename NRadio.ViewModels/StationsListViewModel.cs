@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -7,20 +9,23 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using NRadio.Helpers;
 using NRadio.Models;
 using NRadio.Services;
-using NRadio.Views;
 using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels
 {
     public class StationsListViewModel : ObservableObject
     {
+        private readonly ViewModelLocator vml;
+
         private ICommand itemClickCommand;
         private List<RadioStation> playlist = new List<RadioStation>();
         private IncrementalLoadingCollection<IncrementalPlaylist, RadioStation> incrementalPlaylist;
 
-        public StationsListViewModel()
+        public StationsListViewModel(IServiceProvider serviceProvider)
         {
             System.Diagnostics.Debug.WriteLine("StationsListViewModel created");
+
+            vml = serviceProvider.GetService<ViewModelLocator>();
         }
 
         public ICommand ItemClickCommand => itemClickCommand ?? (itemClickCommand = new RelayCommand<RadioStation>(OnItemClick));
@@ -61,9 +66,9 @@ namespace NRadio.ViewModels
             if (clickedItem != null)
             {
                 NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
-                NavigationService.Navigate<StationDetailPage>(clickedItem.Name);
+                NavigationService.Navigate(NavigationTarget.Target.StationDetailPage, clickedItem.Name);
 
-                ((App)Application.Current).ViewModelLocator.StationDetailVM.Initialize(Playlist, clickedItem, Playlist.IndexOf(clickedItem));
+                vml.StationDetailVM.Initialize(Playlist, clickedItem, Playlist.IndexOf(clickedItem));
             }
         }
     }

@@ -8,17 +8,18 @@ using NRadio.Core.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using NRadio.Models;
 
 namespace NRadio.Activation
 {
-    internal class ActivationService
+    public class ActivationService
     {
-        private readonly App app;
-        private readonly Type defaultNavItem;
+        private readonly Application app;
+        private readonly NavigationTarget.Target defaultNavItem;
         private Lazy<UIElement> shell;
         private object lastActivationArgs;
 
-        public ActivationService(App app, Type defaultNavItem, Lazy<UIElement> shell = null)
+        public ActivationService(Application app, NavigationTarget.Target defaultNavItem, Lazy<UIElement> shell = null)
         {
             this.app = app;
             this.shell = shell;
@@ -31,12 +32,13 @@ namespace NRadio.Activation
 
         public async Task RedirectLoginPageAsync()
         {
+            
             var frame = new Frame();
             NavigationService.Frame = frame;
             Window.Current.Content = frame;
             await LanguageSelectorService.SetRequestedLanguageAsync();
             await ThemeSelectorService.SetRequestedThemeAsync();
-            NavigationService.Navigate<Views.LogInPage>();
+            NavigationService.Navigate(NavigationTarget.Target.LogInPage);
         }
 
         public void SetShell(Lazy<UIElement> shell)

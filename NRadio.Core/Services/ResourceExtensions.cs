@@ -2,7 +2,7 @@
 
 namespace NRadio.Services
 {
-    internal static class ResourceExtensions
+    public static class ResourceExtensions
     {
         private static ResourceLoader resLoader = new ResourceLoader();
 

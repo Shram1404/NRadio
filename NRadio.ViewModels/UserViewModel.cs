@@ -1,17 +1,19 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-
+using System;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace NRadio.ViewModels
 {
     public class UserViewModel : ObservableObject
     {
+        private readonly IServiceProvider serviceProvider;
         private string name;
         private string userPrincipalName;
         private BitmapImage photo;
 
-        public UserViewModel()
+        public UserViewModel(IServiceProvider serviceProvider)
         {
+            this.serviceProvider = serviceProvider;
         }
 
         public string Name

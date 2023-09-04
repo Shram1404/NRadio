@@ -21,7 +21,7 @@ namespace NRadio.ViewModels
         private bool favoriteVisible;
         private bool localVisible;
 
-        public MainViewModel()
+        public MainViewModel(IServiceProvider serviceProvider)
         {
             Debug.WriteLine("MainViewModel created");
             InitializeAsync();

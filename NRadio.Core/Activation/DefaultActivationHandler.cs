@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NRadio.Models;
 using NRadio.Services;
 using Windows.ApplicationModel.Activation;
 
@@ -7,9 +8,9 @@ namespace NRadio.Activation
 {
     internal class DefaultActivationHandler : ActivationHandler<IActivatedEventArgs>
     {
-        private readonly Type navElement;
+        private readonly NavigationTarget.Target navElement;
 
-        public DefaultActivationHandler(Type navElement)
+        public DefaultActivationHandler(NavigationTarget.Target navElement)
         {
             this.navElement = navElement;
         }

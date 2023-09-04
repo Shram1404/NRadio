@@ -1,21 +1,24 @@
 ﻿using System;
-using NRadio.Views;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using NRadio.Models;
 using Windows.UI.Xaml.Navigation;
+using System.Linq;
 
 namespace NRadio.Services
 {
     public static class NavigationService
     {
-        public static event NavigatedEventHandler Navigated;
-
-        public static event NavigationFailedEventHandler NavigationFailed;
-
         private static Page shellPage;
         private static Frame frame;
         private static object lastParamUsed;
+
+        public static event NavigatedEventHandler Navigated;
+        public static event NavigationFailedEventHandler NavigationFailed;
+
+        public static Dictionary<Type, NavigationTarget.Target> Pages { get; private set; }
 
         public static Page ShellPage
         {
@@ -48,6 +51,11 @@ namespace NRadio.Services
 
         public static bool CanGoForward => Frame.CanGoForward;
 
+        public static void Initialize(Dictionary<Type, NavigationTarget.Target> pages)
+        {
+            Pages = pages; 
+        }
+
         public static bool GoBack()
         {
             if (CanGoBack)
@@ -61,12 +69,13 @@ namespace NRadio.Services
 
         public static void GoForward() => Frame.GoForward();
 
-        public static bool Navigate(Type pageType, object parameter = null, NavigationTransitionInfo infoOverride = null)
+        public static bool Navigate(NavigationTarget.Target target, object parameter = null, NavigationTransitionInfo infoOverride = null)
         {
-            if (pageType == null || !pageType.IsSubclassOf(typeof(Page)))
+            if (!Pages.ContainsValue(target))
             {
-                throw new ArgumentException($"Invalid pageType '{pageType}', please provide a valid pageType.", nameof(pageType));
+                throw new ArgumentException($"Invalid navTarget '{target}', please provide a valid navTarget.", nameof(target));
             }
+            Type pageType = Pages.FirstOrDefault(kvp => kvp.Value == target).Key;
 
             // Don't open the same page multiple times
             if (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(lastParamUsed)))
@@ -87,7 +96,16 @@ namespace NRadio.Services
 
         public static bool Navigate<T>(object parameter = null, NavigationTransitionInfo infoOverride = null)
             where T : Page
-            => Navigate(typeof(T), parameter, infoOverride);
+        {
+            NavigationTarget.Target target;
+            if (!Pages.TryGetValue(typeof(T), out target))
+            {
+                throw new ArgumentException($"Invalid page type '{typeof(T)}', please provide a valid page type.", nameof(T));
+            }
+
+            return Navigate(target, parameter, infoOverride);
+        }
+
 
         public static void Refresh()
         {
@@ -99,16 +117,6 @@ namespace NRadio.Services
             {
                 lastParamUsed = currentPageParameter;
             }
-        }
-
-        // RefreshShellPage() - Black screen
-        public static void RefreshShellPage()
-        {
-            var currentPageType = ShellPage.Content.GetType();
-
-            ShellPage.Content = null;
-            ShellPage.Content = Activator.CreateInstance(currentPageType) as Page;
-            Navigate (currentPageType);
         }
 
         private static void RegisterFrameEvents()

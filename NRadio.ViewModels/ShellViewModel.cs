@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using NRadio.Core.Services;
+using NRadio.Helpers;
+using NRadio.Models;
+using NRadio.Services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using NRadio.Helpers;
-using NRadio.Core.Services;
-using NRadio.Helpers;
-using NRadio.Services;
-using NRadio.Views;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -20,9 +20,10 @@ namespace NRadio.ViewModels
 {
     public class ShellViewModel : ObservableObject
     {
+        private readonly ViewModelLocator vml;
+
         private readonly KeyboardAccelerator altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
         private readonly KeyboardAccelerator backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
-
         private bool isPlayerCreated;
         private bool isBackEnabled;
         private IList<KeyboardAccelerator> keyboardAccelerators;
@@ -35,9 +36,10 @@ namespace NRadio.ViewModels
         private UserViewModel user;
         private UserControl miniPlayer;
 
-        public ShellViewModel()
+        public ShellViewModel(IServiceProvider serviceProvider)
         {
             Debug.WriteLine("ShellVM created");
+            vml = serviceProvider.GetService<ViewModelLocator>();
         }
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
@@ -79,7 +81,7 @@ namespace NRadio.ViewModels
             this.navigationView = navigationView;
             this.keyboardAccelerators = keyboardAccelerators;
             NavigationService.Frame = frame;
-            ((App)App.Current).ViewModelLocator.PlayerVM.IsPlayerCreatedChanged += OnIsPlayerCreatedChanged;
+            vml.PlayerVM.IsPlayerCreatedChanged += OnIsPlayerCreatedChanged;
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
             this.navigationView.BackRequested += OnBackRequested;
@@ -107,14 +109,14 @@ namespace NRadio.ViewModels
 
         private void OnUserProfile()
         {
-            NavigationService.Navigate<SettingsPage>();
+            NavigationService.Navigate(NavigationTarget.Target.SettingsPage);
         }
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
         {
             if (args.IsSettingsInvoked)
             {
-                NavigationService.Navigate(typeof(SettingsPage), null, args.RecommendedNavigationTransitionInfo);
+                NavigationService.Navigate(NavigationTarget.Target.SettingsPage, null, args.RecommendedNavigationTransitionInfo);
             }
             else
             {
@@ -123,7 +125,7 @@ namespace NRadio.ViewModels
 
                 if (pageType != null)
                 {
-                    NavigationService.Navigate(pageType, null, args.RecommendedNavigationTransitionInfo);
+                    NavigationService.Navigate(NavigationTarget.Target.SettingsPage, null, args.RecommendedNavigationTransitionInfo);
                 }
             }
         }
@@ -140,8 +142,9 @@ namespace NRadio.ViewModels
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
+            Type searchPage = NavigationService.Pages.FirstOrDefault(kvp => kvp.Value == NavigationTarget.Target.SearchPage).Key;
             IsBackEnabled = NavigationService.CanGoBack;
-            if (e.SourcePageType == typeof(SettingsPage))
+            if (e.SourcePageType == searchPage)
             {
                 Selected = navigationView.SettingsItem as WinUI.NavigationViewItem;
                 return;
@@ -179,7 +182,7 @@ namespace NRadio.ViewModels
             return pageType == sourcePageType;
         }
 
-        private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
+        private KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
         {
             var keyboardAccelerator = new KeyboardAccelerator() { Key = key };
             if (modifiers.HasValue)
@@ -191,7 +194,7 @@ namespace NRadio.ViewModels
             return keyboardAccelerator;
         }
 
-        private static void OnKeyboardAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private void OnKeyboardAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             var result = NavigationService.GoBack();
             args.Handled = result;
@@ -199,7 +202,7 @@ namespace NRadio.ViewModels
 
         private void OnNavigateToPlayer()
         {
-            NavigationService.Navigate<PlayerPage>();
+            NavigationService.Navigate(NavigationTarget.Target.PlayerPage);
         }
 
         private void OnIsPlayerCreatedChanged(object sender, EventArgs e)

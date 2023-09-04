@@ -8,14 +8,17 @@ using NRadio.Helpers;
 using NRadio.Models;
 using NRadio.Core.Services;
 using NRadio.Services;
-using NRadio.Views;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NRadio.ViewModels
 {
     public class StationDetailViewModel : ObservableObject
     {
+        private readonly IServiceProvider serviceProvider;
+        private readonly ViewModelLocator vml;
+
         private RadioStation currentStation;
         private List<RadioStation> source = new List<RadioStation>();
         private int currentSongIndex;
@@ -25,9 +28,11 @@ namespace NRadio.ViewModels
         public ICommand ChangeFavoriteStateCommand => new RelayCommand(OnChangeFavoriteState);
         public ICommand OpenRecordingPageCommand => new AsyncRelayCommand(OnOpenRecordingPage);
 
-        public StationDetailViewModel()
+        public StationDetailViewModel(IServiceProvider serviceProvider)
         {
             System.Diagnostics.Debug.WriteLine("StationDetailViewModel created");
+            this.serviceProvider = serviceProvider;
+            vml = serviceProvider.GetService<ViewModelLocator>();
         }
 
         public RadioStation CurrentStation
@@ -61,11 +66,11 @@ namespace NRadio.ViewModels
 
         private async Task OnOpenPlayer()
         {
-            var purchaseProvider = ((App)Application.Current).purchaseProvider;
+            var purchaseProvider = PurchaseService.PurchaseProvider;
             if (!IsPremiumStation(CurrentStation) || await purchaseProvider.CheckIfUserHasPremiumAsync())
             {
-                await ((App)Application.Current).ViewModelLocator.PlayerVM.Initialize(Playlist, CurrentStationIndex);
-                NavigationService.Navigate<PlayerPage>();
+                await vml.PlayerVM.Initialize(Playlist, CurrentStationIndex);
+                NavigationService.Navigate(NavigationTarget.Target.PlayerPage);
             }
             else
             {
@@ -78,14 +83,14 @@ namespace NRadio.ViewModels
             await RadioStationsLoader.ChangeIsFavoriteAsync(CurrentStation);
             SetFavoriteGlyph();
         }
-
+        
         private async Task OnOpenRecordingPage()
         {
-            var purchaseProvider = ((App)Application.Current).purchaseProvider;
+            var purchaseProvider = PurchaseService.PurchaseProvider;
             if (!IsPremiumStation(CurrentStation) || await purchaseProvider.CheckIfUserHasPremiumAsync())
             {
-                ((App)Application.Current).ViewModelLocator.RecordingVM.Initialize(CurrentStation);
-                NavigationService.Navigate<RecordingPage>();
+                vml.RecordingVM.Initialize(CurrentStation);
+                NavigationService.Navigate(NavigationTarget.Target.RecordingPage);
             }
             else
             {
