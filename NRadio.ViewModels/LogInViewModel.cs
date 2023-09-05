@@ -3,7 +3,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Helpers;
 using NRadio.Core.Services;
-using NRadio.Services;
+using NRadio.Core.Services;
 using System;
 
 namespace NRadio.ViewModels

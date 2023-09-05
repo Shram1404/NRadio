@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 using NRadio.Helpers;
 using NRadio.Models;
-using NRadio.Core.Services;
-using NRadio.ViewModels;
 using Windows.Storage;
 
 namespace NRadio.Core.Services
@@ -12,17 +10,16 @@ namespace NRadio.Core.Services
     {
         private const string userSettingsKey = "IdentityUser";
 
-        private object user;
+        private dynamic user;
 
         private IdentityService IdentityService => Singleton<IdentityService>.Instance;
 
         private MicrosoftGraphService MicrosoftGraphService => Singleton<MicrosoftGraphService>.Instance;
 
-        public event EventHandler<object> UserDataUpdated;
+        public event EventHandler<dynamic> UserDataUpdated;
 
         public UserDataService()
-        {
-        }
+        { }
 
         public void Initialize()
         {
@@ -30,7 +27,7 @@ namespace NRadio.Core.Services
             IdentityService.LoggedOut += OnLoggedOut;
         }
 
-        public async Task<object> GetUserAsync()
+        public async Task<dynamic> GetUserAsync()
         {
             if (user == null)
             {
@@ -56,13 +53,13 @@ namespace NRadio.Core.Services
             await ApplicationData.Current.LocalFolder.SaveAsync<User>(userSettingsKey, null);
         }
 
-        private async Task<object> GetUserFromCacheAsync()
+        private async Task<dynamic> GetUserFromCacheAsync()
         {
             var cacheData = await ApplicationData.Current.LocalFolder.ReadAsync<User>(userSettingsKey);
             return await GetUserViewModelFromData(cacheData);
         }
 
-        private async Task<object> GetUserFromGraphApiAsync()
+        private async Task<dynamic> GetUserFromGraphApiAsync()
         {
             var accessToken = await IdentityService.GetAccessTokenForGraphAsync();
             if (string.IsNullOrEmpty(accessToken))
@@ -80,7 +77,7 @@ namespace NRadio.Core.Services
             return await GetUserViewModelFromData(userData);
         }
 
-        private async Task<object> GetUserViewModelFromData(User userData)
+        private async Task<dynamic> GetUserViewModelFromData(User userData)
         {
             if (userData == null)
             {
@@ -91,21 +88,26 @@ namespace NRadio.Core.Services
                 ? ImageHelper.ImageFromAssetsFile("DefaultIcon.png")
                 : await ImageHelper.ImageFromStringAsync(userData.Photo);
 
-            return new UserViewModel()
-            {
-                Name = userData.DisplayName,
-                UserPrincipalName = userData.UserPrincipalName,
-                Photo = userPhoto
-            };
+            var viewModelType = ViewModelLocatorHelper.GetViewModelType(ViewModelType.VM.UserVM);
+            dynamic userViewModel = Activator.CreateInstance(viewModelType);
+
+            userViewModel.Name = userData.DisplayName;
+            userViewModel.UserPrincipalName = userData.UserPrincipalName;
+            userViewModel.Photo = userPhoto;
+
+            return userViewModel;
         }
 
-        private UserViewModel GetDefaultUserData()
+        private dynamic GetDefaultUserData()
         {
-            return new UserViewModel()
-            {
-                Name = IdentityService.GetAccountUserName(),
-                Photo = ImageHelper.ImageFromAssetsFile("DefaultIcon.png")
-            };
+            var viewModelType = ViewModelLocatorHelper.GetViewModelType(ViewModelType.VM.UserVM);
+            dynamic userViewModel = Activator.CreateInstance(viewModelType);
+
+
+            userViewModel.Name = IdentityService.GetAccountUserName();
+            userViewModel.Photo = ImageHelper.ImageFromAssetsFile("DefaultIcon.png");
+            return userViewModel;
+           
         }
     }
 }

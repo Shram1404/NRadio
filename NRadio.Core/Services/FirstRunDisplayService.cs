@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using NRadio.Controls;
+using NRadio.Models;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
 
-namespace NRadio.Services
+namespace NRadio.Core.Services
 {
     public static class FirstRunDisplayService
     {
         private static bool shown = false;
+        private static ContentDialog firstRunDialog;
 
         internal static async Task ShowIfAppropriateAsync()
         {
@@ -19,8 +21,13 @@ namespace NRadio.Services
                     if (SystemInformation.Instance.IsFirstRun && !shown)
                     {
                         shown = true;
-                        var dialog = new FirstRunDialogPage();
-                        await dialog.ShowAsync();
+                        var pageType = NavigationService.GetPageType(NavigationTarget.Target.FirstRunDialog);
+                        firstRunDialog = new ContentDialog
+                        {
+                            Content = (Windows.UI.Xaml.UIElement)Activator.CreateInstance(pageType)
+                        };
+
+                        await firstRunDialog.ShowAsync();
                     }
                 });
         }

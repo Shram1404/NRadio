@@ -2,7 +2,7 @@
 
 using Windows.ApplicationModel.Background;
 
-namespace NRadio.BackgroundTasks
+namespace NRadio.Core.BackgroundTasks
 {
     public abstract class BackgroundTask
     {

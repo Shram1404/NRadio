@@ -4,7 +4,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
-using NRadio.Services;
+using NRadio.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -96,7 +96,7 @@ namespace NRadio.ViewModels
             User = await UserDataService.GetUserAsync();
         }
 
-        private void OnUserDataUpdated(object sender, UserViewModel userData) => User = userData;
+        private void OnUserDataUpdated(object sender, dynamic userData) => User = userData;
 
         private void OnLoggedOut(object sender, EventArgs e)
         {
@@ -125,7 +125,8 @@ namespace NRadio.ViewModels
 
                 if (pageType != null)
                 {
-                    NavigationService.Navigate(NavigationTarget.Target.SettingsPage, null, args.RecommendedNavigationTransitionInfo);
+                    var navTarget = NavigationService.Pages[pageType];
+                    NavigationService.Navigate(navTarget, null, args.RecommendedNavigationTransitionInfo);
                 }
             }
         }
@@ -182,7 +183,7 @@ namespace NRadio.ViewModels
             return pageType == sourcePageType;
         }
 
-        private KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
+        private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)
         {
             var keyboardAccelerator = new KeyboardAccelerator() { Key = key };
             if (modifiers.HasValue)
@@ -194,7 +195,7 @@ namespace NRadio.ViewModels
             return keyboardAccelerator;
         }
 
-        private void OnKeyboardAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private static void OnKeyboardAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             var result = NavigationService.GoBack();
             args.Handled = result;

@@ -7,7 +7,7 @@
     xmlns:models="using:NRadio.Models"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:converter="using:NRadio.Core.Converters"
+    xmlns:converter="using:NRadio.Helpers.Converters"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
 

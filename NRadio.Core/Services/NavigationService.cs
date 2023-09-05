@@ -7,7 +7,7 @@ using NRadio.Models;
 using Windows.UI.Xaml.Navigation;
 using System.Linq;
 
-namespace NRadio.Services
+namespace NRadio.Core.Services
 {
     public static class NavigationService
     {
@@ -54,6 +54,16 @@ namespace NRadio.Services
         public static void Initialize(Dictionary<Type, NavigationTarget.Target> pages)
         {
             Pages = pages; 
+        }
+
+        public static Type GetPageType(NavigationTarget.Target target)
+        {
+            if (!Pages.ContainsValue(target))
+            {
+                throw new ArgumentException($"Invalid navTarget '{target}', please provide a valid navTarget.", nameof(target));
+            }
+
+            return Pages.FirstOrDefault(kvp => kvp.Value == target).Key;
         }
 
         public static bool GoBack()

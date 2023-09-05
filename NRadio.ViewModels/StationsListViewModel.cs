@@ -8,7 +8,7 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using NRadio.Helpers;
 using NRadio.Models;
-using NRadio.Services;
+using NRadio.Core.Services;
 using Windows.UI.Xaml;
 
 namespace NRadio.ViewModels

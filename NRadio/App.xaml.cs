@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using NRadio.Activation;
+using NRadio.Core.Activation;
+using NRadio.Controls;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
-using NRadio.Purchase;
-using NRadio.Services;
+using NRadio.Core.Services;
 using NRadio.ViewModels;
 using NRadio.Views;
 using Windows.ApplicationModel;
@@ -51,8 +51,7 @@ namespace NRadio
             }
 
             await RequestBackgroundRecordingAsync();
-            var backgroundTaskService = new BackgroundTaskService();
-            await backgroundTaskService.RegisterBackgroundTasksAsync();
+            await BackgroundWorkService.InitializeBackgroundTaskService();
 
             await RequestVoiceControlAsync();
         }
@@ -100,14 +99,11 @@ namespace NRadio
         private async void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
         {
             var deferral = e.GetDeferral();
-            await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
             deferral.Complete();
         }
 
         private void App_Resuming(object sender, object e)
-        {
-            Singleton<SuspendAndResumeService>.Instance.ResumeApp();
-        }
+        { }
 
         private async void OnLoggedOut(object sender, EventArgs e)
         {
@@ -163,7 +159,7 @@ namespace NRadio
         private void InitializeNavigationComponents()
         {
             InitializeNavigationService();
-            InitializeSearchHelper();
+
         }
         private void InitializeNavigationService()
         {
@@ -178,10 +174,10 @@ namespace NRadio
                 { typeof(StationDetailPage), NavigationTarget.Target.StationDetailPage },
                 { typeof(StationsListPage), NavigationTarget.Target.StationsListPage },
                 { typeof(LogInPage), NavigationTarget.Target.LogInPage },
+                { typeof(FirstRunDialogPage), NavigationTarget.Target.FirstRunDialog }
             };
 
             NavigationService.Initialize(pages);
         }
-        private void InitializeSearchHelper() => SearchHelper.Initialize(typeof(SearchPage));
     }
 }

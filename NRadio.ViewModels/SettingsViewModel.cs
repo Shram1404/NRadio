@@ -5,7 +5,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Helpers;
 using NRadio.Core.Services;
-using NRadio.Services;
+using NRadio.Core.Services;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
@@ -159,7 +159,7 @@ namespace NRadio.ViewModels
             }
         }
 
-        private void OnUserDataUpdated(object sender, UserViewModel userData) => User = userData;
+        private void OnUserDataUpdated(object sender, dynamic userData) => User = userData;
         private async void OnLogout() => await IdentityService.LogoutAsync();
         private void OnLoggedOut(object sender, EventArgs e) => UnregisterEvents();
 

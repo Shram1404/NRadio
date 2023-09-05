@@ -6,15 +6,12 @@ namespace NRadio.ViewModels
 {
     public class UserViewModel : ObservableObject
     {
-        private readonly IServiceProvider serviceProvider;
         private string name;
         private string userPrincipalName;
         private BitmapImage photo;
 
-        public UserViewModel(IServiceProvider serviceProvider)
-        {
-            this.serviceProvider = serviceProvider;
-        }
+        public UserViewModel()
+        { }
 
         public string Name
         {

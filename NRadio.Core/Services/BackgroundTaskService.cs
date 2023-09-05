@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NRadio.Activation;
-using NRadio.BackgroundTasks;
+using NRadio.Core.Activation;
+using NRadio.Core.BackgroundTasks;
 using NRadio.Core.BackgroundTasks;
 using NRadio.Helpers;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 
-namespace NRadio.Services
+namespace NRadio.Core.Services
 {
     internal class BackgroundTaskService : ActivationHandler<BackgroundActivatedEventArgs>
     {

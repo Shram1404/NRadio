@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:b="using:NRadio.Behaviors"
-    xmlns:converter="using:NRadio.Core.Converters"
+    xmlns:converter="using:NRadio.Helpers.Converters"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     xmlns:helper="using:NRadio.Helpers"

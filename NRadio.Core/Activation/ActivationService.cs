@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NRadio.Services;
+using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Core.Services;
 using Windows.ApplicationModel.Activation;
@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using NRadio.Models;
 
-namespace NRadio.Activation
+namespace NRadio.Core.Activation
 {
     public class ActivationService
     {
@@ -74,12 +74,6 @@ namespace NRadio.Activation
 
             if (IsInteractive(activationArgs))
             {
-                var activation = activationArgs as IActivatedEventArgs;
-                if (activation.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    await Singleton<SuspendAndResumeService>.Instance.RestoreSuspendAndResumeData();
-                }
-
                 Window.Current.Activate();
                 await StartupAsync();
             }
@@ -140,7 +134,6 @@ namespace NRadio.Activation
         private IEnumerable<ActivationHandler> GetActivationHandlers()
         {
             yield return Singleton<BackgroundTaskService>.Instance;
-            yield return Singleton<SuspendAndResumeService>.Instance;
         }
 
         private bool IsInteractive(object args)

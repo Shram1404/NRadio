@@ -126,10 +126,6 @@
     <Compile Include="API\RadioBrowserAPI.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="BackgroundTasks\UpdateRadioStationsTask.cs" />
-    <Compile Include="Converters\EnumToBooleanConverter.cs" />
-    <Compile Include="Converters\ItemClickEventArgsConverter.cs" />
-    <Compile Include="Converters\RadioStationListConverter.cs" />
-    <Compile Include="Converters\StringToEnumConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchase\IPurchaseProvider.cs" />
     <Compile Include="Purchase\PurchaseResult.cs" />
@@ -139,6 +135,7 @@
     <Compile Include="Services\AudioDeviceService.cs" />
     <Compile Include="Services\BackgroudRecordingService.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />
+    <Compile Include="Services\BackgroundWorkService.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\FirstRunDisplayService.cs" />
     <Compile Include="Services\IdentityLogger.cs" />
@@ -151,10 +148,6 @@
     <Compile Include="Services\RadioRecorder.cs" />
     <Compile Include="Services\RadioStationsLoader.cs" />
     <Compile Include="Services\ResourceExtensions.cs" />
-    <Compile Include="Services\ServiceLocator.cs" />
-    <Compile Include="Services\SuspendAndResumeArgs.cs" />
-    <Compile Include="Services\SuspendAndResumeServices.cs" />
-    <Compile Include="Services\SuspensionState.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="Services\UserDataService.cs" />
     <Compile Include="Services\VoiceControlService.cs" />
@@ -196,7 +189,6 @@
       <Name>NRadio.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

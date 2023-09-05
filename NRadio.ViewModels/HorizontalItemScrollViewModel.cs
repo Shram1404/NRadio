@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Models;
-using NRadio.Services;
+using NRadio.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -16,8 +16,6 @@ namespace NRadio.ViewModels
         private readonly ViewModelLocator vml;
 
         private double horizontalOffset;
-
-        [ObservableProperty]
         private List<RadioStation> source;
 
         public HorizontalItemScrollViewModel(IServiceProvider serviceProvider)
@@ -37,6 +35,11 @@ namespace NRadio.ViewModels
                 value = Math.Max(MinOffset, value);
                 SetProperty(ref horizontalOffset, value);
             }
+        }
+        public List<RadioStation> Source
+        {
+            get => source;
+            set => SetProperty(ref source, value);
         }
 
         private void OnClickAtStation((RadioStation clickedItem, List<RadioStation> thisSource) args)

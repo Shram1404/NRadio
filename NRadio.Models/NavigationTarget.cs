@@ -12,7 +12,8 @@
             SettingsPage,
             StationDetailPage,
             StationsListPage,
-            LogInPage
+            LogInPage,
+            FirstRunDialog,
         }
     }
 }

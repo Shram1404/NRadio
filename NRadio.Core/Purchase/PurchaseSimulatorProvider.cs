@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using NRadio.Services;
+using NRadio.Core.Services;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using NRadio.Core.Services;
 
-namespace NRadio.Purchase
+namespace NRadio.Core.Purchase
 {
     public class PurchaseSimulatorProvider : IPurchaseProvider
     {

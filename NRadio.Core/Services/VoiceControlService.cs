@@ -6,7 +6,7 @@ using NRadio.Core.Services;
 using Windows.Media.SpeechRecognition;
 using Windows.UI.Xaml;
 
-namespace NRadio.Services
+namespace NRadio.Core.Services
 {
     public sealed class VoiceControlService : IDisposable
     {
@@ -52,7 +52,7 @@ namespace NRadio.Services
                 if (command == "radio")
                 {
                     Console.Beep(4000, 100);
-                    await DoCommandAsync(await ListenAsync());
+                    //await DoCommandAsync(await ListenAsync());
                 }
             }
         }
@@ -74,39 +74,39 @@ namespace NRadio.Services
             return null;
         }
 
-        private async Task DoCommandAsync(string command)
-        {
-            var vml = ((App)Application.Current).ViewModelLocator;
-            var pvm = vml.PlayerVM;
-            lastVolume = pvm.Volume;
-            switch (command)
-            {
-                case "play":
-                    pvm.PlayPause();
-                    break;
-                case "stop":
-                    pvm.PlayPause();
-                    break;
-                case "next":
-                    pvm.PlayNext();
-                    break;
-                case "previous":
-                    pvm.PlayPrevious();
-                    break;
-                case "mute":
-                    pvm.Volume = 0;
-                    break;
-                case "unmute":
-                    pvm.Volume = lastVolume;
-                    break;
-                default:
-                    Console.Beep(4000, 50);
-                    Thread.Sleep(150);
-                    Console.Beep(4000, 50);
+        //private async Task DoCommandAsync(string command)
+        //{
+        //    var vml = ((App)Application.Current).ViewModelLocator;
+        //    var pvm = vml.PlayerVM;
+        //    lastVolume = pvm.Volume;
+        //    switch (command)
+        //    {
+        //        case "play":
+        //            pvm.PlayPause();
+        //            break;
+        //        case "stop":
+        //            pvm.PlayPause();
+        //            break;
+        //        case "next":
+        //            pvm.PlayNext();
+        //            break;
+        //        case "previous":
+        //            pvm.PlayPrevious();
+        //            break;
+        //        case "mute":
+        //            pvm.Volume = 0;
+        //            break;
+        //        case "unmute":
+        //            pvm.Volume = lastVolume;
+        //            break;
+        //        default:
+        //            Console.Beep(4000, 50);
+        //            Thread.Sleep(150);
+        //            Console.Beep(4000, 50);
 
-                    break;
-            }
-            await StartListeningAsync();
-        }
+        //            break;
+        //    }
+        //    await StartListeningAsync();
+        //}
     }
 }

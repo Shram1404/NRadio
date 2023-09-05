@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NRadio.Models;
-using NRadio.Services;
+using NRadio.Core.Services;
 using Windows.ApplicationModel.Activation;
 
-namespace NRadio.Activation
+namespace NRadio.Core.Activation
 {
     internal class DefaultActivationHandler : ActivationHandler<IActivatedEventArgs>
     {

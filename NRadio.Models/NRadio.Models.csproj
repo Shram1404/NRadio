@@ -128,6 +128,7 @@
     <Compile Include="RadioStation.cs" />
     <Compile Include="RecordingStation.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="ViewModelType.cs" />
     <EmbeddedResource Include="Properties\NRadio.Models.rd.xml" />
   </ItemGroup>
   <ItemGroup>

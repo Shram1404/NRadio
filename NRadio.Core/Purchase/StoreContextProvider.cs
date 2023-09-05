@@ -6,7 +6,7 @@ using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;
 using NRadio.Core.Services;
 
-namespace NRadio.Purchase
+namespace NRadio.Core.Purchase
 {
     public class StoreContextProvider : IPurchaseProvider
     {

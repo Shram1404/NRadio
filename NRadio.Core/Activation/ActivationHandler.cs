@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace NRadio.Activation
+namespace NRadio.Core.Activation
 {
     internal abstract class ActivationHandler
     {
