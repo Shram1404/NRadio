@@ -11,7 +11,7 @@ namespace NRadio.Controls
         public static readonly DependencyProperty SourceProperty =
         DependencyProperty.Register(nameof(Source), typeof(List<RadioStation>), typeof(HorizontalItemScrollControl), new PropertyMetadata(null));
 
-        HorizontalItemScrollViewModel ViewModel = new HorizontalItemScrollViewModel();
+        HorizontalItemScrollViewModel ViewModel = ((App)Application.Current).ViewModelLocator.HorizontalItemScrollVM;
 
         public HorizontalItemScrollControl()
         {

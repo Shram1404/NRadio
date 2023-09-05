@@ -1,26 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using NRadio.Helpers;
+using NRadio.Controls;
+using NRadio.Core.Activation;
 using NRadio.Core.Services;
-using NRadio.Purchase;
-using NRadio.Activation;
-using NRadio.Services;
+using NRadio.Helpers;
+using NRadio.Models;
 using NRadio.ViewModels;
+using NRadio.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.ExtendedExecution;
-using Windows.ApplicationModel.ExtendedExecution.Foreground;
 using Windows.UI.Xaml;
 
 namespace NRadio
 {
     public sealed partial class App : Application
     {
-        // TODO: Change to StoreContextProvider when app wil be in Dev Center
-        public readonly IPurchaseProvider purchaseProvider = new PurchaseSimulatorProvider();
-
         private ServiceProvider serviceProvider;
         private readonly Lazy<ActivationService> activationService;
 
@@ -37,6 +34,7 @@ namespace NRadio
             activationService = new Lazy<ActivationService>(CreateActivationService);
             IdentityService.LoggedOut += OnLoggedOut;
 
+            InitializeNavigationComponents();
             RegisterServices();
         }
 
@@ -52,8 +50,7 @@ namespace NRadio
             }
 
             await RequestBackgroundRecordingAsync();
-            var backgroundTaskService = new BackgroundTaskService();
-            await backgroundTaskService.RegisterBackgroundTasksAsync();
+            await BackgroundWorkService.InitializeBackgroundTaskService();
 
             await RequestVoiceControlAsync();
         }
@@ -69,12 +66,20 @@ namespace NRadio
 
             services.AddSingleton<ViewModelLocator>();
 
+            services.AddTransient<BrowseViewModel>();
+            services.AddTransient<HorizontalItemScrollViewModel>();
+            services.AddTransient<LogInViewModel>();
             services.AddTransient<MainViewModel>();
-            services.AddTransient<ShellViewModel>();
-            services.AddSingleton<RecordingViewModel>();
             services.AddSingleton<PlayerViewModel>();
+            services.AddSingleton<RecordingViewModel>();
+            services.AddTransient<SearchViewModel>();
+            services.AddTransient<SettingsViewModel>();
+            services.AddTransient<ShellViewModel>();
             services.AddSingleton<StationDetailViewModel>();
             services.AddSingleton<StationsListViewModel>();
+            services.AddTransient<UserViewModel>();
+
+            services.AddTransient<UserDataService>();
 
             serviceProvider = services.BuildServiceProvider();
         }
@@ -86,21 +91,18 @@ namespace NRadio
         }
 
         private ActivationService CreateActivationService() =>
-            new ActivationService(this, typeof(Views.MainPage), new Lazy<UIElement>(CreateShell));
+            new ActivationService(this, NavigationTarget.Target.MainPage, new Lazy<UIElement>(CreateShell));
 
         private UIElement CreateShell() => new Views.ShellPage();
 
         private async void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
         {
             var deferral = e.GetDeferral();
-            await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
             deferral.Complete();
         }
 
         private void App_Resuming(object sender, object e)
-        {
-            Singleton<SuspendAndResumeService>.Instance.ResumeApp();
-        }
+        { }
 
         private async void OnLoggedOut(object sender, EventArgs e)
         {
@@ -151,6 +153,30 @@ namespace NRadio
                     voiceControl.Dispose();
                 }
             }
+        }
+
+        private void InitializeNavigationComponents()
+        {
+            InitializeNavigationService();
+
+        }
+        private void InitializeNavigationService()
+        {
+            var pages = new Dictionary<Type, NavigationTarget.Target>
+            {
+                { typeof(BrowsePage), NavigationTarget.Target.BrowsePage },
+                { typeof(MainPage), NavigationTarget.Target.MainPage },
+                { typeof(PlayerPage), NavigationTarget.Target.PlayerPage },
+                { typeof(RecordingPage), NavigationTarget.Target.RecordingPage },
+                { typeof(SearchPage), NavigationTarget.Target.SearchPage },
+                { typeof(SettingsPage), NavigationTarget.Target.SettingsPage },
+                { typeof(StationDetailPage), NavigationTarget.Target.StationDetailPage },
+                { typeof(StationsListPage), NavigationTarget.Target.StationsListPage },
+                { typeof(LogInPage), NavigationTarget.Target.LogInPage },
+                { typeof(FirstRunDialogPage), NavigationTarget.Target.FirstRunDialog }
+            };
+
+            NavigationService.Initialize(pages);
         }
     }
 }

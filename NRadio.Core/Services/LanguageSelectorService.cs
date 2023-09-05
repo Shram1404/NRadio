@@ -1,10 +1,10 @@
-﻿using System;
+﻿using NRadio.Helpers;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
-using NRadio.Helpers;
-using System.Collections.Generic;
 
 namespace NRadio.Core.Services
 {

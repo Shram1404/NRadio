@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Helpers;
+using NRadio.Core.API;
+using NRadio.Helpers;
+using NRadio.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
-using NRadio.Core.API;
-using NRadio.Helpers;
-using NRadio.Models;
 using Windows.Storage;
 
 namespace NRadio.Core.Services
@@ -107,7 +107,7 @@ namespace NRadio.Core.Services
             }
             stationsList.Add(station);
             await folder.SaveAsync(Cfg.RecScheduledStationsFileName, stationsList);
-        }  
+        }
 
         public static async Task<List<RecordingStation>> LoadRecStationsAsync()
         {
@@ -245,7 +245,7 @@ namespace NRadio.Core.Services
         }
 
         // Async only for using with API or file storage in future
-        private static async Task<List<RadioStation>> LoadPremiumStationsFromSomewhereAsync() 
+        private static async Task<List<RadioStation>> LoadPremiumStationsFromSomewhereAsync()
         {
             // TODO: Change to API before release
             var premiumStation = new RadioStation

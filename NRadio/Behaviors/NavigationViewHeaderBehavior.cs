@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xaml.Interactivity;
 
-using NRadio.Services;
+using NRadio.Core.Services;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

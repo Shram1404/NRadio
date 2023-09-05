@@ -12,7 +12,7 @@ namespace NRadio.Core.Services
         const int DelayAfterRecording = 200;
 
         private static List<RecordingStation> recStations = new List<RecordingStation>();
-        private static Dictionary<RecordingStation, RadioRecorder> recorderDict = new Dictionary<RecordingStation, RadioRecorder>();
+        private static readonly Dictionary<RecordingStation, RadioRecorder> recorderDict = new Dictionary<RecordingStation, RadioRecorder>();
 
         public static List<RadioRecorder> Recorders { get; private set; } = new List<RadioRecorder>();
         public static List<RecordingStation> RecStations
@@ -104,7 +104,8 @@ namespace NRadio.Core.Services
 
                 Recorders.Remove(recorder);
                 await RadioStationsLoader.RemoveRecStationFromFileASync(station);
-                Debug.WriteLine($"BackgroundRecordingService: StopRecordingStationAsync: Remove station from scheduler file {DateTime.Now.TimeOfDay}");
+                Debug.WriteLine($"BackgroundRecordingService: StopRecordingStationAsync: " +
+                    $"Remove station from scheduler file {DateTime.Now.TimeOfDay}");
             }
             catch (Exception ex)
             {

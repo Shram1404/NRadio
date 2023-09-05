@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.IdentityModel.Abstractions;
+﻿using Microsoft.IdentityModel.Abstractions;
+using System.Diagnostics;
 
 namespace NRadio.Core.Services
 {
