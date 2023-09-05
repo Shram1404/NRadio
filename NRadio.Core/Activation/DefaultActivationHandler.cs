@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using NRadio.Core.Services;
 using NRadio.Models;
-using NRadio.Core.Services;
+using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 
 namespace NRadio.Core.Activation

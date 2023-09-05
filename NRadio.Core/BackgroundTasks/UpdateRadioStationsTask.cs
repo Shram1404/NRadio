@@ -1,7 +1,6 @@
-﻿using System.Linq;
+﻿using NRadio.Core.Services;
+using System.Linq;
 using System.Threading.Tasks;
-using NRadio.Core.BackgroundTasks;
-using NRadio.Core.Services;
 using Windows.ApplicationModel.Background;
 
 namespace NRadio.Core.BackgroundTasks

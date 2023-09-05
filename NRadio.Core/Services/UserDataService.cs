@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using NRadio.Helpers;
+﻿using NRadio.Helpers;
 using NRadio.Models;
+using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace NRadio.Core.Services
@@ -88,7 +88,7 @@ namespace NRadio.Core.Services
                 ? ImageHelper.ImageFromAssetsFile("DefaultIcon.png")
                 : await ImageHelper.ImageFromStringAsync(userData.Photo);
 
-            var viewModelType = ViewModelLocatorHelper.GetViewModelType(ViewModelType.VM.UserVM);
+            var viewModelType = ViewModelLocatorHelper.GetViewModelType(VMLocatorEnum.VM.UserVM);
             dynamic userViewModel = Activator.CreateInstance(viewModelType);
 
             userViewModel.Name = userData.DisplayName;
@@ -100,14 +100,14 @@ namespace NRadio.Core.Services
 
         private dynamic GetDefaultUserData()
         {
-            var viewModelType = ViewModelLocatorHelper.GetViewModelType(ViewModelType.VM.UserVM);
+            var viewModelType = ViewModelLocatorHelper.GetViewModelType(VMLocatorEnum.VM.UserVM);
             dynamic userViewModel = Activator.CreateInstance(viewModelType);
 
 
             userViewModel.Name = IdentityService.GetAccountUserName();
             userViewModel.Photo = ImageHelper.ImageFromAssetsFile("DefaultIcon.png");
             return userViewModel;
-           
+
         }
     }
 }

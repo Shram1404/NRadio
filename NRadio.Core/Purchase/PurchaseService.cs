@@ -1,6 +1,4 @@
-﻿using NRadio.Core.Purchase;
-
-namespace NRadio.Core.Purchase
+﻿namespace NRadio.Core.Purchase
 {
     public static class PurchaseService
     {

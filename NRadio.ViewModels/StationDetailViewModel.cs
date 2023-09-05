@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using NRadio.Core.Purchase;
+using NRadio.Core.Services;
+using NRadio.Helpers;
+using NRadio.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using NRadio.Helpers;
-using NRadio.Models;
-using NRadio.Core.Services;
-using NRadio.Core.Services;
 using Windows.ApplicationModel.Resources;
-using Windows.UI.Xaml;
-using Microsoft.Extensions.DependencyInjection;
-using NRadio.Core.Purchase;
 
 namespace NRadio.ViewModels
 {
@@ -84,7 +82,7 @@ namespace NRadio.ViewModels
             await RadioStationsLoader.ChangeIsFavoriteAsync(CurrentStation);
             SetFavoriteGlyph();
         }
-        
+
         private async Task OnOpenRecordingPage()
         {
             var purchaseProvider = PurchaseService.PurchaseProvider;

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using NRadio.Core.Activation;
 using NRadio.Controls;
+using NRadio.Core.Activation;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
-using NRadio.Core.Services;
 using NRadio.ViewModels;
 using NRadio.Views;
 using Windows.ApplicationModel;

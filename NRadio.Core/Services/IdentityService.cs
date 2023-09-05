@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Abstractions;
+using NRadio.Helpers;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Abstractions;
-using NRadio.Helpers;
 using Windows.UI.Popups;
 
 namespace NRadio.Core.Services

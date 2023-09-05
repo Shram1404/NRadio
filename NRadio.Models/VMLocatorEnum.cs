@@ -1,10 +1,11 @@
 ﻿namespace NRadio.Models
 {
-    public class ViewModelType
+    public class VMLocatorEnum
     {
         public enum VM
         {
             UserVM,
+            PlayerVM
         }
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using NRadio.Core.Activation;
+using NRadio.Core.BackgroundTasks;
+using NRadio.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NRadio.Core.Activation;
-using NRadio.Core.BackgroundTasks;
-using NRadio.Core.BackgroundTasks;
-using NRadio.Helpers;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 

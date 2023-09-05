@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
 using Windows.Devices.Enumeration;
@@ -234,7 +234,7 @@ namespace NRadio.ViewModels
         {
             PlayerService.SetVolume(Volume / 100); // Volume in PlayerService is in range 0-1
 
-            if(ApplicationData.Current.LocalSettings.Values.ContainsKey("Volume"))
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey("Volume"))
             {
                 ApplicationData.Current.LocalSettings.Values["Volume"] = Volume;
             }

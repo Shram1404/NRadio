@@ -186,9 +186,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\en-US\Resources.resw" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Assets\EqualizerAnimation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -242,30 +239,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Styles\CircleButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\Page.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\_Colors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\_FontSizes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\_Thickness.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\TextBlock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\BrowsePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -344,10 +317,11 @@
     <None Include="NRadio_TemporaryKey.pfx" />
     <None Include="README.md" />
     <None Include="Settings.XamlStyler" />
+    <PRIResource Include="Strings\uk-UA\Resources.resw" />
     <PRIResource Include="Strings\Glyphs\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
-    <PRIResource Include="Strings\uk-UA\Resources.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -370,6 +344,10 @@
     <ProjectReference Include="..\NRadio.Models\NRadio.Models.csproj">
       <Project>{1c7ce1fc-e9e2-488e-affb-e0fd3c4cceef}</Project>
       <Name>NRadio.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NRadio.Resources\NRadio.Resources.csproj">
+      <Project>{209bbcc6-9cdc-4a62-b8ca-eea6f08eb661}</Project>
+      <Name>NRadio.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\NRadio.ViewModels\NRadio.ViewModels.csproj">
       <Project>{471f233b-16a8-48fb-ae0a-9c47f43d948e}</Project>

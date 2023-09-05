@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using NRadio.Core.Services;
+using NRadio.Helpers;
+using NRadio.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using NRadio.Helpers;
-using NRadio.Models;
-using NRadio.Core.Services;
 
 namespace NRadio.ViewModels
 {

@@ -23,7 +23,7 @@ namespace NRadio.Core.Services
         }
 
         public async Task<DeviceInformation> GetDefaultDeviceAsync()
-        {             
+        {
             var deviceSelector = MediaDevice.GetAudioRenderSelector();
             var allDevices = await DeviceInformation.FindAllAsync(deviceSelector);
             var defaultDeviceId = MediaDevice.GetDefaultAudioRenderId(AudioDeviceRole.Default);

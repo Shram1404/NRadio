@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
-using NRadio.Core.Services;
-using Windows.UI.Xaml;
+using System;
+using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace NRadio.ViewModels
 {

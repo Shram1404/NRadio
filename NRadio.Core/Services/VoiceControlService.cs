@@ -1,10 +1,8 @@
-﻿using System;
+﻿using NRadio.Helpers;
+using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
-using NRadio.Core.Services;
 using Windows.Media.SpeechRecognition;
-using Windows.UI.Xaml;
 
 namespace NRadio.Core.Services
 {
@@ -42,7 +40,7 @@ namespace NRadio.Core.Services
                     throw new InvalidOperationException("Could not initialize SpeechRecognizer", exception);
                 }
             }
-        }  
+        }
 
         public async Task StartListeningAsync()
         {
@@ -52,7 +50,7 @@ namespace NRadio.Core.Services
                 if (command == "radio")
                 {
                     Console.Beep(4000, 100);
-                    //await DoCommandAsync(await ListenAsync());
+                    await DoCommandAsync(await ListenAsync());
                 }
             }
         }
@@ -74,39 +72,35 @@ namespace NRadio.Core.Services
             return null;
         }
 
-        //private async Task DoCommandAsync(string command)
-        //{
-        //    var vml = ((App)Application.Current).ViewModelLocator;
-        //    var pvm = vml.PlayerVM;
-        //    lastVolume = pvm.Volume;
-        //    switch (command)
-        //    {
-        //        case "play":
-        //            pvm.PlayPause();
-        //            break;
-        //        case "stop":
-        //            pvm.PlayPause();
-        //            break;
-        //        case "next":
-        //            pvm.PlayNext();
-        //            break;
-        //        case "previous":
-        //            pvm.PlayPrevious();
-        //            break;
-        //        case "mute":
-        //            pvm.Volume = 0;
-        //            break;
-        //        case "unmute":
-        //            pvm.Volume = lastVolume;
-        //            break;
-        //        default:
-        //            Console.Beep(4000, 50);
-        //            Thread.Sleep(150);
-        //            Console.Beep(4000, 50);
-
-        //            break;
-        //    }
-        //    await StartListeningAsync();
-        //}
+        private async Task DoCommandAsync(string command)
+        {
+            var playerVM = ViewModelLocatorHelper.GetViewModelInstance(Models.VMLocatorEnum.VM.PlayerVM);
+            
+            lastVolume = playerVM.Volume;
+            switch (command)
+            {
+                case "play":
+                    playerVM.PlayPause();
+                    break;
+                case "stop":
+                    playerVM.PlayPause();
+                    break;
+                case "next":
+                    playerVM.PlayNext();
+                    break;
+                case "previous":
+                    playerVM.PlayPrevious();
+                    break;
+                case "mute":
+                    playerVM.Volume = 0;
+                    break;
+                case "unmute":
+                    playerVM.Volume = lastVolume;
+                    break;
+                default:
+                    break;
+            }
+            await StartListeningAsync();
+        }
     }
 }

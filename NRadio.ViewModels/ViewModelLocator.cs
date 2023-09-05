@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using NRadio.Helpers;
 using NRadio.Models;
+using System;
+using System.Collections.Generic;
 
 namespace NRadio.ViewModels
 {
@@ -13,7 +13,7 @@ namespace NRadio.ViewModels
         public ViewModelLocator(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
-            ViewModelLocatorHelper.Initialize(GetKeyValuePairs());
+            ViewModelLocatorHelper.Initialize(GetTypeDictionary(), GetInstanceDictionary());
         }
 
         public ShellViewModel ShellVM => serviceProvider.GetService<ShellViewModel>();
@@ -29,11 +29,23 @@ namespace NRadio.ViewModels
         public BrowseViewModel BrowseVM => serviceProvider.GetService<BrowseViewModel>();
         public HorizontalItemScrollViewModel HorizontalItemScrollVM => serviceProvider.GetService<HorizontalItemScrollViewModel>();
 
-        private Dictionary<Type, ViewModelType.VM> GetKeyValuePairs()
+        private Dictionary<Type, VMLocatorEnum.VM> GetTypeDictionary()
         {
-            var keyValuePairs = new Dictionary<Type, ViewModelType.VM>
+            var keyValuePairs = new Dictionary<Type, VMLocatorEnum.VM>
             {
-                { typeof(UserViewModel), ViewModelType.VM.UserVM },
+                { typeof(UserViewModel), VMLocatorEnum.VM.UserVM },
+                { typeof(PlayerViewModel), VMLocatorEnum.VM.PlayerVM }
+            };
+
+            return keyValuePairs;
+        }
+
+        private Dictionary<dynamic, VMLocatorEnum.VM> GetInstanceDictionary()
+        {
+            var keyValuePairs = new Dictionary<dynamic, VMLocatorEnum.VM>
+            {
+                { serviceProvider.GetService<UserViewModel>(), VMLocatorEnum.VM.UserVM },
+                { serviceProvider.GetService<PlayerViewModel>(), VMLocatorEnum.VM.PlayerVM }
             };
 
             return keyValuePairs;

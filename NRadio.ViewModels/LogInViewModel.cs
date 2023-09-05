@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using NRadio.Core.Services;
 using NRadio.Helpers;
-using NRadio.Core.Services;
-using NRadio.Core.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace NRadio.ViewModels
 {
@@ -15,7 +14,7 @@ namespace NRadio.ViewModels
         private bool isBusy;
         private AsyncRelayCommand loginCommand;
 
-        public LogInViewModel(IServiceProvider serviceProvider) 
+        public LogInViewModel(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
         }

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using NRadio.Core.Services;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using NRadio.Core.Services;
 using Windows.Services.Store;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
-using NRadio.Core.Services;
 
 namespace NRadio.Core.Purchase
 {

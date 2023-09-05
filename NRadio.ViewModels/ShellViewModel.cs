@@ -4,7 +4,6 @@ using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
-using NRadio.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -122,10 +121,19 @@ namespace NRadio.ViewModels
             {
                 var selectedItem = args.InvokedItemContainer as WinUI.NavigationViewItem;
                 var pageType = selectedItem?.GetValue(NavHelper.NavigateToProperty) as Type;
+                NavigationTarget.Target navTarget;
 
                 if (pageType != null)
                 {
-                    var navTarget = NavigationService.Pages[pageType];
+                    if (NavigationService.Pages.ContainsKey(pageType))
+                    {
+                         navTarget = NavigationService.Pages[pageType];
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid navigation target");
+                    }
+                    
                     NavigationService.Navigate(navTarget, null, args.RecommendedNavigationTransitionInfo);
                 }
             }

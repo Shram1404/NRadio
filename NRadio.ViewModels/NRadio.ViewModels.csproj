@@ -163,6 +163,10 @@
       <Project>{1c7ce1fc-e9e2-488e-affb-e0fd3c4cceef}</Project>
       <Name>NRadio.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NRadio.Resources\NRadio.Resources.csproj">
+      <Project>{209bbcc6-9cdc-4a62-b8ca-eea6f08eb661}</Project>
+      <Name>NRadio.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

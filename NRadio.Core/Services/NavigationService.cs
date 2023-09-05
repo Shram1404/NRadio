@@ -1,11 +1,11 @@
-﻿using System;
+﻿using NRadio.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
-using NRadio.Models;
 using Windows.UI.Xaml.Navigation;
-using System.Linq;
 
 namespace NRadio.Core.Services
 {
@@ -53,7 +53,7 @@ namespace NRadio.Core.Services
 
         public static void Initialize(Dictionary<Type, NavigationTarget.Target> pages)
         {
-            Pages = pages; 
+            Pages = pages;
         }
 
         public static Type GetPageType(NavigationTarget.Target target)

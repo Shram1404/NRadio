@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using NRadio.Models;
 using NRadio.Core.Services;
+using NRadio.Models;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;

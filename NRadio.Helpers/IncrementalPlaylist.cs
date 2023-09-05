@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Toolkit.Collections;
+using NRadio.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Collections;
-using NRadio.Models;
 
 namespace NRadio.Helpers
 {

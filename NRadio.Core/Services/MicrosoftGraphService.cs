@@ -1,9 +1,9 @@
-﻿using System;
+﻿using NRadio.Helpers;
+using NRadio.Models;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using NRadio.Helpers;
-using NRadio.Models;
 
 namespace NRadio.Core.Services
 {

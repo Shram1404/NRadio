@@ -1,14 +1,13 @@
-﻿using System;
+﻿using NRadio.Core.Services;
+using NRadio.Helpers;
+using NRadio.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NRadio.Core.Services;
-using NRadio.Helpers;
-using NRadio.Core.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using NRadio.Models;
 
 namespace NRadio.Core.Activation
 {
@@ -32,7 +31,7 @@ namespace NRadio.Core.Activation
 
         public async Task RedirectLoginPageAsync()
         {
-            
+
             var frame = new Frame();
             NavigationService.Frame = frame;
             Window.Current.Content = frame;

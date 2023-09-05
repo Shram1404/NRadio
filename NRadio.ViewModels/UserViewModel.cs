@@ -1,5 +1,4 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace NRadio.ViewModels

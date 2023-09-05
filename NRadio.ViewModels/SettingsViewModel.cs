@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using NRadio.Core.Purchase;
+using NRadio.Core.Services;
+using NRadio.Helpers;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using NRadio.Helpers;
-using NRadio.Core.Services;
-using NRadio.Core.Services;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using NRadio.Core.Purchase;
 
 namespace NRadio.ViewModels
 {
