@@ -233,7 +233,7 @@ namespace NRadio.Core.Services
             var allStations = new List<RadioStation>();
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            foreach (var country in Enum.GetValues(typeof(Countries)).Cast<Countries>())
+            foreach (var country in Enum.GetValues(typeof(StationsCountries.Countries)).Cast<StationsCountries.Countries>())
             {
                 string response = await RadioBrowserAPI.GetStationsByCountryAsync(country.ToString());
                 var data = JsonSerializer.Deserialize<RadioStation[]>(response, options);
@@ -261,25 +261,6 @@ namespace NRadio.Core.Services
                 Bitrate = 128
             };
             return new List<RadioStation> { premiumStation };
-        }
-
-        private enum Countries
-        {
-            Ukraine,
-            Poland,
-            Italy,
-            Germany,
-            France,
-            Russia,
-            Belarus,
-            Spain,
-            CzechRepublic,
-            UnitedKingdom,
-            UnitedStates,
-            Canada,
-            Japan,
-            China,
-            SouthKorea,
         }
     }
 }
