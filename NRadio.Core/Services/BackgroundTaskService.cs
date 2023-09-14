@@ -68,7 +68,7 @@ namespace NRadio.Core.Services
         {
             var backgroundTasks = new List<BackgroundTask>();
 
-            backgroundTasks.Add(new UpdateRadioStationsTask());
+            backgroundTasks.Add(new UpdateRadioStationsTask(typeof(RadioStationsLoader)));
             return backgroundTasks;
         }
     }

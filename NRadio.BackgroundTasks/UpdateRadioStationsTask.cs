@@ -1,4 +1,4 @@
-﻿using NRadio.Core.Services;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
@@ -7,6 +7,13 @@ namespace NRadio.Core.BackgroundTasks
 {
     public class UpdateRadioStationsTask : BackgroundTask
     {
+        public Type StationsLoader { get; set; }
+
+        public UpdateRadioStationsTask(Type stationsLoader)
+        {
+            StationsLoader = stationsLoader;
+        }
+
         public override void Register()
         {
             var taskName = GetType().Name;
@@ -29,7 +36,12 @@ namespace NRadio.Core.BackgroundTasks
 
         public override async Task RunAsyncInternal(IBackgroundTaskInstance taskInstance)
         {
-            await RadioStationsLoader.UpdateRadioStationsAsync();
+            var methodInfo = StationsLoader.GetMethod("UpdateRadioStationsAsync");
+            if (methodInfo != null)
+            {
+                var task = (Task)methodInfo.Invoke(null, null);
+                await task;
+            }
             await Task.CompletedTask;
         }
         public override async void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
