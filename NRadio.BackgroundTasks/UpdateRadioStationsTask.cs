@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 
-namespace NRadio.Core.BackgroundTasks
+namespace NRadio.BackgroundTasks
 {
     public class UpdateRadioStationsTask : BackgroundTask
     {

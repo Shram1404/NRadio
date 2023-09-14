@@ -1,5 +1,5 @@
 ﻿using NRadio.Core.Activation;
-using NRadio.Core.BackgroundTasks;
+using NRadio.BackgroundTasks;
 using NRadio.Helpers;
 using System;
 using System.Collections.Generic;
