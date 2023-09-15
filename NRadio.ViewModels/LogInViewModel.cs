@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Services;
 using NRadio.Helpers;
+using NRadio.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -48,15 +49,15 @@ namespace NRadio.ViewModels
             IsBusy = false;
         }
 
-        private string GetStatusMessage(LoginResultType loginResult)
+        private string GetStatusMessage(LoginEnum.LoginResultType loginResult)
         {
             switch (loginResult)
             {
-                case LoginResultType.Unauthorized:
+                case LoginEnum.LoginResultType.Unauthorized:
                     return "StatusUnauthorized".GetLocalized();
-                case LoginResultType.NoNetworkAvailable:
+                case LoginEnum.LoginResultType.NoNetworkAvailable:
                     return "StatusNoNetworkAvailable".GetLocalized();
-                case LoginResultType.UnknownError:
+                case LoginEnum.LoginResultType.UnknownError:
                     return "StatusLoginFails".GetLocalized();
                 default:
                     return string.Empty;

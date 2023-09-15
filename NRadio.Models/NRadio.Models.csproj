@@ -123,6 +123,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Dialog.cs" />
     <Compile Include="Filter.cs" />
+    <Compile Include="LoginEnum.cs" />
     <Compile Include="NavigationTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadioStation.cs" />
