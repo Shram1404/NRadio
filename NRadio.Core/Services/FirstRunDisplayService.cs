@@ -1,5 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.Helpers;
-using NRadio.Models;
+using NRadio.Models.Enum;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -21,7 +21,7 @@ namespace NRadio.Core.Services
                     if (SystemInformation.Instance.IsFirstRun && !shown)
                     {
                         shown = true;
-                        var pageType = NavigationService.GetPageType(NavigationTarget.Target.FirstRunDialog);
+                        var pageType = NavigationService.GetPageType(NavigationTarget.FirstRunDialog);
                         firstRunDialog = new ContentDialog
                         {
                             Content = (Windows.UI.Xaml.UIElement)Activator.CreateInstance(pageType)

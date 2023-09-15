@@ -3,7 +3,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Services;
 using NRadio.Helpers;
-using NRadio.Models;
+using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -108,20 +108,20 @@ namespace NRadio.ViewModels
 
         private void OnUserProfile()
         {
-            NavigationService.Navigate(NavigationTarget.Target.SettingsPage);
+            NavigationService.Navigate(NavigationTarget.SettingsPage);
         }
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
         {
             if (args.IsSettingsInvoked)
             {
-                NavigationService.Navigate(NavigationTarget.Target.SettingsPage, null, args.RecommendedNavigationTransitionInfo);
+                NavigationService.Navigate(NavigationTarget.SettingsPage, null, args.RecommendedNavigationTransitionInfo);
             }
             else
             {
                 var selectedItem = args.InvokedItemContainer as WinUI.NavigationViewItem;
                 var pageType = selectedItem?.GetValue(NavHelper.NavigateToProperty) as Type;
-                NavigationTarget.Target navTarget;
+                NavigationTarget navTarget;
 
                 if (pageType != null)
                 {
@@ -151,7 +151,7 @@ namespace NRadio.ViewModels
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
-            Type searchPage = NavigationService.Pages.FirstOrDefault(kvp => kvp.Value == NavigationTarget.Target.SearchPage).Key;
+            Type searchPage = NavigationService.Pages.FirstOrDefault(kvp => kvp.Value == NavigationTarget.SearchPage).Key;
             IsBackEnabled = NavigationService.CanGoBack;
             if (e.SourcePageType == searchPage)
             {
@@ -211,7 +211,7 @@ namespace NRadio.ViewModels
 
         private void OnNavigateToPlayer()
         {
-            NavigationService.Navigate(NavigationTarget.Target.PlayerPage);
+            NavigationService.Navigate(NavigationTarget.PlayerPage);
         }
 
         private void OnIsPlayerCreatedChanged(object sender, EventArgs e)

@@ -6,7 +6,7 @@ using NRadio.Controls;
 using NRadio.Core.Activation;
 using NRadio.Core.Services;
 using NRadio.Helpers;
-using NRadio.Models;
+using NRadio.Models.Enum;
 using NRadio.ViewModels;
 using NRadio.Views;
 using Windows.ApplicationModel;
@@ -91,7 +91,7 @@ namespace NRadio
         }
 
         private ActivationService CreateActivationService() =>
-            new ActivationService(this, NavigationTarget.Target.MainPage, new Lazy<UIElement>(CreateShell));
+            new ActivationService(this, NavigationTarget.MainPage, new Lazy<UIElement>(CreateShell));
 
         private UIElement CreateShell() => new Views.ShellPage();
 
@@ -162,18 +162,18 @@ namespace NRadio
         }
         private void InitializeNavigationService()
         {
-            var pages = new Dictionary<Type, NavigationTarget.Target>
+            var pages = new Dictionary<Type, NavigationTarget>
             {
-                { typeof(BrowsePage), NavigationTarget.Target.BrowsePage },
-                { typeof(MainPage), NavigationTarget.Target.MainPage },
-                { typeof(PlayerPage), NavigationTarget.Target.PlayerPage },
-                { typeof(RecordingPage), NavigationTarget.Target.RecordingPage },
-                { typeof(SearchPage), NavigationTarget.Target.SearchPage },
-                { typeof(SettingsPage), NavigationTarget.Target.SettingsPage },
-                { typeof(StationDetailPage), NavigationTarget.Target.StationDetailPage },
-                { typeof(StationsListPage), NavigationTarget.Target.StationsListPage },
-                { typeof(LogInPage), NavigationTarget.Target.LogInPage },
-                { typeof(FirstRunDialogPage), NavigationTarget.Target.FirstRunDialog }
+                { typeof(BrowsePage), NavigationTarget.BrowsePage },
+                { typeof(MainPage), NavigationTarget.MainPage },
+                { typeof(PlayerPage), NavigationTarget.PlayerPage },
+                { typeof(RecordingPage), NavigationTarget.RecordingPage },
+                { typeof(SearchPage), NavigationTarget.SearchPage },
+                { typeof(SettingsPage), NavigationTarget.SettingsPage },
+                { typeof(StationDetailPage), NavigationTarget.StationDetailPage },
+                { typeof(StationsListPage), NavigationTarget.StationsListPage },
+                { typeof(LogInPage), NavigationTarget.LogInPage },
+                { typeof(FirstRunDialogPage), NavigationTarget.FirstRunDialog }
             };
 
             NavigationService.Initialize(pages);

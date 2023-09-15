@@ -1,4 +1,5 @@
 ﻿using NRadio.Helpers;
+using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -74,7 +75,7 @@ namespace NRadio.Core.Services
 
         private async Task DoCommandAsync(string command)
         {
-            var playerVM = ViewModelLocatorHelper.GetViewModelInstance(Models.VMLocatorEnum.VM.PlayerVM);
+            var playerVM = ViewModelLocatorHelper.GetViewModelInstance(VMLocator.PlayerVM);
             
             lastVolume = playerVM.Volume;
             switch (command)

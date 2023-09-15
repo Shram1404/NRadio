@@ -2,6 +2,7 @@
 using NRadio.Core.API;
 using NRadio.Helpers;
 using NRadio.Models;
+using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -233,7 +234,7 @@ namespace NRadio.Core.Services
             var allStations = new List<RadioStation>();
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            foreach (var country in Enum.GetValues(typeof(StationsCountries.Countries)).Cast<StationsCountries.Countries>())
+            foreach (var country in Enum.GetValues(typeof(Countries)).Cast<Countries>())
             {
                 string response = await RadioBrowserAPI.GetStationsByCountryAsync(country.ToString());
                 var data = JsonSerializer.Deserialize<RadioStation[]>(response, options);
