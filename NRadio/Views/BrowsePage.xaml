@@ -15,46 +15,46 @@
     <Grid>
         <ScrollViewer>
             <StackPanel Orientation="Vertical" >
-                <Button x:Uid="Browse_Premium_Button"
+                <Button Content="{Binding Resources.Browse_Premium_ButtonContent, Source={StaticResource LocalizedStrings}}"
                         HorizontalAlignment="Stretch"
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Premium}"/>
-                <Button x:Uid="Browse_Local_Radio_Button"
+                <Button Content="{Binding Resources.Browse_Local_Radio_ButtonContent, Source={StaticResource LocalizedStrings}}"
                         HorizontalAlignment="Stretch"
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Local}"/>
-                <Button x:Uid="Browse_Recent_Button"
+                <Button Content="{Binding Resources.Browse_Recent_ButtonContent, Source={StaticResource LocalizedStrings}}"
                         HorizontalAlignment="Stretch"
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Recent}"/>
-                <Button x:Uid="Browse_Favorites_Button"
+                <Button Content="{Binding Resources.Browse_Favorites_ButtonContent, Source={StaticResource LocalizedStrings}}"
                         HorizontalAlignment="Stretch"
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Favorites}"/>
-                <Button x:Uid="Browse_Music_Button"
+                <Button Content="{Binding Resources.Browse_Music_ButtonContent, Source={StaticResource LocalizedStrings}}"
                         HorizontalAlignment="Stretch"
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Music}"/>
-                <Button x:Uid="Browse_Sports_Button"
+                <Button Content="{Binding Resources.Browse_Sports_ButtonContent, Source={StaticResource LocalizedStrings}}"
                         HorizontalAlignment="Stretch"
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Sports}"/>
-                <Button x:Uid="Browse_NewsAndTalk_Button"
+                <Button Content="{Binding Resources.Browse_NewsAndTalk_ButtonContent, Source={StaticResource LocalizedStrings}}"
                         HorizontalAlignment="Stretch"
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=NewsAndTalk}"/>
-                <Button x:Uid="Browse_Podcasts_Radio_Button"
+                <Button Content="{Binding Resources.Browse_Podcasts_Radio_ButtonContent, Source={StaticResource LocalizedStrings}}"
                         HorizontalAlignment="Stretch"
                         Height="100"
                         Command="{x:Bind ViewModel.GoToCommand}"
-                         CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Podcasts}"/>
+                        CommandParameter="{Binding Converter={StaticResource StringToEnumConverter}, ConverterParameter=Podcasts}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

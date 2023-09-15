@@ -127,7 +127,6 @@ namespace NRadio.Core.Activation
         {
             await LanguageSelectorService.SetRequestedLanguageAsync();
             await ThemeSelectorService.SetRequestedThemeAsync();
-            await FirstRunDisplayService.ShowIfAppropriateAsync();
         }
 
         private IEnumerable<ActivationHandler> GetActivationHandlers()

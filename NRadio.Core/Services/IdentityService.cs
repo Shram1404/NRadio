@@ -1,6 +1,7 @@
 ﻿using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Abstractions;
 using NRadio.Helpers;
+using NRadio.Models;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -36,11 +37,12 @@ namespace NRadio.Core.Services
 
         public bool IsLoggedIn() => authenticationResult != null;
 
-        public async Task<LoginResultType> LoginAsync()
+        public async Task<LoginEnum.LoginResultType> LoginAsync()
         {
+            var login = new LoginEnum();
             if (!NetworkInterface.GetIsNetworkAvailable())
             {
-                return LoginResultType.NoNetworkAvailable;
+                return LoginEnum.LoginResultType.NoNetworkAvailable;
             }
 
             try
@@ -52,25 +54,25 @@ namespace NRadio.Core.Services
                 if (!IsAuthorized())
                 {
                     authenticationResult = null;
-                    return LoginResultType.Unauthorized;
+                    return LoginEnum.LoginResultType.Unauthorized;
                 }
 
                 LoggedIn?.Invoke(this, EventArgs.Empty);
-                return LoginResultType.Success;
+                return LoginEnum.LoginResultType.Success;
             }
             catch (MsalClientException ex)
             {
                 if (ex.ErrorCode == "authentication_canceled")
                 {
-                    return LoginResultType.CancelledByUser;
+                    return LoginEnum.LoginResultType.CancelledByUser;
                 }
 
-                return LoginResultType.UnknownError;
+                return LoginEnum.LoginResultType.UnknownError;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error Acquiring Token:{System.Environment.NewLine}{ex}");
-                return LoginResultType.UnknownError;
+                return LoginEnum.LoginResultType.UnknownError;
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿using NRadio.Core.Activation;
-using NRadio.Core.BackgroundTasks;
+using NRadio.BackgroundTasks;
 using NRadio.Helpers;
 using System;
 using System.Collections.Generic;
@@ -68,7 +68,7 @@ namespace NRadio.Core.Services
         {
             var backgroundTasks = new List<BackgroundTask>();
 
-            backgroundTasks.Add(new UpdateRadioStationsTask());
+            backgroundTasks.Add(new UpdateRadioStationsTask(typeof(RadioStationsLoader)));
             return backgroundTasks;
         }
     }

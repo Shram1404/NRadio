@@ -24,7 +24,7 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <TextBlock x:Uid="FirstRun_Body" TextWrapping="WrapWholeWords" />
+            <TextBlock Text="{Binding Resources.FirstRun_BodyText, Source={StaticResource LocalizedStrings}}" TextWrapping="WrapWholeWords" />
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

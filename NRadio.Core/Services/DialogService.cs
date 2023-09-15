@@ -1,5 +1,7 @@
 ﻿using NRadio.Models;
+using NRadio.Resources.Core;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml.Controls;
@@ -11,7 +13,7 @@ namespace NRadio.Core.Services
         public static async Task<ContentDialogResult> ConfirmPurchaseDialogAsync(string productId, int days)
         {
             var dialog = new Dialog();
-            var loader = new ResourceLoader();
+            var loader = new ResourceProvider("NRadio.Resources/Resources");
 
             string titleRes = loader.GetString($"Dialog_PurchaseConfirm/Title");
             string contentRes = loader.GetString($"Dialog_PurchaseConfirm/Content");
@@ -83,7 +85,7 @@ namespace NRadio.Core.Services
         private static Dialog SetConfirmDialog(string resourceName)
         {
             var dialog = new Dialog();
-            var loader = new ResourceLoader();
+            var loader = new ResourceProvider("NRadio.Resources/Resources");
 
             dialog.Title = loader.GetString($"{resourceName}/Title");
             dialog.Content = loader.GetString($"{resourceName}/Content");
@@ -96,7 +98,8 @@ namespace NRadio.Core.Services
         private static Dialog SetOkDialog(string resourceName)
         {
             var dialog = new Dialog();
-            var loader = new ResourceLoader();
+            var loader = new ResourceProvider("NRadio.Resources/Resources");
+            Thread.Sleep(200);
 
             dialog.Title = loader.GetString($"{resourceName}/Title");
             dialog.Content = loader.GetString($"{resourceName}/Content");

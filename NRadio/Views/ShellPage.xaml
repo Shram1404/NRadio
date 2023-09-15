@@ -26,9 +26,15 @@
                           ExpandedModeThresholdWidth="1280"
                           Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
     <winui:NavigationView.MenuItems>
-        <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Home" helpers:NavHelper.NavigateTo="views:MainPage" />
-        <winui:NavigationViewItem x:Uid="Shell_Browse" Icon="Audio" helpers:NavHelper.NavigateTo="views:BrowsePage" />
-        <winui:NavigationViewItem x:Uid="Shell_Search" Icon="Find" helpers:NavHelper.NavigateTo="views:SearchPage" />
+        <winui:NavigationViewItem Content="{Binding Resources.Shell_MainContent, Source={StaticResource LocalizedStrings}}"
+                                  Icon="Home"
+                                  helpers:NavHelper.NavigateTo="views:MainPage" />
+        <winui:NavigationViewItem Content="{Binding Resources.Shell_BrowseContent, Source={StaticResource LocalizedStrings}}"
+                                  Icon="Audio"
+                                  helpers:NavHelper.NavigateTo="views:BrowsePage" />
+        <winui:NavigationViewItem Content="{Binding Resources.Shell_SearchContent, Source={StaticResource LocalizedStrings}}"
+                                  Icon="Find"
+                                  helpers:NavHelper.NavigateTo="views:SearchPage" />
     </winui:NavigationView.MenuItems>
         
         <winui:NavigationView.PaneFooter>
