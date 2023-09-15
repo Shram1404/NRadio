@@ -41,9 +41,8 @@
                       x:Name="contentScroll"
                       IsTabStop="True"
                       Margin="0,46,0,0">
-            <StackPanel
-                Margin="{StaticResource MediumLeftRightMargin}"
-                x:Name="contentPanel">
+            <StackPanel Margin="{StaticResource MediumLeftRightMargin}"
+                        x:Name="contentPanel">
                 <RelativePanel>
                     <Grid
                         x:Name="itemHero"
@@ -71,24 +70,24 @@
 
                     <StackPanel x:Name="propertiesGroup1" RelativePanel.Below="itemHero">
                         <StackPanel x:Name="statusGroup" Margin="{StaticResource SmallTopMargin}">
-                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" x:Uid="StationDetail_Country" />
+                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="{Binding Resources.StationDetail_CountryText, Source={StaticResource LocalizedStrings}}" />
                             <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.CurrentStation.Country}" />
                         </StackPanel>
 
                         <StackPanel x:Name="orderDateGroup" Margin="{StaticResource SmallTopMargin}">
-                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" x:Uid="StationDetail_Language" />
+                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="{Binding Resources.StationDetail_LanguageText, Source={StaticResource LocalizedStrings}}" />
                             <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.CurrentStation.Language}" />
                         </StackPanel>
                     </StackPanel>
 
                     <StackPanel x:Name="propertiesGroup2" RelativePanel.Below="propertiesGroup1">
                         <StackPanel x:Name="shipToGroup" Margin="{StaticResource SmallTopMargin}">
-                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" x:Uid="StationDetail_CountryCode" />
+                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="{Binding Resources.StationDetail_CountryCodeText, Source={StaticResource LocalizedStrings}}" />
                             <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.CurrentStation.CountryCode}" />
                         </StackPanel>
 
                         <StackPanel x:Name="orderTotalGroup" Margin="{StaticResource SmallTopMargin}">
-                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" x:Uid="StationDetail_Bitrate" />
+                            <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="{Binding Resources.StationDetail_BitrateText, Source={StaticResource LocalizedStrings}}" />
                             <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ViewModel.CurrentStation.Bitrate}" />
                         </StackPanel>
                     </StackPanel>
@@ -138,7 +137,7 @@
                             Margin="{StaticResource LargeTopMargin}"
                             Background="{ThemeResource SystemChromeAltHighColor }"
                             Padding="30">
-                    <TextBlock x:Uid="StationDetail_Categories"
+                    <TextBlock Text="{Binding Resources.StationDetail_CategoriesText, Source={StaticResource LocalizedStrings}}"
                                Grid.Row="0"
                                Style="{StaticResource DetailSubTitleStyle}"/>
                     <TextBlock Grid.Row="1"

@@ -31,50 +31,50 @@
         </VisualStateManager.VisualStateGroups>
 
         <ScrollViewer Margin="{StaticResource MediumLeftRightMargin}">
-        <StackPanel
+            <StackPanel
             x:Name="ContentArea"
             Margin="0,46,0,0">
-            <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <TextBlock x:Uid="Settings_Theme" />
+                <TextBlock Text="{Binding Resources.Settings_PersonalizationText, Source={StaticResource LocalizedStrings}}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                    <TextBlock Text="{Binding Resources.Settings_ThemeText, Source={StaticResource LocalizedStrings}}" />
 
-                <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    <RadioButton
-                        x:Uid="Settings_Theme_Light"
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                        <RadioButton
+                        Content="{Binding Resources.Settings_Theme_LightContent, Source={StaticResource LocalizedStrings}}"
                         Command="{x:Bind ViewModel.SwitchThemeCommand}"
                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
                         FontSize="15"
                         GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Light</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
-                        x:Uid="Settings_Theme_Dark"
+                            <RadioButton.CommandParameter>
+                                <xaml:ElementTheme>Light</xaml:ElementTheme>
+                            </RadioButton.CommandParameter>
+                        </RadioButton>
+                        <RadioButton
+                        Content="{Binding Resources.Settings_Theme_DarkContent, Source={StaticResource LocalizedStrings}}"
                         Command="{x:Bind ViewModel.SwitchThemeCommand}"
                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
                         FontSize="15"
                         GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
-                        x:Uid="Settings_Theme_Default"
+                            <RadioButton.CommandParameter>
+                                <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                            </RadioButton.CommandParameter>
+                        </RadioButton>
+                        <RadioButton
+                        Content="{Binding Resources.Settings_Theme_DefaultContent, Source={StaticResource LocalizedStrings}}"
                         Command="{x:Bind ViewModel.SwitchThemeCommand}"
                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
                         FontSize="15"
                         GroupName="AppTheme">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Default</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
+                            <RadioButton.CommandParameter>
+                                <xaml:ElementTheme>Default</xaml:ElementTheme>
+                            </RadioButton.CommandParameter>
+                        </RadioButton>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
-            <StackPanel>
-                    <TextBlock x:Uid="Settings_VoiceControll" Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                    <RadioButton x:Uid="Settings_VoiceControll_Button"
+                <StackPanel>
+                    <TextBlock Text="{Binding Resources.Settings_VoiceControllText, Source={StaticResource LocalizedStrings}}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    <RadioButton Content="{Binding Resources.Settings_VoiceControll_ButtonContent, Source={StaticResource LocalizedStrings}}"
                                 Command="{x:Bind ViewModel.SwitchVoiceControlCommand}"
                                 CommandParameter=""
                                 IsChecked="{x:Bind ViewModel.VoiceControlAllowed, Mode=OneWay}"
@@ -82,67 +82,60 @@
                                 Margin="{StaticResource SmallTopBottomMargin}"/>
                 </StackPanel>
 
-            <TextBlock x:Uid="Settings_RadioListSettings" Style="{ThemeResource SubtitleTextBlockStyle}"  />
-            <Button x:Uid="Settings_UpdateStations"
+                <TextBlock Text="{Binding Resources.Settings_RadioListSettingsText, Source={StaticResource LocalizedStrings}}" Style="{ThemeResource SubtitleTextBlockStyle}"  />
+                <Button Content="{Binding Resources.Settings_UpdateStationsContent, Source={StaticResource LocalizedStrings}}"
                     Command="{x:Bind ViewModel.UpdateStationsCommand}"
                     Margin="{StaticResource SmallTopBottomMargin}"/>
 
-            <TextBlock x:Uid="Settings_Premium" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <Button x:Uid="Settings_Premium_Button"
-                    Content="Buy Premium"
+                <TextBlock Text="{Binding Resources.Settings_PremiumText, Source={StaticResource LocalizedStrings}}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <Button Content="{Binding Resources.Settings_Premium_ButtonContent, Source={StaticResource LocalizedStrings}}"
                     Command="{x:Bind ViewModel.BuyPremiumCommand}"
                     Margin="{StaticResource SmallTopBottomMargin}"/>
 
-            <TextBlock x:Uid="Settings_Language" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <DropDownButton x:Uid="Setting_Language_Menu"
+                <TextBlock Text="{Binding Resources.Settings_LanguageText, Source={StaticResource LocalizedStrings}}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <DropDownButton x:Uid="Settings_Language_Menu"
                                 Content="{Binding CurrentLanguage, Mode=TwoWay}"
                                 Margin="{StaticResource SmallTopBottomMargin}">
-                <DropDownButton.Flyout>
-                    <MenuFlyout Placement="Bottom">
-                        <MenuFlyoutItem Text="English" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="en-US"/>
-                        <MenuFlyoutItem Text="Українська" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="uk-UA"/>
-                    </MenuFlyout>
-                </DropDownButton.Flyout>
-            </DropDownButton>
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem Text="English" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="en-US"/>
+                            <MenuFlyoutItem Text="Українська" Command="{x:Bind ViewModel.SwitchLanguageCommand}" CommandParameter="uk-UA"/>
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
 
-            <TextBlock
-                x:Uid="Settings_User"
-                Style="{ThemeResource SubtitleTextBlockStyle}" />
-
-            <StackPanel Margin="{StaticResource SmallTopMargin}" Orientation="Horizontal">
-                <Ellipse Width="64" Height="64">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind ViewModel.User.Photo, Mode=OneWay}" Stretch="UniformToFill" />
-                    </Ellipse.Fill>
-                </Ellipse>
-                <StackPanel Margin="{StaticResource SmallLeftMargin}">
-                    <TextBlock
+                <StackPanel Margin="{StaticResource SmallTopMargin}" Orientation="Horizontal">
+                    <Ellipse Width="64" Height="64">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{x:Bind ViewModel.User.Photo, Mode=OneWay}" Stretch="UniformToFill" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel Margin="{StaticResource SmallLeftMargin}">
+                        <TextBlock
                         Text="{x:Bind ViewModel.User.Name, Mode=OneWay}"
                         Style="{ThemeResource BodyTextBlockStyle}" />
-                    <TextBlock
+                        <TextBlock
                         Text="{x:Bind ViewModel.User.UserPrincipalName, Mode=OneWay}"
                         Margin="{StaticResource XSmallTopMargin}"
                         Style="{ThemeResource BodyTextBlockStyle}" />
+                    </StackPanel>
+                </StackPanel>
+                <HyperlinkButton Content="{Binding Resources.Settings_LogOutContent, Source={StaticResource LocalizedStrings}}"
+                                 Command="{x:Bind ViewModel.LogoutCommand}"
+                                 Margin="{StaticResource XSmallTopMargin}" />
+
+                <TextBlock Text="{Binding Resources.Settings_AboutText, Source={StaticResource LocalizedStrings}}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+                <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
+                    <TextBlock Text="{Binding Resources.Settings_AboutDescriptionText, Source={StaticResource LocalizedStrings}}"
+                               Margin="{StaticResource XSmallTopMargin}"
+                               Style="{ThemeResource BodyTextBlockStyle}" />
+
+                    <HyperlinkButton Content="{Binding Resources.Settings_PrivacyTermsLinkContent, Source={StaticResource LocalizedStrings}}" Margin="{StaticResource XSmallTopMargin}" />
+
                 </StackPanel>
             </StackPanel>
-            <HyperlinkButton
-                x:Uid="Settings_LogOut"
-                Command="{x:Bind ViewModel.LogoutCommand}"
-                Margin="{StaticResource XSmallTopMargin}" />
-
-            <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
-
-            <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-                <TextBlock
-                    x:Uid="Settings_AboutDescription"
-                    Margin="{StaticResource XSmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}" />
-
-                <HyperlinkButton x:Uid="Settings_PrivacyTermsLink" Margin="{StaticResource XSmallTopMargin}" />
-
-            </StackPanel>
-        </StackPanel>
-    </ScrollViewer>
+        </ScrollViewer>
     </Grid>
 </Page>

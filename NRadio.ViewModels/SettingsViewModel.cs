@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Purchase;
 using NRadio.Core.Services;
 using NRadio.Helpers;
+using NRadio.Resources.Core;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -119,7 +120,8 @@ namespace NRadio.ViewModels
 
         private string GetVersionDescription()
         {
-            string appName = "AppDisplayName".GetLocalized();
+            var loader = new ResourceProvider("NRadio.Resources/Resources");
+            string appName = loader.GetString("AppDisplayName");
             var package = Package.Current;
             var packageId = package.Id;
             var version = packageId.Version;

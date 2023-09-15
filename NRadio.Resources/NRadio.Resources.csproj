@@ -141,11 +141,6 @@
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\Glyphs\Resources.resw">
-      <SubType>Designer</SubType>
-    </PRIResource>
-  </ItemGroup>
-  <ItemGroup>
     <PRIResource Include="Strings\uk-UA\Resources.resw" />
   </ItemGroup>
   <ItemGroup>

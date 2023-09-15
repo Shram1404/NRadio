@@ -341,11 +341,9 @@
     <None Include="NRadio_TemporaryKey.pfx" />
     <None Include="README.md" />
     <None Include="Settings.XamlStyler" />
-    <PRIResource Include="Strings\uk-UA\Resources.resw" />
     <PRIResource Include="Strings\Glyphs\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
-    <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
