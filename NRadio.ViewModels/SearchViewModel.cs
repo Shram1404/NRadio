@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
+using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -57,7 +58,7 @@ namespace NRadio.ViewModels
 
             if (StationsListUserControl == null)
             {
-                var pageType = NavigationService.GetPageType(NavigationTarget.Target.StationsListPage);
+                var pageType = NavigationService.GetPageType(NavigationTarget.StationsListPage);
                 StationsListUserControl = new UserControl
                 {
                     Content = (Windows.UI.Xaml.UIElement)Activator.CreateInstance(pageType)

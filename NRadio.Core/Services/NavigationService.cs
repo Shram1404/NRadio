@@ -1,4 +1,4 @@
-﻿using NRadio.Models;
+﻿using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace NRadio.Core.Services
         public static event NavigatedEventHandler Navigated;
         public static event NavigationFailedEventHandler NavigationFailed;
 
-        public static Dictionary<Type, NavigationTarget.Target> Pages { get; private set; }
+        public static Dictionary<Type, NavigationTarget> Pages { get; private set; }
 
         public static Page ShellPage
         {
@@ -51,12 +51,12 @@ namespace NRadio.Core.Services
 
         public static bool CanGoForward => Frame.CanGoForward;
 
-        public static void Initialize(Dictionary<Type, NavigationTarget.Target> pages)
+        public static void Initialize(Dictionary<Type, NavigationTarget> pages)
         {
             Pages = pages;
         }
 
-        public static Type GetPageType(NavigationTarget.Target target)
+        public static Type GetPageType(NavigationTarget target)
         {
             if (!Pages.ContainsValue(target))
             {
@@ -79,7 +79,7 @@ namespace NRadio.Core.Services
 
         public static void GoForward() => Frame.GoForward();
 
-        public static bool Navigate(NavigationTarget.Target target, object parameter = null, NavigationTransitionInfo infoOverride = null)
+        public static bool Navigate(NavigationTarget target, object parameter = null, NavigationTransitionInfo infoOverride = null)
         {
             if (!Pages.ContainsValue(target))
             {
@@ -107,7 +107,7 @@ namespace NRadio.Core.Services
         public static bool Navigate<T>(object parameter = null, NavigationTransitionInfo infoOverride = null)
             where T : Page
         {
-            NavigationTarget.Target target;
+            NavigationTarget target;
             if (!Pages.TryGetValue(typeof(T), out target))
             {
                 throw new ArgumentException($"Invalid page type '{typeof(T)}', please provide a valid page type.", nameof(T));

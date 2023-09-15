@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using NRadio.Core.Services;
 using NRadio.Models;
+using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -45,7 +46,7 @@ namespace NRadio.ViewModels
         private void OnClickAtStation((RadioStation clickedItem, List<RadioStation> thisSource) args)
         {
             var (clickedItem, thisSource) = args;
-            NavigationService.Navigate(NavigationTarget.Target.StationDetailPage, clickedItem.Name);
+            NavigationService.Navigate(NavigationTarget.StationDetailPage, clickedItem.Name);
             vml.StationDetailVM.Initialize(thisSource, clickedItem, source.IndexOf(clickedItem));
         }
     }

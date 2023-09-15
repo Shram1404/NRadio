@@ -1,6 +1,6 @@
 ﻿using NRadio.Core.Services;
 using NRadio.Helpers;
-using NRadio.Models;
+using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +14,11 @@ namespace NRadio.Core.Activation
     public class ActivationService
     {
         private readonly Application app;
-        private readonly NavigationTarget.Target defaultNavItem;
+        private readonly NavigationTarget defaultNavItem;
         private Lazy<UIElement> shell;
         private object lastActivationArgs;
 
-        public ActivationService(Application app, NavigationTarget.Target defaultNavItem, Lazy<UIElement> shell = null)
+        public ActivationService(Application app, NavigationTarget defaultNavItem, Lazy<UIElement> shell = null)
         {
             this.app = app;
             this.shell = shell;
@@ -37,7 +37,7 @@ namespace NRadio.Core.Activation
             Window.Current.Content = frame;
             await LanguageSelectorService.SetRequestedLanguageAsync();
             await ThemeSelectorService.SetRequestedThemeAsync();
-            NavigationService.Navigate(NavigationTarget.Target.LogInPage);
+            NavigationService.Navigate(NavigationTarget.LogInPage);
         }
 
         public void SetShell(Lazy<UIElement> shell)

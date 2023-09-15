@@ -5,6 +5,7 @@ using NRadio.Core.Purchase;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
+using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -69,7 +70,7 @@ namespace NRadio.ViewModels
             if (!IsPremiumStation(CurrentStation) || await purchaseProvider.CheckIfUserHasPremiumAsync())
             {
                 await vml.PlayerVM.Initialize(Playlist, CurrentStationIndex);
-                NavigationService.Navigate(NavigationTarget.Target.PlayerPage);
+                NavigationService.Navigate(NavigationTarget.PlayerPage);
             }
             else
             {
@@ -89,7 +90,7 @@ namespace NRadio.ViewModels
             if (!IsPremiumStation(CurrentStation) || await purchaseProvider.CheckIfUserHasPremiumAsync())
             {
                 vml.RecordingVM.Initialize(CurrentStation);
-                NavigationService.Navigate(NavigationTarget.Target.RecordingPage);
+                NavigationService.Navigate(NavigationTarget.RecordingPage);
             }
             else
             {

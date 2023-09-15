@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
+using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -65,7 +66,7 @@ namespace NRadio.ViewModels
             if (clickedItem != null)
             {
                 NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
-                NavigationService.Navigate(NavigationTarget.Target.StationDetailPage, clickedItem.Name);
+                NavigationService.Navigate(NavigationTarget.StationDetailPage, clickedItem.Name);
 
                 vml.StationDetailVM.Initialize(Playlist, clickedItem, Playlist.IndexOf(clickedItem));
             }

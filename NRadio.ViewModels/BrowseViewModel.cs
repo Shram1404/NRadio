@@ -5,6 +5,7 @@ using NRadio.Core.Purchase;
 using NRadio.Core.Services;
 using NRadio.Helpers;
 using NRadio.Models;
+using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,7 @@ namespace NRadio.ViewModels
                 }
 
                 vml.StationsListVM.LoadData(Stations);
-                NavigationService.Navigate(NavigationTarget.Target.StationsListPage);
+                NavigationService.Navigate(NavigationTarget.StationsListPage);
             }
             else
             {

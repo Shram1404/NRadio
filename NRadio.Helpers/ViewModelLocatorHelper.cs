@@ -1,4 +1,4 @@
-﻿using NRadio.Models;
+﻿using NRadio.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +7,17 @@ namespace NRadio.Helpers
 {
     public static class ViewModelLocatorHelper
     {
-        private static Dictionary<Type, VMLocatorEnum.VM> viewModels;
-        private static Dictionary<dynamic, VMLocatorEnum.VM> viewModelInstances;
+        private static Dictionary<Type, VMLocator> viewModels;
+        private static Dictionary<dynamic, VMLocator> viewModelInstances;
 
-        public static void Initialize(Dictionary<Type, VMLocatorEnum.VM> viewModelsDictionary, 
-                                      Dictionary<dynamic, VMLocatorEnum.VM> viewModelInstancesDictionary)
+        public static void Initialize(Dictionary<Type, VMLocator> viewModelsDictionary, 
+                                      Dictionary<dynamic, VMLocator> viewModelInstancesDictionary)
         {
             viewModels = viewModelsDictionary;
             viewModelInstances = viewModelInstancesDictionary;
         }
 
-        public static Type GetViewModelType(VMLocatorEnum.VM viewModel)
+        public static Type GetViewModelType(VMLocator viewModel)
         {
             if (viewModels.ContainsValue(viewModel))
             {
@@ -29,7 +29,7 @@ namespace NRadio.Helpers
             }
         }
 
-        public static dynamic GetViewModelInstance(VMLocatorEnum.VM viewModel)
+        public static dynamic GetViewModelInstance(VMLocator viewModel)
         {
             if (viewModelInstances.ContainsValue(viewModel))
             {
