@@ -130,7 +130,7 @@
     <Compile Include="RecordingStation.cs" />
     <Compile Include="StationsCountries.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="VMLocatorEnum.cs" />
+    <Compile Include="Enum\VMLocator.cs" />
     <EmbeddedResource Include="Properties\NRadio.Models.rd.xml" />
   </ItemGroup>
   <ItemGroup>
