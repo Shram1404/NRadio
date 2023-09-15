@@ -122,6 +122,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Dialog.cs" />
+    <Compile Include="Enum\BrowseBy.cs" />
     <Compile Include="Enum\LoginResultType.cs" />
     <Compile Include="Enum\NavigationTarget.cs" />
     <Compile Include="Enum\Countries.cs" />
